@@ -96,6 +96,7 @@
     "video.reshoot",
     "video.select",
     "semantic.analyze",
+    "semantic.rebuild",
     "semantic.variant",
     "voice.select",
     "world.extract",

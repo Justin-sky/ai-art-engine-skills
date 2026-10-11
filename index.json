@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-11T08:15:45.753Z",
+  "generatedAt": "2026-10-11T10:06:29.318Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-workflow",
     "ref": "main"
@@ -131,16 +131,17 @@
     },
     {
       "id": "commerce-semantic-variants",
-      "title": "带货语义拆解与变体",
-      "titleEn": "Commerce semantic variants",
-      "summary": "拆解口播卖货视频并规划换品/换话术/换语言变体",
+      "title": "带货语义拆解与重建",
+      "titleEn": "Commerce semantic rebuild",
+      "summary": "拆解口播卖货视频，编译成视频生成提示词，再重建出成片",
       "category": "ad",
       "tags": [
         "语义时间线",
         "带货",
-        "变体"
+        "提示词",
+        "重建"
       ],
-      "version": "1.0.2",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -152,31 +153,29 @@
           "note.text",
           "semantic.analyze",
           "semantic.compile",
-          "semantic.edit",
-          "semantic.timeline",
-          "semantic.variant"
+          "semantic.rebuild"
         ],
         "appMinVersion": "7.4.0"
       },
-      "nodeCount": 6,
-      "edgeCount": 4,
-      "sizeBytes": 2729,
+      "nodeCount": 4,
+      "edgeCount": 2,
+      "sizeBytes": 2288,
       "skill": {
         "name": "wf-commerce-semantic-variants",
-        "description": "用「带货语义拆解与变体」工作流把口播/卖货实拍视频拆成语义时间线，并规划换品、换话术、换语言变体。当用户要复刻带货视频、局部修复、批量变体时加载本技能。",
+        "description": "用「带货语义拆解与重建」工作流把口播/卖货实拍视频拆成语义时间线，编译成每镜视频生成提示词，再重建出成片。当用户要复刻带货视频、按提示词重生成镜头、或在原片基础上重建时加载本技能。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 864
+            "sizeBytes": 1042
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 2600
+            "sizeBytes": 3379
           }
         ],
-        "sizeBytes": 3464
+        "sizeBytes": 4421
       },
       "semanticPacks": {
         "files": [
@@ -191,21 +190,9 @@
           {
             "path": "semanticPacks/commerce-vocabulary.json",
             "sizeBytes": 810
-          },
-          {
-            "path": "semanticPacks/variant-replace-product.json",
-            "sizeBytes": 504
-          },
-          {
-            "path": "semanticPacks/variant-revoice-lang.json",
-            "sizeBytes": 568
-          },
-          {
-            "path": "semanticPacks/variant-rewrite-hook.json",
-            "sizeBytes": 618
           }
         ],
-        "sizeBytes": 3981
+        "sizeBytes": 2291
       }
     },
     {

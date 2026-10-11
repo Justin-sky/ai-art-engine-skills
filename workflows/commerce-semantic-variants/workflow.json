@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "id": "commerce-semantic-variants",
-  "title": "带货语义拆解与变体",
-  "titleEn": "Commerce semantic variants",
-  "summary": "拆解口播卖货视频并规划换品/换话术/换语言变体",
+  "title": "带货语义拆解与重建",
+  "titleEn": "Commerce semantic rebuild",
+  "summary": "拆解口播卖货视频，编译成视频生成提示词，再重建出成片",
   "category": "ad",
-  "tags": ["语义时间线", "带货", "变体"],
-  "version": "1.0.2",
+  "tags": ["语义时间线", "带货", "提示词", "重建"],
+  "version": "1.1.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -14,26 +14,16 @@
   "license": "CC-BY-4.0",
   "cover": "cover.png",
   "requires": {
-    "nodeTypes": [
-      "note.text",
-      "semantic.compile",
-      "semantic.timeline",
-      "semantic.edit",
-      "semantic.analyze",
-      "semantic.variant"
-    ],
+    "nodeTypes": ["note.text", "semantic.analyze", "semantic.compile", "semantic.rebuild"],
     "appMinVersion": "7.4.0"
   },
   "semanticPacks": [
     "semanticPacks/commerce-vocabulary.json",
     "semanticPacks/commerce-director-rules.json",
-    "semanticPacks/commerce-director-persona.json",
-    "semanticPacks/variant-replace-product.json",
-    "semanticPacks/variant-rewrite-hook.json",
-    "semanticPacks/variant-revoice-lang.json"
+    "semanticPacks/commerce-director-persona.json"
   ],
   "plan": {
-    "title": "带货语义拆解与变体",
+    "title": "带货语义拆解与重建",
     "nodes": [
       {
         "key": "analyze",
@@ -44,26 +34,20 @@
         }
       },
       {
-        "key": "timeline",
-        "typeId": "semantic.timeline",
-        "title": "语义时间线"
-      },
-      {
         "key": "compile",
         "typeId": "semantic.compile",
-        "title": "语义编译"
-      },
-      {
-        "key": "repair",
-        "typeId": "semantic.edit",
-        "title": "修复计划"
-      },
-      {
-        "key": "variant",
-        "typeId": "semantic.variant",
-        "title": "变体矩阵",
+        "title": "语义编译",
         "params": {
-          "recipeId": "recipe.replace_product.v1"
+          "semanticLlm": true
+        }
+      },
+      {
+        "key": "rebuild",
+        "typeId": "semantic.rebuild",
+        "title": "语义重建",
+        "params": {
+          "rebuildMode": "shots",
+          "rebuildMaxShots": 12
         }
       },
       {
@@ -71,15 +55,13 @@
         "typeId": "note.text",
         "title": "使用说明",
         "params": {
-          "text": "流程：把口播/卖货视频接到「语义分析」→ 查看语义时间线事件与节拍 →「语义编译」出运镜/调色命令 →「修复计划」确认失效范围 →「变体矩阵」按配方展开换品/换话术/换语言。随包 semanticPacks/ 含带货词表、导演规则与人格、3 个变体配方。"
+          "text": "流程：把口播/卖货视频接到「语义分析」→ 双击查看时间线（事件 / 节拍 / 实体）→「语义编译」按规则拼出**每镜视频生成提示词**（可开「用模型写提示词」，也可按 shotId 人工覆盖）→「语义重建」逐镜生成并本地拼接出成片（可选保留原音轨、烧录转写字幕）。随包 semanticPacks/ 含带货词表、导演规则与人格。"
         }
       }
     ],
     "edges": [
-      { "from": "analyze", "to": "timeline", "fromPort": "out", "toPort": "in" },
-      { "from": "timeline", "to": "compile", "fromPort": "out", "toPort": "in" },
-      { "from": "timeline", "to": "repair", "fromPort": "out", "toPort": "in" },
-      { "from": "timeline", "to": "variant", "fromPort": "out", "toPort": "in" }
+      { "from": "analyze", "to": "compile", "fromPort": "out", "toPort": "in" },
+      { "from": "compile", "to": "rebuild", "fromPort": "out", "toPort": "in" }
     ]
   }
 }

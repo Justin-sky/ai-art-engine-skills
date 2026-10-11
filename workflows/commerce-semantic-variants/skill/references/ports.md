@@ -4,12 +4,17 @@
 
 | key | typeId | 入 | 出 |
 |---|---|---|---|
-| analyze | `semantic.analyze` | video | text（timeline JSON） |
-| timeline | `semantic.timeline` | text | text |
-| compile | `semantic.compile` | text | text（commands + ScriptTimeline） |
-| repair | `semantic.edit` | text | text（plan + definition） |
-| variant | `semantic.variant` | text | text（plan；`recipeId`） |
+| analyze | `semantic.analyze` | video | `semanticTimeline`（整份文档） |
+| compile | `semantic.compile` | `semanticTimeline` | `videoPrompts`（`aiart.video-prompts@1`） |
+| rebuild | `semantic.rebuild` | `videoPrompts` | text（计划/清单）+ video（成片） |
 | note | `note.text` | — | — |
+
+端口类型说明：
+
+- `semanticTimeline` / `videoPrompts` 都是**结构化口**（接错类型连线时就被拒）；
+  两者都可**单向**流向 `text` 口（交给文本消费者或 agent 读），反向不允许。
+- `videoPrompts` 的每条提示词带 `firstFrameRelativePath`（分析证据的关键帧）——
+  重建据此走**图生视频**，不会凭空文生视频。
 
 ## semanticPacks 相对路径
 
@@ -18,6 +23,3 @@
 - `semanticPacks/commerce-vocabulary.json`
 - `semanticPacks/commerce-director-rules.json`
 - `semanticPacks/commerce-director-persona.json`
-- `semanticPacks/variant-replace-product.json`
-- `semanticPacks/variant-rewrite-hook.json`
-- `semanticPacks/variant-revoice-lang.json`
