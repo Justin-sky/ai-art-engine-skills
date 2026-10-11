@@ -488,7 +488,7 @@ export function readSemanticPacks(dir, dirName, bundle) {
 
   const errors = []
   const push = (msg) => errors.push(`${dirName}: semanticPacks ${msg}`)
-  const KIND_OK = new Set(['vocabulary', 'rules', 'recipe', 'persona'])
+  const KIND_OK = new Set(['vocabulary', 'rules', 'persona'])
 
   if (declared.length === 0 && hasDir) {
     // 有目录但未声明：仍扫描落盘文件写入索引，方便安装
@@ -505,7 +505,7 @@ export function readSemanticPacks(dir, dirName, bundle) {
       if (!raw || typeof raw !== 'object' || raw.schemaVersion !== 1) {
         push(`${norm} 缺 schemaVersion:1`)
       } else if (!KIND_OK.has(raw.kind)) {
-        push(`${norm} kind 非法（vocabulary|rules|recipe|persona）`)
+        push(`${norm} kind 非法（vocabulary|rules|persona）`)
       } else if (typeof raw.id !== 'string' || !raw.id) {
         push(`${norm} 缺 id`)
       }
