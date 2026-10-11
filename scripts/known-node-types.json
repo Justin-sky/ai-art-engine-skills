@@ -92,7 +92,7 @@
     "ui.split",
     "video.framePull",
     "video.lipSync",
-    "semantic.repair",
+    "semantic.edit",
     "video.reshoot",
     "video.select",
     "semantic.analyze",

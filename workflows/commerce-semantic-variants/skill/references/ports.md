@@ -7,7 +7,7 @@
 | analyze | `semantic.analyze` | video | text（timeline JSON） |
 | timeline | `semantic.timeline` | text | text |
 | compile | `semantic.compile` | text | text（commands + ScriptTimeline） |
-| repair | `semantic.repair` | text | text（plan + definition） |
+| repair | `semantic.edit` | text | text（plan + definition） |
 | variant | `semantic.variant` | text | text（plan；`recipeId`） |
 | note | `note.text` | — | — |
 

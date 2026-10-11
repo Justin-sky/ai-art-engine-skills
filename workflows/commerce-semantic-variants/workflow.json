@@ -6,7 +6,7 @@
   "summary": "拆解口播卖货视频并规划换品/换话术/换语言变体",
   "category": "ad",
   "tags": ["语义时间线", "带货", "变体"],
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -18,7 +18,7 @@
       "note.text",
       "semantic.compile",
       "semantic.timeline",
-      "semantic.repair",
+      "semantic.edit",
       "semantic.analyze",
       "semantic.variant"
     ],
@@ -55,7 +55,7 @@
       },
       {
         "key": "repair",
-        "typeId": "semantic.repair",
+        "typeId": "semantic.edit",
         "title": "修复计划"
       },
       {
