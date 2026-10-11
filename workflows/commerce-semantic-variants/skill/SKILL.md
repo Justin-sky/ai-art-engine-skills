@@ -7,6 +7,10 @@ workflow-version: 1.1.0
 
 # 带货语义拆解与重建（commerce-semantic-variants）
 
+> **id 说明**：`commerce-semantic-variants` 是**历史安装身份** —— 技能名
+> `wf-commerce-semantic-variants`、已安装目录与市场条目都按它对应，重命名会破坏已安装用户的
+> 升级路径。标题与摘要已更新为「带货语义拆解与重建」，但 id 保持不动。
+
 ## 这条工作流产出什么
 
 `口播卖货视频 → 语义时间线（镜头/事件/节拍/意图）→ 每镜视频生成提示词 → 重建出成片 mp4`

@@ -1,6 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "commerce-semantic-variants",
+  "idNote": "id 是历史安装身份：技能名（wf-commerce-semantic-variants）、已安装目录与市场条目都按它对应，改名会破坏已安装用户的升级路径。标题与摘要已更新为「带货语义拆解与重建」，勿据此重命名 id。",
   "title": "带货语义拆解与重建",
   "titleEn": "Commerce semantic rebuild",
   "summary": "拆解口播卖货视频，编译成视频生成提示词，再重建出成片",

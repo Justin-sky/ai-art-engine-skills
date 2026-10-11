@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-11T10:06:29.318Z",
+  "generatedAt": "2026-10-11T11:12:07.033Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-workflow",
     "ref": "main"
@@ -159,7 +159,7 @@
       },
       "nodeCount": 4,
       "edgeCount": 2,
-      "sizeBytes": 2288,
+      "sizeBytes": 2562,
       "skill": {
         "name": "wf-commerce-semantic-variants",
         "description": "用「带货语义拆解与重建」工作流把口播/卖货实拍视频拆成语义时间线，编译成每镜视频生成提示词，再重建出成片。当用户要复刻带货视频、按提示词重生成镜头、或在原片基础上重建时加载本技能。",
@@ -172,10 +172,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 3379
+            "sizeBytes": 3694
           }
         ],
-        "sizeBytes": 4421
+        "sizeBytes": 4736
       },
       "semanticPacks": {
         "files": [
