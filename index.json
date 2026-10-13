@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-11T11:12:07.033Z",
+  "generatedAt": "2026-10-13T14:20:00.464Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-workflow",
     "ref": "main"
@@ -141,7 +141,7 @@
         "提示词",
         "重建"
       ],
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -159,10 +159,10 @@
       },
       "nodeCount": 4,
       "edgeCount": 2,
-      "sizeBytes": 2562,
+      "sizeBytes": 2937,
       "skill": {
         "name": "wf-commerce-semantic-variants",
-        "description": "用「带货语义拆解与重建」工作流把口播/卖货实拍视频拆成语义时间线，编译成每镜视频生成提示词，再重建出成片。当用户要复刻带货视频、按提示词重生成镜头、或在原片基础上重建时加载本技能。",
+        "description": "用「带货语义拆解与重建」工作流把口播/卖货实拍视频逆向成结构化语义时间线，按镜头 / 台词 / 实体做针对性修改，再编译、重建出成片（未改的镜头直通原片，改过的镜头重新生成，改过的台词重新配音）。当用户要复刻带货视频、改某几镜、换人换商品、改台词重配音时加载本技能。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
@@ -172,10 +172,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 3694
+            "sizeBytes": 5007
           }
         ],
-        "sizeBytes": 4736
+        "sizeBytes": 6049
       },
       "semanticPacks": {
         "files": [
