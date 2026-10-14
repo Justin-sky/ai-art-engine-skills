@@ -94,6 +94,7 @@
     "video.select",
     "semantic.analyze",
     "semantic.rebuild",
+    "script.run",
     "voice.select",
     "world.extract",
     "world.gen",

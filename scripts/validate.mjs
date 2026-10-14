@@ -52,6 +52,116 @@ export const SKILL_SUBDIRS = ['references', 'scripts', 'assets']
 /** dsh 会对这些 camelCase 旧键**直接抛错**，必须在仓库侧拦住 */
 const LEGACY_INVOCATION_KEYS = ['disableModelInvocation', 'modelInvocable', 'userInvocable']
 
+/**
+ * 脚本节点契约（`script.run`）—— **与应用 `src/shared/graph/scriptNode.ts` 必须一致**。
+ *
+ * 这里内联镜像（本脚本不引应用源码），两侧测试共同钉住：代码上限、能力白名单、资源硬顶。
+ * 市场内容不可信，含可执行代码的工作流必须机械校验这些边界，剩下的"要不要跑"交给客户端
+ * 的逐次同意流。
+ */
+export const SCRIPT_RUN_TYPE_ID = 'script.run'
+export const SCRIPT_CAPABILITIES = [
+  'generateText',
+  'generateImage',
+  'generateVideo',
+  'generateSpeech',
+  'resolveAssetImageUrl',
+  'readProjectImageDataUrl',
+  'saveMedia',
+  'log'
+]
+export const SCRIPT_MAX_CODE_CHARS = 100000
+export const SCRIPT_MAX_LIMITS = { timeoutMs: 120000, memoryMb: 512 }
+const SCRIPT_PORT_ID_RE = /^[a-zA-Z][\w-]*$/
+
+/** FNV-1a 短 hash（与应用 scriptCodeHash 同一算法；展示 / 变更检测，非安全用途） */
+export function scriptCodeHash(code) {
+  let h = 0x811c9dc5
+  for (let i = 0; i < code.length; i++) {
+    h ^= code.charCodeAt(i)
+    h = Math.imul(h, 0x01000193)
+  }
+  return (h >>> 0).toString(16).padStart(8, '0')
+}
+
+function isScriptRunNode(node) {
+  return node && typeof node === 'object' && node.typeId === SCRIPT_RUN_TYPE_ID
+}
+
+/** 读出脚本参数（宽容：脏字段回落），仅取校验 / 摘要所需字段 */
+function readScriptParams(node) {
+  const params = node && typeof node.params === 'object' && node.params ? node.params : {}
+  const code = typeof params.code === 'string' ? params.code : ''
+  const capabilities = Array.isArray(params.capabilities)
+    ? [...new Set(params.capabilities.filter((c) => SCRIPT_CAPABILITIES.includes(c)))]
+    : []
+  const portsRaw = params.ports && typeof params.ports === 'object' ? params.ports : {}
+  const readPorts = (raw) =>
+    Array.isArray(raw)
+      ? raw.filter((p) => p && typeof p === 'object').map((p) => ({ id: p.id, dataType: p.dataType }))
+      : []
+  const limitsRaw = params.limits && typeof params.limits === 'object' ? params.limits : {}
+  return {
+    code,
+    capabilities,
+    ports: { inputs: readPorts(portsRaw.inputs), outputs: readPorts(portsRaw.outputs) },
+    limits: {
+      timeoutMs: Number(limitsRaw.timeoutMs),
+      memoryMb: Number(limitsRaw.memoryMb)
+    }
+  }
+}
+
+/** 校验单个脚本节点参数，返回错误串数组（空 = 通过），与应用 validateScriptNodeParams 同口径 */
+function validateScriptNodeParams(node) {
+  const errs = []
+  const p = readScriptParams(node)
+  const rawCapabilities = Array.isArray(node?.params?.capabilities) ? node.params.capabilities : []
+  if (!p.code.trim()) errs.push('脚本代码为空')
+  if (p.code.length >= SCRIPT_MAX_CODE_CHARS) errs.push(`脚本代码超过 ${SCRIPT_MAX_CODE_CHARS} 字符`)
+  for (const cap of rawCapabilities) {
+    if (!SCRIPT_CAPABILITIES.includes(cap)) errs.push(`能力越白名单：${JSON.stringify(cap)}`)
+  }
+  const checkPorts = (ports, side) => {
+    const seen = new Set()
+    for (const port of ports) {
+      const id = typeof port.id === 'string' ? port.id : ''
+      if (!SCRIPT_PORT_ID_RE.test(id)) errs.push(`${side} 端口 id 非法：${JSON.stringify(id)}`)
+      if (seen.has(id)) errs.push(`${side} 端口 id 重复：${id}`)
+      seen.add(id)
+    }
+    if (ports.length === 0) errs.push(`${side} 至少要一个端口`)
+  }
+  checkPorts(p.ports.inputs, 'ports.inputs')
+  checkPorts(p.ports.outputs, 'ports.outputs')
+  if (Number.isFinite(p.limits.timeoutMs) && p.limits.timeoutMs > SCRIPT_MAX_LIMITS.timeoutMs) {
+    errs.push(`limits.timeoutMs 超过硬顶 ${SCRIPT_MAX_LIMITS.timeoutMs}`)
+  }
+  if (Number.isFinite(p.limits.memoryMb) && p.limits.memoryMb > SCRIPT_MAX_LIMITS.memoryMb) {
+    errs.push(`limits.memoryMb 超过硬顶 ${SCRIPT_MAX_LIMITS.memoryMb}`)
+  }
+  return errs
+}
+
+/** 从 plan 派生脚本节点摘要（与应用 scriptSummariesOfPlan 同口径，按 nodeKey 排序） */
+export function scriptSummariesOfPlan(plan) {
+  return (plan?.nodes ?? [])
+    .filter(isScriptRunNode)
+    .map((node) => {
+      const p = readScriptParams(node)
+      const code = p.code.slice(0, SCRIPT_MAX_CODE_CHARS)
+      const title = typeof node.title === 'string' && node.title.trim() ? node.title.trim() : undefined
+      return {
+        nodeKey: typeof node.key === 'string' ? node.key : '',
+        ...(title ? { title } : {}),
+        capabilities: p.capabilities,
+        codeChars: code.length,
+        codeHash: scriptCodeHash(code)
+      }
+    })
+    .sort((a, b) => a.nodeKey.localeCompare(b.nodeKey))
+}
+
 const ID_RE = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const SEMVER_RE = /^\d+\.\d+\.\d+(?:-[-0-9A-Za-z.]+)?(?:\+[-0-9A-Za-z.]+)?$/
 
@@ -390,6 +500,12 @@ export function validateWorkflow({ dirName, bundle, coverBytes, known }) {
         push(`节点 ${node.key} 的参数 ${paramKey} 超长（> ${LIMITS.paramTextMax} 字符）`)
       }
     }
+    // 脚本节点：参数不可信，机械校验代码 / 能力 / 端口 / 资源边界（与应用同口径）
+    if (isScriptRunNode(node)) {
+      for (const msg of validateScriptNodeParams(node)) {
+        push(`脚本节点 ${node.key ?? '?'}：${msg}`)
+      }
+    }
   }
   for (const edge of plan.edges ?? []) {
     if (!edge || typeof edge !== 'object') {
@@ -555,6 +671,7 @@ export function readSemanticPacks(dir, dirName, bundle) {
 export function entryFromBundle(bundle, dir, coverName, skill = null, semanticPacks = null) {
   const plan = bundle.plan
   const nodeTypes = nodeTypesOfPlan(plan)
+  const scripts = scriptSummariesOfPlan(plan)
   let sizeBytes = 0
   try {
     sizeBytes = statSync(join(dir, 'workflow.json')).size
@@ -585,6 +702,12 @@ export function entryFromBundle(bundle, dir, coverName, skill = null, semanticPa
      * 因此不存在"清单与磁盘漂移"。`workflow.json` 里不加任何技能字段。
      */
     ...(skill ? { skill } : {}),
+    /**
+     * 含可执行代码（script.run）同样是**派生字段**：从 plan 扫出脚本节点摘要。
+     * 客户端据此在卡片上标「含可执行代码」并驱动逐次同意流，摘要让用户装前就看见
+     * 「有几段代码、各要什么能力、代码多大」。手改索引会让这个告知失真。
+     */
+    ...(scripts.length ? { hasExecutableCode: true, scripts } : {}),
     /** semanticPacks 文件清单同样只出现在索引里（从磁盘派生） */
     ...(semanticPacks ? { semanticPacks } : {})
   }
@@ -630,6 +753,14 @@ function main() {
     // 技能清单同样是派生字段：手改索引会让客户端去下载不存在（或漏掉）的文件
     if (JSON.stringify(stated?.skill ?? null) !== JSON.stringify(entry.skill ?? null)) {
       console.error(`✗ ${entry.id} 的技能清单与磁盘派生结果不一致`)
+      process.exit(1)
+    }
+    // 脚本摘要同样是派生字段：手改索引会让「含可执行代码」告知与同意流失真
+    if (
+      JSON.stringify(stated?.scripts ?? null) !== JSON.stringify(entry.scripts ?? null) ||
+      (stated?.hasExecutableCode ?? false) !== (entry.hasExecutableCode ?? false)
+    ) {
+      console.error(`✗ ${entry.id} 的脚本摘要（scripts / hasExecutableCode）与磁盘派生结果不一致`)
       process.exit(1)
     }
     if (
