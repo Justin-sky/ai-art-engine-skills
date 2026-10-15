@@ -3,7 +3,7 @@
   "id": "comic-publish",
   "title": "漫画出版",
   "titleEn": "Comic publishing",
-  "summary": "剧本 → 分镜图 ×3 → 漫画页排版导出",
+  "summary": "剧本 → 角色定妆锚点 → 多页分镜与台词气泡自动排版出片",
   "category": "comic",
   "tags": [],
   "version": "1.0.0",
@@ -23,82 +23,321 @@
     "appMinVersion": "7.1.0"
   },
   "plan": {
-    "title": "漫画页出版",
+    "title": "漫画出版（整集连载）",
     "nodes": [
       {
         "key": "script",
         "typeId": "play.script",
         "title": "漫画剧本",
         "params": {
-          "text": "（按格写分镜：画面描述、台词、情绪与镜头）"
+          "text": "（在此输入整集漫画剧本；在 AI 对话栏选择本工作流并输入剧本后，AI 会自动拆解多页分镜、锁定角色定妆，并将分格版式、斜切、镜头特效、台词气泡与音效字写入各漫画页节点后一键出片）"
         }
       },
       {
-        "key": "panel1",
+        "key": "charAnchor",
         "typeId": "asset.image",
-        "title": "分镜图 1",
+        "title": "角色与画风定妆",
         "params": {
-          "generateInstruction": "漫画第 1 格：按剧本绘制，统一画风与角色形象"
+          "generateInstruction": "根据剧本设定生成主角人设与漫画画风基准图：角色全身与面部神态设定，线条干净、色调统一，纯画面不含任何文字，作为全集所有分镜的形象参考锚点"
         }
       },
       {
-        "key": "panel2",
+        "key": "p1_1",
         "typeId": "asset.image",
-        "title": "分镜图 2",
+        "title": "第 1 页 · 格 1（开篇定场）",
         "params": {
-          "generateInstruction": "漫画第 2 格：承接第 1 格剧情，统一画风"
+          "generateInstruction": "第 1 页第 1 格（全景定场镜头）：按剧本展现开篇环境氛围与主角所处场景，严格保持与定妆参考图一致的画风与角色形象，纯画面不含任何文字"
         }
       },
       {
-        "key": "panel3",
+        "key": "p1_2",
         "typeId": "asset.image",
-        "title": "分镜图 3",
+        "title": "第 1 页 · 格 2（主角登场）",
         "params": {
-          "generateInstruction": "漫画第 3 格：收束本页剧情，统一画风"
+          "generateInstruction": "第 1 页第 2 格（中景人物镜头）：主角登场动作与神态，承接第 1 格环境光影，严格保持角色服装与外貌一致，纯画面不含任何文字"
         }
       },
       {
-        "key": "page",
+        "key": "p1_3",
+        "typeId": "asset.image",
+        "title": "第 1 页 · 格 3（异变突起）",
+        "params": {
+          "generateInstruction": "第 1 页第 3 格（近景反应镜头）：突发状况引起主角警觉或情绪转折，戏剧张力强，严格保持角色与画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "page1",
         "typeId": "comic.page",
-        "title": "漫画页"
+        "title": "漫画页 · 第 1 页（起承）",
+        "params": {
+          "comicPage": "{\n  \"title\": \"第 1 页 · 起承\",\n  \"backgroundColor\": \"#ffffff\",\n  \"columns\": 6,\n  \"rows\": 6,\n  \"gutter\": 18,\n  \"width\": 1080,\n  \"height\": 1520,\n  \"padding\": 36,\n  \"borderWidth\": 3,\n  \"borderColor\": \"#111111\",\n  \"borderRadius\": 0,\n  \"panels\": [\n    {\n      \"id\": \"p1-panel-1\",\n      \"row\": 0,\n      \"col\": 0,\n      \"rowSpan\": 2,\n      \"colSpan\": 6,\n      \"title\": \"格 1 · 开篇定场\",\n      \"bubbles\": [\n        {\n          \"id\": \"p1-b1\",\n          \"text\": \"夜幕降临，一切看似平静……\",\n          \"x\": 0.24,\n          \"y\": 0.24,\n          \"tail\": \"tl\",\n          \"shape\": \"narration\"\n        }\n      ]\n    },\n    {\n      \"id\": \"p1-panel-2\",\n      \"row\": 2,\n      \"col\": 0,\n      \"rowSpan\": 4,\n      \"colSpan\": 3,\n      \"title\": \"格 2 · 主角登场\",\n      \"bubbles\": [\n        {\n          \"id\": \"p1-b2\",\n          \"text\": \"终于找到这里了。\",\n          \"speaker\": \"主角\",\n          \"x\": 0.68,\n          \"y\": 0.2,\n          \"tail\": \"bl\",\n          \"tailTipX\": 0.45,\n          \"tailTipY\": 0.42\n        }\n      ]\n    },\n    {\n      \"id\": \"p1-panel-3\",\n      \"row\": 2,\n      \"col\": 3,\n      \"rowSpan\": 4,\n      \"colSpan\": 3,\n      \"title\": \"格 3 · 异变突起\",\n      \"effectType\": \"vignette\",\n      \"effectIntensity\": 0.6,\n      \"bubbles\": [\n        {\n          \"id\": \"p1-b3\",\n          \"text\": \"等等……这股气息是？！\",\n          \"speaker\": \"主角\",\n          \"x\": 0.35,\n          \"y\": 0.22,\n          \"tail\": \"br\",\n          \"scale\": 1.05,\n          \"tailTipX\": 0.55,\n          \"tailTipY\": 0.44\n        },\n        {\n          \"id\": \"p1-b4\",\n          \"text\": \"铮——！\",\n          \"x\": 0.76,\n          \"y\": 0.8,\n          \"tail\": \"tl\",\n          \"scale\": 1.15,\n          \"shape\": \"sfx\"\n        }\n      ]\n    }\n  ]\n}\n"
+        }
+      },
+      {
+        "key": "p2_1",
+        "typeId": "asset.image",
+        "title": "第 2 页 · 格 1（疾速逼近）",
+        "params": {
+          "generateInstruction": "第 2 页第 1 格（低角度动态镜头）：冲突爆发、危机疾速逼近的张力瞬间，严格保持角色与画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "p2_2",
+        "typeId": "asset.image",
+        "title": "第 2 页 · 格 2（正面交锋）",
+        "params": {
+          "generateInstruction": "第 2 页第 2 格（高潮爆发镜头）：核心冲突正面交锋的高光瞬间，动作极具冲击力，严格保持角色与画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "p2_3",
+        "typeId": "asset.image",
+        "title": "第 2 页 · 格 3（特写反击）",
+        "params": {
+          "generateInstruction": "第 2 页第 3 格（面部与眼神特写）：主角决意反击的凌厉眼神特写，光影对比强烈，严格保持角色一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "p2_4",
+        "typeId": "asset.image",
+        "title": "第 2 页 · 格 4（破局一击）",
+        "params": {
+          "generateInstruction": "第 2 页第 4 格（广角冲击镜头）：关键一击释放出的能量与动态余波，构图饱满，严格保持角色与画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "page2",
+        "typeId": "comic.page",
+        "title": "漫画页 · 第 2 页（高潮）",
+        "params": {
+          "comicPage": "{\n  \"title\": \"第 2 页 · 高潮\",\n  \"backgroundColor\": \"#ffffff\",\n  \"columns\": 6,\n  \"rows\": 6,\n  \"gutter\": 18,\n  \"width\": 1080,\n  \"height\": 1520,\n  \"padding\": 36,\n  \"borderWidth\": 3,\n  \"borderColor\": \"#111111\",\n  \"borderRadius\": 0,\n  \"panels\": [\n    {\n      \"id\": \"p2-panel-1\",\n      \"row\": 0,\n      \"col\": 0,\n      \"rowSpan\": 2,\n      \"colSpan\": 6,\n      \"title\": \"格 1 · 疾速逼近\",\n      \"cornerOffsets\": [\n        0,\n        0,\n        0,\n        0,\n        0,\n        -0.1,\n        0,\n        0.08\n      ],\n      \"effectType\": \"speed-lines\",\n      \"effectIntensity\": 0.6,\n      \"effectAngle\": 0,\n      \"bubbles\": [\n        {\n          \"id\": \"p2-b1\",\n          \"text\": \"来得好快！\",\n          \"x\": 0.22,\n          \"y\": 0.28,\n          \"tail\": \"br\",\n          \"tailTipX\": 0.42,\n          \"tailTipY\": 0.52\n        },\n        {\n          \"id\": \"p2-b2\",\n          \"text\": \"唰——！\",\n          \"x\": 0.8,\n          \"y\": 0.72,\n          \"tail\": \"tl\",\n          \"scale\": 1.2,\n          \"shape\": \"sfx\"\n        }\n      ]\n    },\n    {\n      \"id\": \"p2-panel-2\",\n      \"row\": 2,\n      \"col\": 0,\n      \"rowSpan\": 2,\n      \"colSpan\": 3,\n      \"title\": \"格 2 · 正面交锋\",\n      \"cornerOffsets\": [\n        0,\n        0.08,\n        0,\n        -0.05,\n        0,\n        -0.08,\n        0,\n        0.06\n      ],\n      \"effectType\": \"focus-lines\",\n      \"effectIntensity\": 0.6,\n      \"effectFocusX\": 0.5,\n      \"effectFocusY\": 0.5,\n      \"bubbles\": [\n        {\n          \"id\": \"p2-b3\",\n          \"text\": \"绝不会在这里退缩！！\",\n          \"speaker\": \"主角\",\n          \"x\": 0.5,\n          \"y\": 0.24,\n          \"tail\": \"bl\",\n          \"scale\": 1.05,\n          \"shape\": \"shout\"\n        },\n        {\n          \"id\": \"p2-b4\",\n          \"text\": \"轰！！\",\n          \"x\": 0.78,\n          \"y\": 0.8,\n          \"tail\": \"tl\",\n          \"scale\": 1.3,\n          \"shape\": \"sfx\"\n        }\n      ]\n    },\n    {\n      \"id\": \"p2-panel-3\",\n      \"row\": 2,\n      \"col\": 3,\n      \"rowSpan\": 2,\n      \"colSpan\": 3,\n      \"title\": \"格 3 · 特写反击\",\n      \"cornerOffsets\": [\n        0,\n        -0.05,\n        0,\n        -0.1,\n        0,\n        0.06,\n        0,\n        -0.08\n      ],\n      \"bubbles\": [\n        {\n          \"id\": \"p2-b5\",\n          \"text\": \"看清破绽了——就是现在！\",\n          \"speaker\": \"主角\",\n          \"x\": 0.52,\n          \"y\": 0.24,\n          \"tail\": \"bl\",\n          \"shape\": \"thought\",\n          \"tailTipX\": 0.4,\n          \"tailTipY\": 0.48\n        }\n      ]\n    },\n    {\n      \"id\": \"p2-panel-4\",\n      \"row\": 4,\n      \"col\": 0,\n      \"rowSpan\": 2,\n      \"colSpan\": 6,\n      \"title\": \"格 4 · 破局一击\",\n      \"cornerOffsets\": [\n        0,\n        0.06,\n        0,\n        -0.06,\n        0,\n        0,\n        0,\n        0\n      ],\n      \"effectType\": \"speed-lines\",\n      \"effectIntensity\": 0.6,\n      \"effectAngle\": 0,\n      \"bubbles\": [\n        {\n          \"id\": \"p2-b6\",\n          \"text\": \"破——！！\",\n          \"x\": 0.24,\n          \"y\": 0.3,\n          \"tail\": \"br\",\n          \"scale\": 1.15,\n          \"shape\": \"shout\"\n        }\n      ]\n    }\n  ]\n}\n"
+        }
+      },
+      {
+        "key": "p3_1",
+        "typeId": "asset.image",
+        "title": "第 3 页 · 格 1（余波散尽）",
+        "params": {
+          "generateInstruction": "第 3 页第 1 格（中景镜头）：交锋过后烟尘渐散，主角稳住身形，承接前页剧情，严格保持角色与画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "p3_2",
+        "typeId": "asset.image",
+        "title": "第 3 页 · 格 2（线索浮现）",
+        "params": {
+          "generateInstruction": "第 3 页第 2 格（特写镜头）：关键道具或神秘线索显露，引发新的悬念，严格保持画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "p3_3",
+        "typeId": "asset.image",
+        "title": "第 3 页 · 格 3（终幕悬念大格）",
+        "params": {
+          "generateInstruction": "第 3 页第 3 格（史诗感大跨页收尾镜头）：远方更庞大的危机或新神秘角色剪影浮现，极具连载悬念感，严格保持角色与画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "page3",
+        "typeId": "comic.page",
+        "title": "漫画页 · 第 3 页（收尾）",
+        "params": {
+          "comicPage": "{\n  \"title\": \"第 3 页 · 收尾\",\n  \"backgroundColor\": \"#ffffff\",\n  \"columns\": 6,\n  \"rows\": 6,\n  \"gutter\": 18,\n  \"width\": 1080,\n  \"height\": 1520,\n  \"padding\": 36,\n  \"borderWidth\": 3,\n  \"borderColor\": \"#111111\",\n  \"borderRadius\": 0,\n  \"panels\": [\n    {\n      \"id\": \"p3-panel-1\",\n      \"row\": 0,\n      \"col\": 0,\n      \"rowSpan\": 2,\n      \"colSpan\": 3,\n      \"title\": \"格 1 · 余波散尽\",\n      \"bubbles\": [\n        {\n          \"id\": \"p3-b1\",\n          \"text\": \"呼……总算挡下来了。\",\n          \"speaker\": \"主角\",\n          \"x\": 0.55,\n          \"y\": 0.24,\n          \"tail\": \"bl\",\n          \"tailTipX\": 0.42,\n          \"tailTipY\": 0.48\n        }\n      ]\n    },\n    {\n      \"id\": \"p3-panel-2\",\n      \"row\": 0,\n      \"col\": 3,\n      \"rowSpan\": 2,\n      \"colSpan\": 3,\n      \"title\": \"格 2 · 线索浮现\",\n      \"effectType\": \"vignette\",\n      \"effectIntensity\": 0.6,\n      \"bubbles\": [\n        {\n          \"id\": \"p3-b2\",\n          \"text\": \"原来这才是他们真正的目的……\",\n          \"speaker\": \"主角\",\n          \"x\": 0.5,\n          \"y\": 0.25,\n          \"tail\": \"bl\",\n          \"shape\": \"thought\",\n          \"tailTipX\": 0.45,\n          \"tailTipY\": 0.52\n        }\n      ]\n    },\n    {\n      \"id\": \"p3-panel-3\",\n      \"row\": 2,\n      \"col\": 0,\n      \"rowSpan\": 4,\n      \"colSpan\": 6,\n      \"title\": \"格 3 · 终幕悬念\",\n      \"effectType\": \"focus-lines\",\n      \"effectIntensity\": 0.6,\n      \"effectFocusX\": 0.5,\n      \"effectFocusY\": 0.5,\n      \"bubbles\": [\n        {\n          \"id\": \"p3-b3\",\n          \"text\": \"真正的考验，现在才刚刚开始。\",\n          \"x\": 0.26,\n          \"y\": 0.2,\n          \"tail\": \"br\",\n          \"scale\": 1.05,\n          \"tailTipX\": 0.45,\n          \"tailTipY\": 0.4\n        },\n        {\n          \"id\": \"p3-b4\",\n          \"text\": \"【本话完 · 未完待续】\",\n          \"x\": 0.78,\n          \"y\": 0.88,\n          \"tail\": \"tl\",\n          \"shape\": \"narration\"\n        }\n      ]\n    }\n  ]\n}\n"
+        }
       },
       {
         "key": "note",
         "typeId": "note.text",
         "title": "使用说明",
         "params": {
-          "text": "流程：先运行三张「分镜图」锁定角色与画风 → 双击「漫画页」进入编辑器，把分镜图拖入分格、加台词气泡、调页面背景色 → 导出成片（支持透明底 PNG）。分格与气泡支持手柄缩放。"
+          "text": "流程（支持 AI 一键自动生产整集漫画）：\n1. 在底部 AI 对话栏点「工作流」选中本工作流并输入一段剧本，Agent 会自动拆解多页分镜、写入「角色与画风定妆」及各格画面指令，并把分格版式、斜切破格、速度线/集中线、台词气泡与音效字写入每张「漫画页」后自动运行出片。\n2. 手动按拓扑运行：先运行「角色与画风定妆」锁定主角形象（其输出已连入全集 10 格分镜的参考图端口）→ 批量运行各页「分镜图」→ 运行三张「漫画页」直接合成带气泡与版式的整集漫画 PNG。\n3. 双击任意「漫画页」可 Dive 进入专业排版工作台，切换 12 款分镜版式、拖拽斜切顶点、调节格内构图/漫画网点滤镜与 6 种台词气泡。"
         }
       }
     ],
     "edges": [
       {
         "from": "script",
-        "to": "panel1"
+        "to": "charAnchor",
+        "fromPort": "out",
+        "toPort": "in-text"
       },
       {
         "from": "script",
-        "to": "panel2"
+        "to": "p1_1",
+        "fromPort": "out",
+        "toPort": "in-text"
       },
       {
         "from": "script",
-        "to": "panel3"
+        "to": "p1_2",
+        "fromPort": "out",
+        "toPort": "in-text"
       },
       {
-        "from": "panel1",
-        "to": "page",
+        "from": "script",
+        "to": "p1_3",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p1_1",
         "fromPort": "out",
         "toPort": "in-image"
       },
       {
-        "from": "panel2",
-        "to": "page",
+        "from": "charAnchor",
+        "to": "p1_2",
         "fromPort": "out",
         "toPort": "in-image"
       },
       {
-        "from": "panel3",
-        "to": "page",
+        "from": "charAnchor",
+        "to": "p1_3",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p1_1",
+        "to": "page1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p1_2",
+        "to": "page1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p1_3",
+        "to": "page1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "p2_1",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "p2_2",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "p2_3",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "p2_4",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p2_1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p2_2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p2_3",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p2_4",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p2_1",
+        "to": "page2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p2_2",
+        "to": "page2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p2_3",
+        "to": "page2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p2_4",
+        "to": "page2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "p3_1",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "p3_2",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "p3_3",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p3_1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p3_2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p3_3",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p3_1",
+        "to": "page3",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p3_2",
+        "to": "page3",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p3_3",
+        "to": "page3",
         "fromPort": "out",
         "toPort": "in-image"
       }

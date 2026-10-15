@@ -6,8 +6,9 @@
  * 审核应该花在「这个工作流好不好用」，而不是「id 拼错了没有」。
  *
  * 用法：
- *   node scripts/validate.mjs              校验全部工作流 + 索引一致性
- *   node scripts/validate.mjs --check-index 只校验索引是否与磁盘一致（CI 快速路径）
+ *   node scripts/validate.mjs                  校验全部工作流 + 索引一致性
+ *   node scripts/validate.mjs --workflows-only 只校验工作流目录（PR 门禁：不要求贡献者手改 index.json）
+ *   node scripts/validate.mjs --check-index    只校验索引是否与磁盘一致（CI 快速路径）
  */
 
 import { readdirSync, readFileSync, statSync } from 'node:fs'
@@ -715,6 +716,7 @@ export function entryFromBundle(bundle, dir, coverName, skill = null, semanticPa
 
 function main() {
   const checkIndexOnly = process.argv.includes('--check-index')
+  const workflowsOnly = process.argv.includes('--workflows-only')
   const { errors, entries } = validateAll()
   if (errors.length) {
     console.error(`✗ 校验失败（${errors.length} 项）：`)
@@ -722,6 +724,7 @@ function main() {
     process.exit(1)
   }
   console.log(`✓ ${entries.length} 个工作流校验通过`)
+  if (workflowsOnly) return
 
   let expected = null
   try {

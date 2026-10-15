@@ -38,10 +38,20 @@ jobs:
         run: |
           if git diff --quiet -- index.json; then
             echo "index.json 无变化"
-            exit 0
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add index.json
+            git commit -m "chore(index): 重建市场索引 [skip ci]"
+            git push
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.json
-          git commit -m "chore(index): 重建市场索引 [skip ci]"
-          git push
+
+      - name: 同步推送至 Gitee 镜像（配置了 GITEE_TOKEN 时自动执行）
+        if: env.GITEE_TOKEN != ''
+        env:
+          GITEE_TOKEN: ${{ secrets.GITEE_TOKEN }}
+          GITEE_USER: ${{ secrets.GITEE_USER }}
+        run: |
+          USER_NAME="${GITEE_USER:-beijing_blue_whale_era_zhangjian}"
+          git push --force "https://${USER_NAME}:${GITEE_TOKEN}@gitee.com/beijing_blue_whale_era_zhangjian/ai-art-engine-workflow.git" HEAD:main
+

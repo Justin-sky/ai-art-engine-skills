@@ -66,9 +66,12 @@ workflows/my-workflow/
 - 每个类型的端口与参数：在应用里右键画布 →「添加节点」逐个看，或让应用内的 AI 对话
   用 `graph_node_types` 工具列出（含端口与默认参数）
 
-> **第三方工作流的 `plan` 可以从画布直接导出**（应用 7.1.3 起）：在节点画布上右键 →
-> **「导出为市场工作流」**，填好元数据并选一张封面（必填，`cover.png`），应用会把当前图写成
-> `workflows/<id>/{workflow.json, cover.png}` —— 目录由你自己选，通常就是本仓库的根。
+> **第三方工作流的 `plan` 与 `skill/` 可以从画布一键导出**：在节点画布上右键 →
+> **「导出为市场工作流」**，填好元数据后，支持：
+> - **自动生成 800×450 封面卡**（或选择本地 PNG）；
+> - **自动生成 AI 技能脚手架**（`skill/SKILL.md` + `skill/references/ports.md`，含节点拓扑表、连线与端口/参数速查）；
+> - **允许导出到任意文件夹**（无需预先克隆本仓库，导出独立 `<id>/` 目录后可直接通过 GitHub 网页上传发起 PR）；
+> - **导出后同时安装到本机**（立即在客户端「插件市场 → 工作流」及 AI 对话中自测跑通）。
 >
 > 导出时的两条口径值得知道，因为它们决定了包能不能在别人机器上装出同一张图：
 > - `requires.nodeTypes` 由 `plan` 派生（不用手填）；
@@ -76,8 +79,7 @@ workflows/my-workflow/
 >   `animGifFrameCount` / `animGridImage` 这类上次运行的产物）以及以 `AssetId` 结尾的本工程资产
 >   引用一律不进包 —— 否则发出去的会带着你自己工程的产物与悬空引用。
 >
-> 导出后按应用里的提示在本仓库执行 `node scripts/build-index.mjs && node scripts/validate.mjs`，
-> 全绿再提交。仍然手写 `plan` 也完全可以（老办法没变）；从已有工作流改写同样可行。
+> 若在本地克隆的仓库里导出，可运行 `node scripts/validate.mjs --workflows-only` 自检（无需手改 `index.json`，PR CI 会自动构建并校验索引）。仍然手写 `plan` 或从已有工作流改写也完全可以。
 >
 > **例外：官方那 15 条工作流**（`game-ua-video` … `anim2d-gif`）**不允许从画布导出** ——
 > 它们的 id 被内置预设占用，导出会被拒绝。它们的 `plan` 与应用内置的一键工作流预设是同一张图，
@@ -227,8 +229,9 @@ workflow-version: 1.0.0       # 可选；写了就必须与 workflow.json 的 ve
 ## 二、提交前自查
 
 ```bash
-node scripts/validate.mjs     # 格式 / 依赖 / 索引一致性
-node --test                   # 校验器自身的单测
+node scripts/validate.mjs --workflows-only   # 仅校验 workflows/*（PR 贡献者推荐，无需动 index.json）
+node scripts/validate.mjs                    # 完整校验（含 index.json 与磁盘一致性）
+node --test                                  # 校验器自身的单测
 ```
 
 它会检查：id 形态、必填字段、semver、分类枚举、`plan` 结构、`edges` 悬空、
@@ -238,7 +241,7 @@ frontmatter（含 `name` / `description` / dsh 拒绝的旧键）、`wf-` 前缀
 单文件与整包体积、文件数上限、符号链接、`workflow` 绑定，与正文里提到的节点类型
 是否真实存在。
 
-`index.json` **不要手改** —— CI 会在合并后自动重建。
+`index.json` **不要手改** —— PR CI 会在工作区自动构建并验证索引，合并进 `main` 后由 `build-index.yml` 自动提交最新 `index.json`。
 
 ---
 

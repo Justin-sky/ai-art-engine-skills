@@ -122,8 +122,8 @@
     "category": "comic",
     "titleZh": "漫画出版",
     "titleEn": "Comic publishing",
-    "summaryZh": "剧本 → 分镜图 ×3 → 漫画页排版导出",
-    "summaryEn": "Script → 3 panels → comic page layout & export"
+    "summaryZh": "剧本 → 角色定妆锚点 → 多页分镜与台词气泡自动排版出片",
+    "summaryEn": "Script → character anchor → multi-page panels & speech bubbles"
   },
   {
     "id": "course-narrate",

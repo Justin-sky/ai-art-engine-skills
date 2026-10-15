@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-13T14:21:03.996Z",
+  "generatedAt": "2026-10-15T05:40:19.030Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-workflow",
     "ref": "main"
@@ -90,7 +90,7 @@
       "id": "comic-publish",
       "title": "漫画出版",
       "titleEn": "Comic publishing",
-      "summary": "剧本 → 分镜图 ×3 → 漫画页排版导出",
+      "summary": "剧本 → 角色定妆锚点 → 多页分镜与台词气泡自动排版出片",
       "category": "comic",
       "version": "1.0.0",
       "author": {
@@ -108,25 +108,25 @@
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 6,
-      "edgeCount": 6,
-      "sizeBytes": 2609,
+      "nodeCount": 16,
+      "edgeCount": 31,
+      "sizeBytes": 18295,
       "skill": {
         "name": "wf-comic-publish",
-        "description": "用「漫画出版」工作流把一段剧本变成一张多格漫画页（分镜图 ×3 → 漫画页编辑器排版 → PNG 成片）。当用户要做漫画页 / 分镜连页 / 带台词气泡的一页成图时加载本技能。",
+        "description": "用「漫画出版」工作流把一段剧本自动变成一集多页漫画（剧本 → 角色与画风定妆锚点 → 多页分镜图 ×10 → 3 张漫画页自动排版、斜切破格、速度线/集中线与台词气泡/音效字合成 PNG）。当用户要做一集漫画、多页连载条漫/日漫、或输入一段剧本自动生成带台词气泡的漫画成片时加载本技能。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 4739
+            "sizeBytes": 7105
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 5133
+            "sizeBytes": 9810
           }
         ],
-        "sizeBytes": 9872
+        "sizeBytes": 16915
       }
     },
     {
