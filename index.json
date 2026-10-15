@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-15T05:40:19.030Z",
+  "generatedAt": "2026-10-15T09:18:16.676Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-workflow",
     "ref": "main"
@@ -10,9 +10,16 @@
       "id": "anim2d-gif",
       "title": "2D 帧动画",
       "titleEn": "2D frame anim",
-      "summary": "序列图 → 逐帧 PNG + GIF 动图",
+      "summary": "序列图 / 动作视频 → 自动抠底稳像 → 逐帧 PNG + GIF 动图",
       "category": "game",
-      "version": "1.0.0",
+      "tags": [
+        "2D",
+        "帧动画",
+        "GIF",
+        "序列图",
+        "视频抽帧"
+      ],
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -29,23 +36,23 @@
       },
       "nodeCount": 3,
       "edgeCount": 1,
-      "sizeBytes": 1782,
+      "sizeBytes": 2167,
       "skill": {
         "name": "wf-anim2d-gif",
-        "description": "用「2D 帧动画」工作流把一张动作序列图（sprite sheet）切成逐帧 PNG 并合成为 GIF 动图。当用户要角色行走/待机/攻击等帧动画、想要 GIF 或逐帧图、或已有一张分格序列图要拆帧时加载本技能。",
+        "description": "用「2D 帧动画」工作流把一张动作序列图（sprite sheet）或一段动作视频切分成透明原地稳像的逐帧 PNG 并合成为 GIF 动图。当用户要角色行走/奔跑/待机/攻击等 2D 帧动画、想把视频抽帧转为序列图/GIF、或已有一张分格序列图要拆帧时加载本技能。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 5277
+            "sizeBytes": 6998
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 5454
+            "sizeBytes": 5208
           }
         ],
-        "sizeBytes": 10731
+        "sizeBytes": 12206
       }
     },
     {

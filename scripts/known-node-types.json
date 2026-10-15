@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-07T02:53:33.375Z",
+  "generatedAt": "2026-10-15T09:30:25.175Z",
   "source": "ai-art-engine listNodeTypes()",
   "nodeTypes": [
     "anim.2d",
@@ -80,7 +80,10 @@
     "output.world",
     "play.script",
     "prompt.optimize",
+    "script.run",
+    "semantic.analyze",
     "semantic.compile",
+    "semantic.rebuild",
     "spatialWorld.export",
     "stage.2d",
     "svg.anim",
@@ -92,9 +95,6 @@
     "video.lipSync",
     "video.reshoot",
     "video.select",
-    "semantic.analyze",
-    "semantic.rebuild",
-    "script.run",
     "voice.select",
     "world.extract",
     "world.gen",
