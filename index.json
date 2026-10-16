@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-16T12:23:09.565Z",
+  "generatedAt": "2026-10-16T22:04:16.952Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-workflow",
     "ref": "main"
@@ -317,7 +317,7 @@
       },
       "nodeCount": 6,
       "edgeCount": 4,
-      "sizeBytes": 2277,
+      "sizeBytes": 2283,
       "skill": {
         "name": "wf-ecom-ad-deep",
         "description": "用「电商带货」工作流把产品卖点做成一批可 A/B 对比的电商广告图（主视觉 + 使用场景 → 变体矩阵批量出图 → 主视觉图层分离交付 PSD/PNG）。当用户要电商主图/详情页素材、要多版本素材做投放对比、或要求把主视觉拆层给设计改字时加载本技能。",
@@ -439,15 +439,16 @@
       "requires": {
         "nodeTypes": [
           "asset.gameSystem",
+          "image.layerSplit",
           "note.text",
           "ui.gen",
           "ui.split"
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 4,
-      "edgeCount": 2,
-      "sizeBytes": 1674,
+      "nodeCount": 5,
+      "edgeCount": 3,
+      "sizeBytes": 2328,
       "skill": {
         "name": "wf-game-ui",
         "description": "用「游戏UI界面」工作流把一段游戏系统需求变成系统策划案 + 逐屏 UI 界面图（每屏双轨：带字版 + 空字底图）。当用户要做游戏界面/UI 素材、背包/任务/公会的界面设计、或要把策划案拆成一屏屏 UI 图时加载本技能。",
