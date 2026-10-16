@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "id": "short-drama9",
-  "title": "短剧分镜·9格直出",
-  "titleEn": "Short drama · 9 direct",
-  "summary": "剧本→节拍→9宫格→动画师9条动态提示词→9条视频",
+  "title": "影视精修·单镜头",
+  "titleEn": "Film · single-shot polish",
+  "summary": "分镜→设定→镜头节点→关键帧图片→镜头视频（手动精修）",
   "category": "film",
   "tags": [],
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -24,7 +24,7 @@
       "note.text",
       "play.script"
     ],
-    "appMinVersion": "7.1.0"
+    "appMinVersion": "7.5.0"
   },
   "plan": {
     "title": "影视精修（单镜头工作台）",

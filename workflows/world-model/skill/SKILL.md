@@ -44,7 +44,7 @@ spatialWorld.export:out → asset.motion:in-model
 
 ## 导出模式怎么选
 
-`s spatialWorld.export` 的 `spatialWorldExportMode`：
+`spatialWorld.export` 的 `spatialWorldExportMode`：
 
 - `mesh`（默认，配 `spatialWorldExportVariant: textured`、`Resolution: full_res`）：
   出 HQ 网格 GLB 并**登记为模型资产** —— 想继续接 `model.*` 一族（贴图 / 绑骨 / 重拓扑 /

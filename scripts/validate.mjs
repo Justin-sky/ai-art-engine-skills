@@ -276,8 +276,11 @@ function listSkillFiles(skillDir) {
  * - `cover.png` → `cover` 不是命名空间 → 不管（否则图片文件名全会误报）
  * - `references/ports.md` → 含 `/`，不匹配 → 不管
  */
+/** 已下线的历史节点命名空间：即便当前 known-node-types 已不再含该前缀，技能正文里残留也必须拦住 */
+const RETIRED_NODE_NAMESPACES = ['beat', 'episode', 'world']
+
 export function nodeTypeNamespaces(known) {
-  const namespaces = new Set()
+  const namespaces = new Set(RETIRED_NODE_NAMESPACES)
   for (const typeId of known ?? []) {
     const dot = typeId.indexOf('.')
     if (dot > 0) namespaces.add(typeId.slice(0, dot))

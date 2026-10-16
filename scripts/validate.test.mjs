@@ -82,6 +82,13 @@ describe('正文里的节点类型必须真实存在', () => {
     assert.deepEqual(check('用 `asset.pic` 出图'), ['asset.pic'])
   })
 
+  it('已退役的整族节点命名空间仍然被拦（如 episode.cellSelect）', () => {
+    assert.deepEqual(
+      check('旧版用 `episode.cellSelect` 和 `beat.board`'),
+      ['beat.board', 'episode.cellSelect']
+    )
+  })
+
   it('文件名不误报：前缀不是节点命名空间就不查', () => {
     assert.deepEqual(check('见 `cover.png`'), [])
     assert.deepEqual(check('见 `README.md`'), [])

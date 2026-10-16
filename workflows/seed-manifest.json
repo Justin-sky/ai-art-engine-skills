@@ -21,19 +21,19 @@
     "id": "short-drama",
     "presetId": "shortDrama",
     "category": "film",
-    "titleZh": "短剧分镜",
-    "titleEn": "Short drama",
-    "summaryZh": "剧本→节拍→9宫格→4宫格→36动态视频（Agent 流水线）",
-    "summaryEn": "Script → beats → 9-grid → 4-grid → 36 motion videos (agent pipeline)"
+    "titleZh": "影视全流程",
+    "titleEn": "Film pipeline",
+    "summaryZh": "剧本→分镜拆解→导演审核自动修订→角色场景设定→批量拍摄（质检重拍+图生视频）",
+    "summaryEn": "Script → storyboard → director review & auto-revise → cast & sets → batch shoot (QC retakes + image-to-video)"
   },
   {
     "id": "short-drama9",
     "presetId": "shortDrama9",
     "category": "film",
-    "titleZh": "短剧分镜·9格直出",
-    "titleEn": "Short drama · 9 direct",
-    "summaryZh": "剧本→节拍→9宫格→动画师9条动态提示词→9条视频",
-    "summaryEn": "Script → beats → 9-grid → animator 9 motion prompts → 9 videos"
+    "titleZh": "影视精修·单镜头",
+    "titleEn": "Film · single-shot polish",
+    "summaryZh": "分镜→设定→镜头节点→关键帧图片→镜头视频（手动精修）",
+    "summaryEn": "Storyboard → cast → shot node → keyframe image → shot video (manual polish)"
   },
   {
     "id": "product-ad",
