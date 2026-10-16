@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-16T11:46:10.809Z",
+  "generatedAt": "2026-10-16T12:23:09.565Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-workflow",
     "ref": "main"
@@ -509,6 +509,65 @@
           }
         ],
         "sizeBytes": 14531
+      }
+    },
+    {
+      "id": "hand-drawn-styles",
+      "title": "21种手绘插画画风",
+      "titleEn": "21 hand-drawn styles",
+      "summary": "21种实测手绘插画配方（xkcd/蜡笔童涂/吉卜力/纸雕/绘本水粉/圆头红线等）",
+      "category": "comic",
+      "tags": [
+        "手绘",
+        "插画",
+        "绘本",
+        "蜡笔画",
+        "吉卜力",
+        "水墨",
+        "像素"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "threerocks / AIArtEngine",
+        "url": "https://github.com/threerocks/hand-drawn-styles"
+      },
+      "license": "MIT",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "note.text",
+          "play.script"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 9,
+      "edgeCount": 9,
+      "sizeBytes": 15452,
+      "skill": {
+        "name": "wf-hand-drawn-styles",
+        "description": "用「21种手绘插画画风」技能与工作流按原样配方生成21种手绘插画（xkcd火柴人、蜡笔童涂、吉卜力、亲子投稿蜡笔卡3.1、小豆人信息图、MS Paint烂涂鸦、圆珠笔涂鸦、蜡笔实拍、水墨写意、复古像素、淡彩速写、复古动画概念稿、暖光童画、北欧纸雕、北欧绘本水粉、大鼻软偶、聚光水粉立绘、墨线绘本、暖色扁平绘本、圆头红线19、暖黄墨线20）。当用户提到手绘画风、绘本插画或编号1-20/3.1时加载。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 2790
+          },
+          {
+            "path": "references/PROTOCOL.md",
+            "sizeBytes": 19428
+          },
+          {
+            "path": "references/STYLES.md",
+            "sizeBytes": 71892
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 7705
+          }
+        ],
+        "sizeBytes": 101815
       }
     },
     {

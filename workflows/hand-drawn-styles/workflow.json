@@ -1,0 +1,171 @@
+{
+  "schemaVersion": 1,
+  "id": "hand-drawn-styles",
+  "title": "21种手绘插画画风",
+  "titleEn": "21 hand-drawn styles",
+  "summary": "21种实测手绘插画配方（xkcd/蜡笔童涂/吉卜力/纸雕/绘本水粉/圆头红线等）",
+  "category": "comic",
+  "tags": [
+    "手绘",
+    "插画",
+    "绘本",
+    "蜡笔画",
+    "吉卜力",
+    "水墨",
+    "像素"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "threerocks / AIArtEngine",
+    "url": "https://github.com/threerocks/hand-drawn-styles"
+  },
+  "license": "MIT",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "note.text",
+      "play.script"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "21种手绘插画画风",
+    "nodes": [
+      {
+        "key": "subject",
+        "typeId": "play.script",
+        "title": "画面主题与故事设定",
+        "params": {
+          "text": "一个小女孩抱着橘猫坐在洒满晨光的窗台边看绘本，窗外有几片绿叶"
+        }
+      },
+      {
+        "key": "styleCardA",
+        "typeId": "asset.image",
+        "title": "手绘画风 A · 暖光童画（#12）",
+        "params": {
+          "generateAspectRatio": "3:4",
+          "generateInstruction": "Character concept art in a modern animated-feature visual-development style, traditional gouache painting look.\nSubject: a curious little girl with fluffy auburn hair holding an orange cat and reading a picture book by a sunlit windowsill, waist-up portrait.\nSCENE: background painted with long rough vertical and diagonal dry-brush streaks in pastel sky-blue with soft cream-yellow scuffed patches and loose sketchy green plant strokes, bristle marks and broken paint edges visible, deliberately unfinished with raw white paper showing around the border like a concept sketch.\nSTYLE RECIPE (follow exactly): MATTE traditional gouache finish over the whole image — absolutely NO glossy airbrush smoothness, NO digital gradient polish; the paint layer must read as real bristle-brush work: chunky directional brushstrokes clearly visible INSIDE the hair masses and clothing, each stroke direction readable like thick gouache dragged by a flat bristle brush; FACE: soft clean shading with sculptural plane changes on cheeks and nose, features slightly asymmetric and hand-painted (NOT a perfectly symmetric doll face), rosy blush, subtle freckles, tiny pointed chin, slender neck; EYES: enormous expressive eyes, the dark irises are VERY large and fill most of the eye, irises painted FLAT and graphic with subtle color variation — NOT shiny 3D orbs, only one small white highlight; thick dark painterly upper lash line, bold expressive eyebrows; HAIR: a few BIG soft volumetric masses shaped by visible directional strokes (NOT detailed ringlet curls), many fine individual flyaway strands drawn on top of the silhouette, warm golden rim light glowing on the hair edges; palette: complementary teal and denim blue against warm orange, soft pastel, gentle warm light, storybook charm, Pixar-Disney visual development art quality.\nNo text anywhere."
+        }
+      },
+      {
+        "key": "styleCardB",
+        "typeId": "asset.image",
+        "title": "手绘画风 B · 情绪叙事淡彩速写（#10）",
+        "params": {
+          "generateAspectRatio": "3:4",
+          "generateInstruction": "一张情绪叙事风格的极简淡彩速写插画,画在干净白纸上,轻盈通透、略带稚拙的手绘感,不是数字精修插画、不是写实照片、不是水彩习作、不是日系动漫。\n主体:一个小女孩抱着橘猫坐在窗台边看绘本。\n线条(最重要):用靛蓝/藏青色钢笔画松弛速写线,线条少而肯定、清爽通透,轮廓偶尔不闭合、带轻微手抖;画头发、发髻、圆形、蓬松或环形的东西时用来回缠绕的圈状\"搜索线\"叠画,而不是一根干净闭合线;绝不密集排线、绝不交叉排线、绝不用线涂黑或堆阴影。\n造型:真人比例与神态,情绪到位、有故事感;大人画得半写实而简约,小孩画得更圆润可爱;都不是Q版大头、不是写实照片、不是动漫脸;脸颊轻点一小块淡淡腮红。\n上色(最重要):整幅以大面积白纸留白为主(约六到七成纯白),绝大部分只有蓝线、不上色;只给小女孩怀里的橘猫平涂一处高饱和橙色,作为全画唯一的暖色焦点,顶多在个别小处点一点点淡蓝绿;水彩薄、边缘不均匀、可露白,绝不铺满、绝不厚涂、绝不整件深涂。\n细节:主体旁寥寥几笔短促抖动线,暗示情绪或动作。\n构图:单一主体或场景,主体偏置一侧,另一侧留大量空白,极简。\n调性:怀旧、温柔、略带心酸的家庭叙事感,画面干净轻盈。\n严禁:密集排线、交叉排线、厚涂、满铺水彩、写实肖像刻画、皱纹与琐碎细节、浓艳配色、多种颜色乱入、3D、照片、日系动漫脸、卡通粗描边、精细背景。\n文字:不加任何文字"
+        }
+      },
+      {
+        "key": "styleCardC",
+        "typeId": "asset.image",
+        "title": "手绘画风 C · 北欧纸雕（#13）",
+        "params": {
+          "generateAspectRatio": "3:4",
+          "generateInstruction": "A sculptural 3D paper-craft diorama artwork, rendered like a soft 3D render of a handcrafted layered paper sculpture, NOT flat papercut, NOT symmetrical ornament.\nSubject: a serene little girl holding an orange cat and a small open book, centered, waist-up, against a large plain textured warm ochre-brown cardstock backdrop with generous empty negative space around the subject.\nCHARACTER RECIPE (for any figure): THE HEAD IS SCULPTURAL — a smooth rounded three-dimensional sculpted form like a stop-motion puppet, softly shaded with real volume, NOT a flat paper cutout face; the bangs are a smooth volumetric dome of thick curved paper sweeping across the forehead and casting a soft shadow on it; the nose is a small 3D paper wedge physically protruding from the face, catching light on one side and casting a tiny shadow on the other; gently rounded cheeks with soft rosy blush circles; closed eyes as thin calm curved lines; tiny serene lips; hair and clothing built from thick curved paper ribbons, rolled quilling spirals, pleated paper fans and layered scalloped paper feathers like overlapping bird plumage; some pieces carry embossed damask folk patterns.\nFOLK ELEMENTS: a few Scandinavian folk-art paper pieces placed beside the subject —one stylized folk cloud, a few stylized leaves and one rolled paper spiral— sparse, asymmetric editorial composition with lots of breathing room.\nMATERIAL: every piece is matte felt-like cardstock with visible embossed fiber texture and fine swirling filigree embossing, slightly curled edges.\nDEPTH & LIGHT (most important): strong sculptural depth — elements physically raised several millimeters off the background, casting large soft realistic drop shadows onto the wall and onto each other; soft warm studio lighting from upper left; the plain background has a soft directional light gradient — noticeably brighter toward the upper left, gently darker in the lower corners (gentle vignette).\nPALETTE: muted jewel tones — mustard yellow, ochre, coral orange, magenta pink, lilac purple, slate blue, teal — on a warm earthy backdrop.\nWarm handcrafted editorial illustration mood. No text."
+        }
+      },
+      {
+        "key": "anchorRef",
+        "typeId": "asset.image",
+        "title": "画风主视觉锚点（#3.1 / #19 / #20 专用）",
+        "params": {
+          "generateInstruction": "（锚点锁定画风专用：将 #3.1 / #19 / #20 的官方 style-only 锚点图载入此节点，供下游作为 Image 1 / Image 2 风格真源引用）"
+        }
+      },
+      {
+        "key": "lockedBase",
+        "typeId": "asset.image",
+        "title": "锚点锁定画风 · 基础生成（#3.1 / #19 / #20）",
+        "params": {
+          "generateAspectRatio": "3:4",
+          "generateInstruction": "把随请求附带的参考图当作本画风的唯一主视觉锚点:新画首先要像同一个普通家庭用同一盒蜡笔、同一种手劲画出来;文字规则只帮助迁移到新内容,不得把人物修得比参考图更圆、更齐、更光滑。尤其继承参考图中蜡笔涂抹的起停、换向、交叉、重压、漏空和越界方式,而不只是套一层“蜡笔纹理”。只继承参考图的线条、五官、人物比例、蜡笔涂抹轨迹、留白和白底气质;不要复制参考图里的人物身份、服装、站位或情节。\n\n最高优先级·涂抹门禁:绝不能用细、密、平行、等间距的斜线给衣服和物体铺色。必须像孩子把短蜡笔握得很笨,在同一个色块的不同位置分别粗粗乱蹭:一处横着来回,一处竖着划,一处突然改成斜线、回圈或交叉重压,中间直接停笔漏掉大片白纸。笔触有的很短、有的拖得很长,有的粗重结块、有的只擦过一下;方向切换没有整齐分区。涂色经常提前停在轮廓里面,也经常一把蹭过轮廓外面。宁可过乱、过空、过界,也不要整齐铺满。NO neat diagonal hatching. NO uniform coverage. NO repeated digital crayon texture.\n\n一张普通家庭投稿感的亲子蜡笔故事卡,画在干净、明亮、接近纯白的平面纸底上。它不是纸张照片,不出现折痕、纸纤维特写、桌面、投影或做旧纹理;也不是数字儿童绘本、商业插画或 AI 蜡笔滤镜。\n\n画面内容:一个小女孩抱着橘猫坐在窗台边看绘本。\n\n构图:主体集中在画面下半部或中下部,上方保留大片安静留白;人物脚下最多一条歪歪的黑色地面线,背景只留 0-2 件讲清动作所必需的简单道具。不要完整房间、复杂家具、装饰性小物、漂亮透视或舞台化构图。\n\n文字:不加任何文字。"
+        }
+      },
+      {
+        "key": "scribblePass1",
+        "typeId": "asset.image",
+        "title": "#3.1 第一轮蜡笔涂抹打散（scribble-correction）",
+        "params": {
+          "generateAspectRatio": "3:4",
+          "generateInstruction": "Image 1 is the edit target. Image 2 is the approved style-only reference.\nChange ONLY the crayon coloring marks inside and around the existing people, clothing, hair, furniture, books, and props in Image 1. Preserve the exact characters, faces, poses, actions, composition, object count, outlines, colors, white background, and framing.\nRework the coloring to match Image 2's genuinely clumsy child scribbling: coarse blunt wax-crayon strokes with abrupt starts and stops; visibly mixed horizontal, vertical, diagonal, looping, zigzag and crossing directions inside the SAME color area; uneven pressure; isolated heavy clumps next to large untouched white-paper holes; some strokes stop far before the black outline and some overshoot well beyond it. Each color area must have a different scribble rhythm.\nCritical: NO neat diagonal hatching, NO fine dense parallel lines, NO even spacing, NO uniform coverage, NO repeated digital crayon texture. Make the coloring obviously messier, coarser, patchier, emptier and more misregistered than Image 1. Do not add text or new objects."
+        }
+      },
+      {
+        "key": "scribblePass2",
+        "typeId": "asset.image",
+        "title": "#3.1 第二轮粗钝漏白终稿（scribble-chaos-correction）",
+        "params": {
+          "generateAspectRatio": "3:4",
+          "generateInstruction": "Image 1 is the edit target after the first scribble correction. Image 2 is the only approved style reference.\nPerform a second, stricter correction on CRAYON COLORING MARKS ONLY. Preserve Image 1 exactly in characters, faces, expressions, poses, gestures, composition, object count, black outlines, existing color choices, white background, and framing.\nThe remaining coloring is still too neat wherever it forms fine, dense, or consistently diagonal hatching. Replace those ordered areas with Image 2's clumsy family scribbling, not a digital crayon texture.\nFor EACH color area, use a SMALL NUMBER of much thicker blunt wax-crayon strokes with visibly different lengths and pressure. Break the area into disconnected bouts: horizontal rubs, a vertical stab, an abrupt diagonal, a loop, a zigzag, and crossing retraced strokes, without repeating a sequence. Leave 35-55% of the white paper clearly untouched in irregular LARGE holes, including holes that reach the black outline. Put heavy opaque clumps directly beside totally blank areas. Many strokes must stop far before the boundary; several isolated strokes must overshoot far outside it. Adjacent color areas must have obviously different stroke direction and density.\nCritical failure conditions: NO fine pencil-like hatch marks; NO field of mostly parallel diagonals; NO even spacing; NO uniform coverage; NO repeated texture; NO tidy edge-following; NO tiny evenly distributed white gaps. Make the result substantially rougher, emptier, coarser, more asymmetrical, and more accidentally misregistered than Image 1. Do not change any clothing or object color. Do not add text, symbols, objects, shadows, paper texture, or scenery."
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "21种手绘画风速查与用法",
+        "params": {
+          "text": "已随工作流安装技能包 wf-hand-drawn-styles（含 21 种原样手绘配方与实拍纸纹增强层）：\n#1 极简黑白火柴人(xkcd) | #2 蜡笔童涂 | #3 吉卜力风 | #3.1 亲子投稿蜡笔故事卡(三阶段) | #4 小豆人信息图 | #5 MS Paint烂涂鸦 | #6 圆珠笔涂鸦 | #7 蜡笔实拍 | #8 水墨写意 | #9 复古像素 | #10 情绪叙事淡彩速写 | #11 二维水彩概念稿 | #12 暖光童画 | #13 北欧纸雕 | #14 北欧绘本水粉 | #15 大鼻软偶 | #16 聚光水粉立绘 | #17 墨线绘本 | #18 暖色扁平绘本 | #19 圆头红线极简童画 | #20 暖黄墨线情绪小剧场。\n可在右侧 AI 对话中直接说「用 #17 墨线绘本画……」或「换成 #8 水墨写意」，Agent 会自动从 references/STYLES.md 原样提取配方并填入占位符。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "subject",
+        "to": "styleCardA",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "subject",
+        "to": "styleCardB",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "subject",
+        "to": "styleCardC",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "anchorRef",
+        "to": "lockedBase",
+        "fromPort": "out",
+        "toPort": "in-image-1"
+      },
+      {
+        "from": "subject",
+        "to": "lockedBase",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "lockedBase",
+        "to": "scribblePass1",
+        "fromPort": "out",
+        "toPort": "in-image-1"
+      },
+      {
+        "from": "anchorRef",
+        "to": "scribblePass1",
+        "fromPort": "out",
+        "toPort": "in-image-2"
+      },
+      {
+        "from": "scribblePass1",
+        "to": "scribblePass2",
+        "fromPort": "out",
+        "toPort": "in-image-1"
+      },
+      {
+        "from": "anchorRef",
+        "to": "scribblePass2",
+        "fromPort": "out",
+        "toPort": "in-image-2"
+      }
+    ]
+  }
+}
