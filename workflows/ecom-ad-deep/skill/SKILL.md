@@ -42,7 +42,7 @@ workflow-version: 1.0.0
 | 产品名、核心卖点、优惠信息、CTA | `play.script` 节点（标题「卖点文案」）的 `params.text` |
 | 变体维度与取值 | `image.adVariants` 节点的 `params.adVariantMatrix`（见下） |
 | 产品参考图（用户已有实拍图时） | 接进「产品主视觉」的 `in-image` 端口；或写该节点的 `characterRefs`（条目须带 `imageUrl`） |
-| 出图模型、统一宽高比 | `workflow_use_installed` 的 `imageModel` / `generateAspectRatio`（后者只注入到 `asset.image` / `image.upscale` / `asset.video` 节点），不必逐节点写 |
+| 出图模型、统一宽高比 | `workflow_use_installed` 的 `imageModel` / `generateAspectRatio`（后者只注入到 `asset.image` / `image.process` / `asset.video` 节点），不必逐节点写 |
 
 **文案是自动拼进提示词的，不要重复写。** 「卖点文案 → 产品主视觉 / 使用场景图」走的是
 `in-text` 端口：图片节点会把它**自动追加**到自己的 `generateInstruction` 之后
@@ -109,7 +109,7 @@ workflow-version: 1.0.0
 - **「能自动写卖点文案吗？」** 不能。`play.script` 只存文本，不做生成；
   文案要用户给，或先用文本模型单独写好再粘进去。
 - **「能出竖版 9:16 吗？」** 可以。用 `workflow_use_installed` 的 `generateAspectRatio: '9:16'`
-  只覆盖 `asset.image` / `image.upscale` / `asset.video` 三类节点（主视觉、场景图会变竖版），
+  只覆盖 `asset.image` / `image.process` / `asset.video` 三类节点（主视觉、场景图会变竖版），
   **不覆盖变体矩阵**；变体那一批要竖版必须在 `adVariantMatrix.aspectRatio` 里写，两处都要写才一致。
 - **「变体图能不能只保留入选的？」** 可以看，但要在应用内的变体矩阵编辑器（双击节点）里
   用「入选 / 淘汰」标记、在对比视图里筛。**MCP 没有变体标记工具**，agent 只能读回结果。

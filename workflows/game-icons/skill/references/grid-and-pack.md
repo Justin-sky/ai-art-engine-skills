@@ -9,7 +9,7 @@
 | 画风主题 | `play.script` | 无 | `out`（`text`） |
 | 技能/道具/状态图标名单 | `play.script` | 无 | `out`（`text`） |
 | ·整版 | `asset.image` | `in-text`(text，可多) / `in-image`(image，可多) | `out`（当前选中）/ `out-all`（历史） |
-| ·切格 | `image.gridSplit` | `in`(image，**单个**) | `out` / `out-all` |
+| ·切格 | `image.process` | `in`(image，**单个**) | `out` / `out-all` |
 | ·打包 | `image.iconPack` | `in`(image，**单个**) / `in-text`(text，**单个**) | `out` / `out-all` |
 | 使用说明 | `note.text` | 无端口 | 无端口 |
 
@@ -18,10 +18,11 @@
 `play.script:out` 可扇出；`image.iconPack` 的 `in` 与 `in-text` **不能接反**
 （孔位类型是 `image` 与 `text`，接反会被端口兼容性校验拒掉）。
 
-## `image.gridSplit`（·切格，纯本地裁切，不调模型）
+## `image.process`（`imageProcessTool: 'gridSplit'`，·切格，纯本地裁切，不调模型）
 
 | 参数 | 取值 | 说明 |
 |---|---|---|
+| `imageProcessTool` | `'gridSplit'` | 指定使用图像处理工作台中的「宫格切分」工具 |
 | `imageGridSplit.rows` | 1–5，默认 3 | 与 `iconPack.rows` 必须一致 |
 | `imageGridSplit.cols` | 1–5，默认 3 | 与 `iconPack.cols` 必须一致 |
 | `imageGridSplit.selected` | 字符串数组，如 `["1-1","2-3"]` | **空数组 = 运行时处理全部格**；元素是 `行-列`（1-based），越界项被丢弃 |
@@ -100,7 +101,7 @@
 | 入参 | 必填 | 说明 |
 |---|---|---|
 | `assetId` | ✔ | 宿主资产 id |
-| `splitNodeId` | ✔ | 该类的 `image.gridSplit` 节点 id（`graph_read` 查） |
+| `splitNodeId` | ✔ | 该类的 `image.process`（宫格切分）节点 id（`graph_read` 查） |
 | `cellKey` | ✔ | `行-列`，如 `1-1` / `2-3`；越界会被拒 |
 | `hint` | | 针对不满意点的修正说明 |
 | `prompt` | | 完整生图指令，给出时覆盖默认指令与 `hint` |

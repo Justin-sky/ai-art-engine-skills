@@ -17,10 +17,8 @@
     "nodeTypes": [
       "asset.image",
       "asset.video",
-      "film.breakdown",
-      "film.cast",
-      "film.review",
       "film.shot",
+      "film.workbench",
       "note.text",
       "play.script"
     ],
@@ -38,26 +36,12 @@
         }
       },
       {
-        "key": "breakdown",
-        "typeId": "film.breakdown",
-        "title": "分镜拆解",
+        "key": "workbench",
+        "typeId": "film.workbench",
+        "title": "影视工作台",
         "params": {
-          "filmAspectRatio": "16:9"
-        }
-      },
-      {
-        "key": "review",
-        "typeId": "film.review",
-        "title": "导演审核",
-        "params": {
-          "filmReviewMaxRounds": 1
-        }
-      },
-      {
-        "key": "cast",
-        "typeId": "film.cast",
-        "title": "角色场景设定",
-        "params": {
+          "filmAspectRatio": "16:9",
+          "filmReviewMaxRounds": 1,
           "filmCastKinds": "character,location"
         }
       },
@@ -91,45 +75,27 @@
         "typeId": "note.text",
         "title": "使用说明",
         "params": {
-          "text": "运行到「角色场景设定」后，在「镜头」节点检查器里切换镜头序号 / id：它自动输出该镜关键帧提示词（接关键帧图片生成）、出场角色与地点设定图（接参考图口锁一致性）与动态提示词（接视频生成）。复制「镜头 → 关键帧 → 镜头视频」这一组即可并行精修多镜。"
+          "text": "在「影视工作台」完成分镜与角色场景设定后，在「镜头」节点里切换镜头序号 / id：它自动输出该镜关键帧提示词（接关键帧图片生成）、出场角色与地点设定图（接参考图口锁一致性）与动态提示词（接视频生成）。复制「镜头 → 关键帧 → 镜头视频」这一组即可并行精修多镜。"
         }
       }
     ],
     "edges": [
       {
         "from": "script",
-        "to": "breakdown",
+        "to": "workbench",
         "fromPort": "out",
         "toPort": "in"
       },
       {
-        "from": "script",
-        "to": "review",
-        "fromPort": "out",
-        "toPort": "in-script"
-      },
-      {
-        "from": "breakdown",
-        "to": "review",
-        "fromPort": "out",
-        "toPort": "in"
-      },
-      {
-        "from": "review",
-        "to": "cast",
-        "fromPort": "out",
-        "toPort": "in"
-      },
-      {
-        "from": "review",
+        "from": "workbench",
         "to": "shot",
         "fromPort": "out",
         "toPort": "in"
       },
       {
-        "from": "cast",
+        "from": "workbench",
         "to": "shot",
-        "fromPort": "out",
+        "fromPort": "out-cast",
         "toPort": "in-cast"
       },
       {

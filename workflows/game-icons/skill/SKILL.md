@@ -37,7 +37,7 @@ workflow-version: 1.0.0
 | 游戏 UI 界面（背包 / 任务 / 公会屏），要策划案 → 界面拆分 → 逐屏出图 | `game-ui`（游戏UI界面） |
 | 单个图标、只出一张图 | 别用整条工作流：一个 `asset.image` 节点就够，不必上宫格 |
 | 3D 图标 / 模型展示 | `game3d-asset`（游戏3D资产） |
-| 从一张已有整版图切格 / 抠底（不重新生成） | `image.gridSplit` + `image.iconPack` 两节点即可 |
+| 从一张已有整版图切格 / 抠底（不重新生成） | `image.process`（`imageProcessTool: 'gridSplit'`） + `image.iconPack` 两节点即可 |
 
 **不要**答应「矢量图标」：这条链路出的是位图 PNG。要 SVG 走应用内 SVG 生成链路
 （`svg.gen`），不是本工作流。

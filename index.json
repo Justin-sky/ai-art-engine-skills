@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-16T01:02:36.300Z",
+  "generatedAt": "2026-10-16T07:40:14.071Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-workflow",
     "ref": "main"
@@ -49,10 +49,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 5208
+            "sizeBytes": 5206
           }
         ],
-        "sizeBytes": 12206
+        "sizeBytes": 12204
       }
     },
     {
@@ -87,10 +87,10 @@
         "files": [
           {
             "path": "SKILL.md",
-            "sizeBytes": 6310
+            "sizeBytes": 6344
           }
         ],
-        "sizeBytes": 6310
+        "sizeBytes": 6344
       }
     },
     {
@@ -352,8 +352,8 @@
       "requires": {
         "nodeTypes": [
           "asset.image",
-          "image.gridSplit",
           "image.iconPack",
+          "image.process",
           "note.text",
           "play.script"
         ],
@@ -361,7 +361,7 @@
       },
       "nodeCount": 14,
       "edgeCount": 15,
-      "sizeBytes": 7980,
+      "sizeBytes": 8101,
       "skill": {
         "name": "wf-game-icons",
         "description": "用「游戏图标包」工作流按名单批量产出游戏图标：三类名单各出一张 3×3 整版表 → 逐格裁切 → 键控透明打包成统一画布 PNG + 清单。当用户要一套技能/道具/状态图标、要透明底图标打包交付、或要按名单命名导出图标时加载本技能。",
@@ -370,14 +370,14 @@
         "files": [
           {
             "path": "references/grid-and-pack.md",
-            "sizeBytes": 8436
+            "sizeBytes": 8586
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 10378
+            "sizeBytes": 10413
           }
         ],
-        "sizeBytes": 18814
+        "sizeBytes": 18999
       }
     },
     {
@@ -568,34 +568,31 @@
       "cover": "cover.png",
       "requires": {
         "nodeTypes": [
-          "film.breakdown",
-          "film.cast",
-          "film.render",
-          "film.review",
+          "film.workbench",
           "note.text",
           "play.script"
         ],
         "appMinVersion": "7.5.0"
       },
-      "nodeCount": 6,
-      "edgeCount": 6,
-      "sizeBytes": 3418,
+      "nodeCount": 3,
+      "edgeCount": 1,
+      "sizeBytes": 2134,
       "skill": {
         "name": "wf-short-drama",
-        "description": "用「影视全流程」工作流把一段剧本或故事梗概自动拆成结构化分镜（镜头数随剧情）、经导演审核自动修订不通过镜头、按出场角色与场景生成设定图，再批量拍摄关键帧（含视觉质检自动重拍）与镜头视频。当用户要做一集短剧/漫剧/影视成片、需要角色场景一致性与增量闭环重拍时加载本技能；若只需单镜手动精修请改用 wf-short-drama9。",
+        "description": "用「影视全流程」工作流通过合一的「影视工作台」（film.workbench）节点把一段剧本或故事梗概自动拆成结构化分镜（镜头数随剧情）、经导演审核自动修订不通过镜头、按出场角色与场景生成设定图，再批量拍摄关键帧（含同场次连续性锁画风与视觉质检自动重拍）与镜头视频。当用户要做一集短剧/漫剧/影视成片、需要角色场景一致性与增量闭环重拍时加载本技能；若只需单镜手动精修请改用 wf-short-drama9。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/stages.md",
-            "sizeBytes": 4957
+            "sizeBytes": 5109
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 5260
+            "sizeBytes": 6756
           }
         ],
-        "sizeBytes": 10217
+        "sizeBytes": 11865
       }
     },
     {
@@ -615,34 +612,32 @@
         "nodeTypes": [
           "asset.image",
           "asset.video",
-          "film.breakdown",
-          "film.cast",
-          "film.review",
           "film.shot",
+          "film.workbench",
           "note.text",
           "play.script"
         ],
         "appMinVersion": "7.5.0"
       },
-      "nodeCount": 8,
-      "edgeCount": 10,
-      "sizeBytes": 3862,
+      "nodeCount": 6,
+      "edgeCount": 7,
+      "sizeBytes": 3218,
       "skill": {
         "name": "wf-short-drama9",
-        "description": "用「影视精修·单镜头」工作流在结构化分镜与角色场景设定之后，通过「镜头」（film.shot）节点按序号取出指定镜头的关键帧提示词、动态提示词与出场设定图，直接驱动图片生成与视频生成节点做单镜精修。当用户要逐镜精细调参、或复制多路「镜头 → 关键帧 → 镜头视频」并行打磨重点镜头时加载本技能；若要整集一键批量出片请改用 wf-short-drama。",
+        "description": "用「影视精修·单镜头」工作流在「影视工作台」（film.workbench）完成结构化分镜与角色场景设定之后，通过「镜头」（film.shot）节点按序号取出指定镜头的关键帧提示词（含 @1/@2 参考图编号）、动态提示词与出场设定图，直接驱动图片生成与视频生成节点做单镜精修。当用户要逐镜精细调参、或复制多路「镜头 → 关键帧 → 镜头视频」并行打磨重点镜头时加载本技能；若要整集一键批量出片请改用 wf-short-drama。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/pipeline.md",
-            "sizeBytes": 3031
+            "sizeBytes": 2920
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 4121
+            "sizeBytes": 4299
           }
         ],
-        "sizeBytes": 7152
+        "sizeBytes": 7219
       }
     },
     {

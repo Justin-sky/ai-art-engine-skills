@@ -16,8 +16,8 @@
   "requires": {
     "nodeTypes": [
       "asset.image",
-      "image.gridSplit",
       "image.iconPack",
+      "image.process",
       "note.text",
       "play.script"
     ],
@@ -53,9 +53,10 @@
       },
       {
         "key": "skillSplit",
-        "typeId": "image.gridSplit",
+        "typeId": "image.process",
         "title": "技能图标·切格",
         "params": {
+          "imageProcessTool": "gridSplit",
           "imageGridSplit": {
             "rows": 3,
             "cols": 3,
@@ -99,9 +100,10 @@
       },
       {
         "key": "itemSplit",
-        "typeId": "image.gridSplit",
+        "typeId": "image.process",
         "title": "道具图标·切格",
         "params": {
+          "imageProcessTool": "gridSplit",
           "imageGridSplit": {
             "rows": 3,
             "cols": 3,
@@ -145,9 +147,10 @@
       },
       {
         "key": "statusSplit",
-        "typeId": "image.gridSplit",
+        "typeId": "image.process",
         "title": "状态图标·切格",
         "params": {
+          "imageProcessTool": "gridSplit",
           "imageGridSplit": {
             "rows": 3,
             "cols": 3,

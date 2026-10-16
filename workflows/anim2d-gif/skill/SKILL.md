@@ -29,7 +29,7 @@ workflow-version: 1.1.0
 | 一张图直接变成一段镜头视频 | `storyboard-video`（分镜出片） |
 | 剧本/分镜驱动的整条买量或短剧视频 | `game-ua-video`（游戏买量）、`short-drama9`（短剧分镜·9格直出） |
 | 角色多视角设定立绘 | `character-sheet`（角色设定） |
-| 游戏图标整版切格打包 | `game-icons`（游戏图标包，走 `image.gridSplit` + `image.iconPack`） |
+| 游戏图标整版切格打包 | `game-icons`（游戏图标包，走 `image.process` + `image.iconPack`） |
 
 ## 上游输入与 4 种可控生成路径
 

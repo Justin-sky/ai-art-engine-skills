@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-10-16T00:45:30.343Z",
+  "generatedAt": "2026-10-16T07:37:34.364Z",
   "source": "ai-art-engine listNodeTypes()",
   "nodeTypes": [
     "anim.2d",
@@ -27,6 +27,7 @@
     "film.render",
     "film.review",
     "film.shot",
+    "film.workbench",
     "frame.animGen",
     "graph.boundary.input",
     "graph.boundary.output",
@@ -47,6 +48,7 @@
     "image.multiAngle",
     "image.portrait",
     "image.portraitTexture",
+    "image.process",
     "image.redraw",
     "image.select",
     "image.toPrompt",

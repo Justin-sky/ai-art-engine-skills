@@ -80,7 +80,7 @@ workflow-version: 1.0.0
 ## 常见追问怎么答
 
 - **"能出三视图 / 一张图里四个角度吗？"** 本链路只出三张**独立**图，不拼版。
-  要单图多角度用 `image.multiAngle`；要拼成一张版面用 `image.compose` 或 `comic.page`。
+  要单图多角度用 `image.multiAngle`；要拼成一张版面用 `image.process`（`imageProcessTool: 'compose'`）或 `comic.page`。
 - **"表情变体是固定 4 格吗？"** 不是。默认指令写的是"三到四格"，由模型决定。
   要严格网格并用编号指定表情，用 `image.emotion`。
 - **"能做角色三视图的建模参考吗？"** 出的就是位图。要 3D 资产走 `game3d-asset`。
