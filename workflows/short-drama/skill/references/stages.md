@@ -24,10 +24,11 @@
 
 - **输入端口**：
   - `in`（`text`）：上游剧本文本
+  - `in-cast`（`filmCast`，可多连）：全剧/上一集共享设定库（Series Bible）。接入后：① 分镜拆解自动将常驻角色/场景标准名称注入提示词并继承外观描述；③ 角色场景设定直接复用已有设定图不重画，仅生成新出场实体；若角色名写 `角色名#造型`（如 `林夏#晚礼服`），会自动将主角色设定图作为 `@1` 参考图生成换装设定图
   - `in-image`（`image`，可多连）：现成参考图（标题与实体同名则直接作为该实体设定图，其余作为全局画风参考）
 - **输出端口**：
   - `out`（`storyboard`）：结构化分镜文档（含已回填的每镜关键帧/视频路径）
-  - `out-cast`（`filmCast`）：角色与场景设定库（可直接连给下游 `film.shot` 的 `in-cast`）
+  - `out-cast`（`filmCast`）：角色与场景设定库（可直接连给下游单镜头节点 `film.shot` 的 `in-cast`，或连给下一集 `film.workbench` 的 `in-cast` 跨集共享）
   - `out-sheets`（`images`）：生成的全部角色/场景设定图
   - `out-images`（`images`）：全部镜头的关键帧图片组
   - `out-videos`（`videos`）：全部镜头的成片视频组
@@ -70,6 +71,7 @@
 
 - `filmRenderMode`：`"keyframe"`（只拍关键帧）或 `"video"`（关键帧 + 图生视频，本预设默认 `"video"`）
 - `filmShotRange`：镜头范围过滤（空串 = 全部，支持 `"1-5,8"`）
+- `filmRenderConcurrency`：最大并发场次数（`1`~`8`，默认 `3`；按场次连续性链并发拍关键帧，同一场内顺序承接上一镜关键帧，视频在独立并发池后台生成）
 - `filmRenderContinuity`：同场次相邻镜头连续性参考（默认 `true`，自动将同场上一镜已生成的关键帧作为额外参考图注入）
 - `filmRenderQc`：是否开启关键帧视觉质检（本预设 `true`）
 - `filmRenderMaxRetries`：质检不通过自动重拍次数（预设 `1`）
