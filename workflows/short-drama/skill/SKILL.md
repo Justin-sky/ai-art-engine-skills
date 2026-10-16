@@ -12,9 +12,9 @@ workflow-version: 1.1.0
 ## 这条工作流产出什么
 
 ```
-剧本 (play.script) ──out→in──→ 影视工作台 (film.workbench)
+剧本 (play.script) ──out→in──→ 影视工作台 (film.workbench) ←──in-cast── 全剧圣经/上集设定库 (可选)
                                  ├─ out (storyboard：结构化分镜文档)
-                                 ├─ out-cast (filmCast：角色与场景设定库)
+                                 ├─ out-cast (filmCast：角色与场景设定库，可跨集连入下一集 in-cast)
                                  ├─ out-sheets (images：角色/地点设定图)
                                  ├─ out-images (images：各镜关键帧图片组)
                                  ├─ out-videos (videos：各镜成片视频组)
@@ -29,6 +29,8 @@ workflow-version: 1.1.0
 ## 核心特性
 
 - **合一工作台，零同步断层**：分镜拆解、导演审核、角色场景设定与批量拍摄共享同一个 `film.workbench` 节点的状态，双击节点进入全屏工作台即可在 4 个阶段页签间无缝切换，既可分阶段单独运行，也可点「⚡ 一键全流程」串联跑完。
+- **百集短剧全剧圣经（Series Bible）跨集共享与换装继承**：将全剧总设定工作台或上一集 `film.workbench` 的 `out-cast` 连入本集 `in-cast` 端口后，分镜拆解自动注入常驻角色/场景标准名，设定阶段直接复用已有设定图不重画；若角色换装/换造型（命名为 `角色名#造型` 或 `角色名·造型`，如 `林夏#晚礼服`），设定阶段自动将主角色 `林夏` 设定图作为 `@1` 参考图传入，锁死五官骨相仅切换服饰。
+- **场次连续性链并发拍摄（`filmRenderConcurrency`）**：按场次连续性链并发生成关键帧（默认 3 路场次并发，同一场次内严格顺序承接上一镜关键帧），视频生成进入独立并发池后台运行，大幅提速长剧批量出片。
 - **可视化绑定与 `@n` 编号对齐**：镜头卡片直接展示绑定角色与场景设定图缩略图及 `@1`/`@2` 参考图编号，与发往生图模型的 `referenceImageUrls` 顺序严格一致。
 - **增量指纹缓存 + 镜头/设定锁定 + 单卡独立运行**：修改某一镜提示词或某一个角色描述后，可直接点击该卡片上的「▶ 生成 / ↻ 重跑」单独重跑该项，也可整阶段增量运行（未改动项秒级跳过）。
 
@@ -40,7 +42,7 @@ workflow-version: 1.1.0
    - `film.workbench`（标题「影视工作台」）
 3. `graph_edit` 写入剧本与拍摄参数：
    - 必填：把 `play.script` 的 `params.text` 替换为完整剧本。
-   - 按需设置 `film.workbench` 的 `filmAspectRatio`（`"9:16"` / `"16:9"`）、`filmTargetShots`（`0` = 自动，或指定镜头数）、`filmShotDurationSec`（`0` = 随剧情自动，或 `4` / `8` / `10` / `15` 秒对齐视频模型时长档位）、`filmStyle`（视觉风格）。
+   - 按需设置 `film.workbench` 的 `filmAspectRatio`（`"9:16"` / `"16:9"`）、`filmTargetShots`（`0` = 自动，或指定镜头数）、`filmShotDurationSec`（`0` = 随剧情自动，或 `4` / `8` / `10` / `15` 秒对齐视频模型时长档位）、`filmStyle`（视觉风格）、`filmRenderConcurrency`（`1`~`8`，默认 `3`）。
    - **运行范围控制（`filmWorkbenchRunMode`）**：
      - 留空或设为 `"all"`：一次运行串联跑完「拆解 → 审核 → 设定 → 拍摄」全流程；
      - 设为 `"breakdown"` / `"review"` / `"cast"` / `"render"`：只运行指定阶段（适合先拆解审核确认分镜、再生成设定图、最后批量拍摄）。
