@@ -53,5 +53,5 @@ jobs:
           GITEE_USER: ${{ secrets.GITEE_USER }}
         run: |
           USER_NAME="${GITEE_USER:-beijing_blue_whale_era_zhangjian}"
-          git push --force "https://${USER_NAME}:${GITEE_TOKEN}@gitee.com/beijing_blue_whale_era_zhangjian/ai-art-engine-workflow.git" HEAD:main
+          git push --force "https://${USER_NAME}:${GITEE_TOKEN}@gitee.com/beijing_blue_whale_era_zhangjian/ai-art-engine-skills.git" HEAD:main
 

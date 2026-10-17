@@ -93,7 +93,7 @@ workflows/my-workflow/
 >
 > 也就是说这两份拷贝是「生成 + 校验」的关系，不是各自维护。改官方工作流的图请改**应用预设**
 > （`src/shared/graph/aiWorkflowPresets.ts`），再导出到这里；直接改这边的 `plan` 会被 CI 判为
-> 漂移。`npm run export:market` 约定市场仓库在 `../ai-art-engine-workflow`，可用
+> 漂移。`npm run export:market` 约定市场仓库在 `../ai-art-engine-skills`，可用
 > `--dir <path>` 或 `AAE_WORKFLOW_MARKET_DIR` 指定。
 >
 > 导出只写 `plan` 与 `requires.nodeTypes` 两个字段，**不碰**元数据、封面与 `skill/`。

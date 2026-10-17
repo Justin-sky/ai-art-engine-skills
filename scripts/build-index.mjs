@@ -26,7 +26,7 @@ import { readJson, validateAll, SCHEMA_VERSION } from './validate.mjs'
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 const INDEX_PATH = join(ROOT, 'index.json')
-const REPO_URL = 'https://github.com/Justin-sky/ai-art-engine-workflow'
+const REPO_URL = 'https://github.com/Justin-sky/ai-art-engine-skills'
 
 function buildIndex(entries) {
   return {

@@ -132,8 +132,8 @@ CI 从磁盘派生进 `index.json` —— 你同样不需要手改索引。规�
 
 | 用途 | 地址 |
 |---|---|
-| 主库 | https://github.com/Justin-sky/ai-art-engine-workflow |
-| 镜像 | https://gitee.com/beijing_blue_whale_era_zhangjian/ai-art-engine-workflow |
+| 主库 | https://github.com/Justin-sky/ai-art-engine-skills |
+| 镜像 | https://gitee.com/beijing_blue_whale_era_zhangjian/ai-art-engine-skills |
 
 **为什么要镜像**：应用默认从 `raw.githubusercontent.com` 拉取索引，而该域在部分网络下不可达。
 Gitee 的 raw 地址在同类网络下通常可用，因此作为备用数据源。
@@ -142,8 +142,8 @@ Gitee 的 raw 地址在同类网络下通常可用，因此作为备用数据源
 （用户有权知道内容从哪来）。两个源的 raw 根地址：
 
 ```
-https://raw.githubusercontent.com/Justin-sky/ai-art-engine-workflow/main
-https://gitee.com/beijing_blue_whale_era_zhangjian/ai-art-engine-workflow/raw/main
+https://raw.githubusercontent.com/Justin-sky/ai-art-engine-skills/main
+https://gitee.com/beijing_blue_whale_era_zhangjian/ai-art-engine-skills/raw/main
 ```
 
 也支持把 `workflowMarket.source` 配成**一个或多个**地址（空白 / 换行 / 逗号分隔），
@@ -154,7 +154,7 @@ https://gitee.com/beijing_blue_whale_era_zhangjian/ai-art-engine-workflow/raw/ma
 ### 维护者：如何保持两侧同步
 
 ```bash
-git remote add gitee https://gitee.com/beijing_blue_whale_era_zhangjian/ai-art-engine-workflow
+git remote add gitee https://gitee.com/beijing_blue_whale_era_zhangjian/ai-art-engine-skills
 git push origin main
 git push gitee main
 ```

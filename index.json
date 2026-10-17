@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-16T22:04:16.952Z",
+  "generatedAt": "2026-10-17T07:44:01.407Z",
   "source": {
-    "repo": "https://github.com/Justin-sky/ai-art-engine-workflow",
+    "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
   },
   "workflows": [
