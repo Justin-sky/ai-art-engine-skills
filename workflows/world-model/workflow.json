@@ -5,7 +5,12 @@
   "titleEn": "World model",
   "summary": "空间世界生成 → 空间世界导出 → 3D 导演台",
   "category": "character",
-  "tags": [],
+  "tags": [
+    "3D世界模型",
+    "空间生成",
+    "GLB网格导出",
+    "3D导演台"
+  ],
   "version": "1.0.0",
   "author": {
     "name": "AIArtEngine",

@@ -5,7 +5,12 @@
   "titleEn": "Game icon pack",
   "summary": "名单 ×3 → 3×3 整版表 ×3 → 切格 / 透明打包",
   "category": "game",
-  "tags": [],
+  "tags": [
+    "游戏图标",
+    "道具技能",
+    "风格锚点",
+    "批量套装"
+  ],
   "version": "1.0.0",
   "author": {
     "name": "AIArtEngine",

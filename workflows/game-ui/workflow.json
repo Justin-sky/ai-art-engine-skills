@@ -5,7 +5,12 @@
   "titleEn": "Game UI screens",
   "summary": "策划案 → UI拆分 → UI生成",
   "category": "game",
-  "tags": [],
+  "tags": [
+    "游戏UI",
+    "HUD界面",
+    "风格锁定",
+    "多界面套件"
+  ],
   "version": "1.0.0",
   "author": {
     "name": "AIArtEngine",

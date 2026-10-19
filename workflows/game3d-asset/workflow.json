@@ -5,7 +5,12 @@
   "titleEn": "Game 3D assets",
   "summary": "文生3D模型 → 导演台 → 站位图 → 展示视频",
   "category": "game",
-  "tags": [],
+  "tags": [
+    "3D白模",
+    "概念三视图",
+    "PBR网格",
+    "3D导演台"
+  ],
   "version": "1.0.0",
   "author": {
     "name": "AIArtEngine",

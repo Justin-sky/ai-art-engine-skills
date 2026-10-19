@@ -1,0 +1,247 @@
+{
+  "schemaVersion": 1,
+  "id": "science-explainer",
+  "title": "科普动画全流程",
+  "titleEn": "Science explainer",
+  "summary": "科普文案→扁平矢量风格锚点+SVG原理图解动画+微观/机制/生活三镜视频+逐镜科普配音+BGM→成片时间线",
+  "category": "film",
+  "tags": [
+    "科普动画",
+    "SVG原理动效",
+    "逐镜配音",
+    "字幕时间线",
+    "零门槛成片"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "asset.music",
+      "asset.voice",
+      "note.text",
+      "output.timeline",
+      "play.script",
+      "svg.anim",
+      "svg.gen"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "科普动画全流程",
+    "nodes": [
+      {
+        "key": "script",
+        "typeId": "play.script",
+        "title": "科普文章与分镜旁白稿",
+        "params": {
+          "text": "【第1镜·现象引入】你身体的每一个细胞里，都有数以亿计的纳米机器人在昼夜不停地精密运转——它们就是蛋白质。\n【第2镜·微观原理】二十种氨基酸像彩色的乐高积木，沿着核糖体流水线按基因密码精准折叠，搭出千变万化的三维结构。\n【第3镜·生命运转】从运送氧气的血红蛋白，到精准狙击病毒的抗体军团，正是这些微观工匠撑起了生命的奇迹。"
+        }
+      },
+      {
+        "key": "svgGen1",
+        "typeId": "svg.gen",
+        "title": "第 1 镜 · 核心概念动态矢量图（SVG）",
+        "params": {
+          "generateInstruction": "生成 16:9 现代科普风 SVG 动态原理图（第 1 镜：细胞内的蛋白质纳米工场）：深邃科技蓝背景（#0b1120），使用 SVG 原生 <animate> 与 <animateTransform> 绘制发光细胞核、旋转齿轮运转的蛋白质分子结构与能量粒子流动轨迹，配清晰中文科普图注标签",
+          "svgGenWidth": 1920,
+          "svgGenHeight": 1080,
+          "svgGenBackground": "#0b1120"
+        }
+      },
+      {
+        "key": "svgAnim1",
+        "typeId": "svg.anim",
+        "title": "第 1 镜 · 动效烘焙（GIF）",
+        "params": {
+          "svgFrames": 36,
+          "svgDurationSec": 3,
+          "svgWidth": 1920,
+          "svgHeight": 1080,
+          "svgBackground": "#0b1120"
+        }
+      },
+      {
+        "key": "svgGen2",
+        "typeId": "svg.gen",
+        "title": "第 2 镜 · 微观机制动态图解（SVG）",
+        "params": {
+          "generateInstruction": "生成 16:9 现代科普风 SVG 动态机制图（第 2 镜：氨基酸链在核糖体上折叠成三维蛋白质）：深邃科技蓝背景（#0b1120），使用 SVG 原生 <animate> 与 <animateTransform> 展现多色氨基酸珠串依次移动、脉冲连接并折叠为立体螺旋结构的动态过程，配清晰中文图解标签",
+          "svgGenWidth": 1920,
+          "svgGenHeight": 1080,
+          "svgGenBackground": "#0b1120"
+        }
+      },
+      {
+        "key": "svgAnim2",
+        "typeId": "svg.anim",
+        "title": "第 2 镜 · 动效烘焙（GIF）",
+        "params": {
+          "svgFrames": 36,
+          "svgDurationSec": 3,
+          "svgWidth": 1920,
+          "svgHeight": 1080,
+          "svgBackground": "#0b1120"
+        }
+      },
+      {
+        "key": "illust3",
+        "typeId": "asset.image",
+        "title": "第 3 镜 · 生命工匠高清科普插画",
+        "params": {
+          "generateInstruction": "16:9 顶级科学杂志封面级微观科普插画（Kurzgesagt 与科学可视化结合风格）：血管与细胞微环境中，发光的Y型抗体与血红蛋白协同运作，色彩鲜明、光影通透、结构富有美感，纯画面无乱码文字",
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "voice1",
+        "typeId": "asset.voice",
+        "title": "第 1 镜 · 科普旁白配音",
+        "params": {
+          "generateInstruction": "生动抓耳、充满好奇探索感的科普解说音色，朗读第 1 镜旁白：「你身体的每一个细胞里，都有数以亿计的纳米机器人在昼夜不停地精密运转——它们就是蛋白质。」"
+        }
+      },
+      {
+        "key": "voice2",
+        "typeId": "asset.voice",
+        "title": "第 2 镜 · 科普旁白配音",
+        "params": {
+          "generateInstruction": "同款清晰生动的科普解说音色，朗读第 2 镜旁白：「二十种氨基酸像彩色的乐高积木，沿着核糖体流水线按基因密码精准折叠，搭出千变万化的三维结构。」"
+        }
+      },
+      {
+        "key": "voice3",
+        "typeId": "asset.voice",
+        "title": "第 3 镜 · 科普旁白配音",
+        "params": {
+          "generateInstruction": "同款科普解说音色，语调升华有力，朗读第 3 镜旁白：「从运送氧气的血红蛋白，到精准狙击病毒的抗体军团，正是这些微观工匠撑起了生命的奇迹。」"
+        }
+      },
+      {
+        "key": "bgm",
+        "typeId": "asset.music",
+        "title": "探索感科普背景音乐",
+        "params": {
+          "generateInstruction": "灵动好奇的科学探索纪录片风格纯音乐（Kurzgesagt 风格合成器琶音与轻快节拍），空灵通透，不遮挡旁白人声",
+          "generateMusicInstrumental": true
+        }
+      },
+      {
+        "key": "timeline",
+        "typeId": "output.timeline",
+        "title": "科普成片时间线"
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "科普动画全流程说明",
+        "params": {
+          "text": "专业科普动画全流程（SVG 动态原理图 + 科普插画 + 逐镜配音 + 自动成片）：\n1. 输入任意科普文章或主题：Agent 会自动将文章拆解为多镜结构化旁白与视觉指令。\n2. SVG 原生动态原理图 + 高清插画：核心机制由「SVG 生成」编写带 SMIL 动效的矢量原理图，经「SVG 烘焙」输出循环 GIF（out-gif）；具象宏观场景由「科普插画」生成视觉大片。\n3. 声画自动对齐合成：所有动态 GIF、科普插画、逐镜旁白配音与探索感 BGM 已连入「科普成片时间线」，运行后自动按每段配音真实时长对齐画面、烧录双层描边字幕并开启 BGM 智能闪避，一键导出高清 MP4 科普成片。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "script",
+        "to": "svgGen1",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "svgGen1",
+        "to": "svgAnim1",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "script",
+        "to": "svgGen2",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "svgGen2",
+        "to": "svgAnim2",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "script",
+        "to": "illust3",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "voice1",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "voice2",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "voice3",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "bgm",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "svgAnim1",
+        "to": "timeline",
+        "fromPort": "out-gif",
+        "toPort": "in-image"
+      },
+      {
+        "from": "svgAnim2",
+        "to": "timeline",
+        "fromPort": "out-gif",
+        "toPort": "in-image"
+      },
+      {
+        "from": "illust3",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "voice1",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "voice2",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "voice3",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "bgm",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-music"
+      }
+    ]
+  }
+}

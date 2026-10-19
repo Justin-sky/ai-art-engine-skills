@@ -1,63 +1,45 @@
 ---
 name: wf-course-narrate
-description: 用「知识口播」工作流把一份讲稿做成一镜到底的真人感口播成片：讲稿 → 主讲人形象 → 口播视频 + 配音 → 口型同步。当用户要做知识/课程口播、讲解视频、单人对镜说话的视频时加载本技能。
+description: 用「知识口播」工作流制作专业数字人课程与知识博主视频：课程讲稿→讲师半身定妆照（in-image）→讲师自然手势参考视频+讲师口播配音（asset.voice）→口型同步成片（video.lipSync），并同步生成 SVG 核心知识框架动效（svg.gen→svg.anim）、课程背景轻音乐（asset.music）汇入成片时间线（output.timeline）。
 workflow: course-narrate
-workflow-version: 1.0.0
+workflow-version: 2.0.0
+argument-hint: "[课程主题/讲稿内容/讲师人设形象] [画幅比例默认 9:16 或 16:9]"
+when-to-use: 用户要制作知识博主口播视频、在线课程微课、数字人讲师对口型解说视频或带知识板书图解的口播成片时使用。
+allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, graph_edit, task_run, task_status
 ---
 
-# 知识口播（course-narrate）
+# 知识口播 · 口型同步（LipSync）+ 知识板书动效成片 SOP（course-narrate v2.0）
 
-## 这条工作流产出什么
+## 拓扑架构与交付物
 
-`课程讲稿 → 主讲人形象 + 口播配音 + 口播视频 → 口型同步 → 对口型成片`
+```
+课程讲稿与字幕 (play.script)
+  ├─out→in-text──→ 主讲人定妆形象 (asset.image)
+  │                  └─out→in-image──→ 口播底板视频 (asset.video) ──out→in-video─┐
+  ├─out→in-text──→ 讲师口播配音 (asset.voice) ──────────────────────┬─out→in-voice─┴─→ 精准口型同步 (video.lipSync) ──out→in-clips─┐
+  │                                                                └─out→in-voice──────────────────────────────────────────────────┤
+  ├─out→in───────→ 核心知识图解 (svg.gen) ──out→in──→ 知识板书动效 (svg.anim) ───────────────────────────────────out-video→in-clips─┤
+  ├─out→in-text──→ 课程背景轻音乐 (asset.music) ─────────────────────────────────────────────────────────────────────out→in-music────┤
+  └─out→in-subtitles───────────────────────────────────────────────────────────────────────────────────────────────────────────────→ 成片时间线 (output.timeline)
+```
 
-产物是**一条视频**：主讲人对镜说话，口型跟配音对齐。不是数字人克隆，也不是多镜头剪辑。
+## 关键技术规范
 
-## 什么时候用 / 什么时候别用
+1. **口型同步双源机制（`video.lipSync`）**：
+   - `portrait`（讲师定妆照）保证人物专业度与演播室柔和布光；
+   - `talking`（口播底板视频）基于定妆照生成自然点头、眼神交流与温和手势（设置 `generateAudio: false` 静音）；
+   - `voice`（讲师配音）朗读课程讲稿；
+   - `lipSync` 同时接收 `talking` 的视频流（`in-video`）与 `voice` 的音频流（`in-voice`），使讲师唇形与语音毫秒级严丝合缝。
+2. **SVG 知识板书动效插片（`svgBoard` → `svgBoardAnim`）**：自动将讲稿中的核心公式/思维导图生成矢量动态板书并汇入 `output.timeline`，打破纯大头口播的单调感。
+3. **配音防呆铁律**：`voice` 节点的 `generateInstruction` 留空即可自动朗读上游 `script` 的正文；若单独填写 `generateInstruction`，**只准写纯朗读台词，严禁写"请用知性女声朗读"等说明**。
 
-- 用：知识科普、课程讲解、产品口播稿、单人对镜说话的一镜到底视频。
-- 别用：要**多镜头叙事 / 打斗 / 剧情** → `short-drama`（短剧分镜）或 `game-ua-video`（游戏买量）。
-- 别用：要**分镜图 → 视频**的通用链路 → `storyboard-video`（分镜出片）。
-- 别用：要**卖点文案 + 产品图 + 短视频**的电商结构 → `product-ad` 或 `ecom-ad-deep`。
-- 别用：只是想"念稿"，不要画面 → 直接用 `generate_speech` MCP 工具生成配音即可，不必落这张图。
-- 别用：要**3D 空间预演** → `director-previz`。
+## 标准执行步骤（MCP 路径）
 
-## 上游输入怎么给
+1. `workflow_use_installed({ id: "course-narrate", name: "<课程主题>·知识口播", generateAspectRatio: "9:16" })`（横屏微课传 `"16:9"`）。
+2. `graph_read({ assetId, includeParams: true })` 获取节点 ID。
+3. `graph_edit` 将完整口播讲稿写入 `script` 的 `params.text`，并根据讲师人设调整 `portrait`、`talking` 与 `svgBoard` 的 `generateInstruction`。
+4. `task_run({ assetId })` 一键跑通口型同步与板书动效，在 `output.timeline` 合成完整课程视频。
 
-1. **讲稿**写进文本节点（画布上标题「课程讲稿」，`play.script`）的 `text`。按分段写：开场钩子、知识点、总结与引导关注。用 `graph_edit` 的 `node_update` 更新该节点、把正文写进 `params.text`。
-2. **主讲人形象**由 `asset.image` 节点（「主讲人形象」）生成，`generateInstruction` 已写好"知识博主半身像、正面对镜头、简洁背景"。要固定某个真人形象，用节点检查器的角色引用绑定参考图；**不要**把参考图 URL 硬写进 `characterRefs` —— 只有带可解析 `imageUrl` 的条目才会生效，写错名字解析不出来。
-3. **音色**写在 `asset.voice` 节点（「口播配音」）的 `generateInstruction` 里。⚠️ 声音节点的提示词是**要被朗读的内容**，不是"给模型的指令"（执行侧刻意不拼系统提示词，就是为了避免 TTS 把指令念出来）。送进 TTS 的文本是 `generateInstruction + 上游讲稿正文`（指令里不含 `@` 时，上游文本会自动拼在后面）。所以：
-   - **不要写会被念出来的整句指令**，比如"以亲和清晰的音色朗读以下内容"——那会变成音频开头的一句话。模板里现有的"亲和清晰的知识口播音色，语速平稳，按讲稿分段朗读"就有这个风险，不满意时先把它精简成短描述（如 `亲和清晰，语速平稳`）。
-   - **同一份讲稿只写一次**：`generateInstruction` 与 `play.script` 的正文会被拼在一起，两边重复写内容就会读两遍。
-   - **最终配音时长由"拼起来的这段文本"决定**，与 `口播视频` 的 `generateDuration` 无关。
-4. **口播视频时长**由 `asset.video`（「口播视频」）的 `generateDuration` 控制，模板里是 10（秒），`generateAspectRatio` 是 `9:16`。用户要横版就改宽高比 —— 竖版模板落图后可以用 `graph_edit` 改这一个节点；用 `workflow_use_installed` 的 `generateAspectRatio` 也行，但它会**覆盖所有图片/视频节点**的比例（含主讲人形象图）。
-5. 三段文本都从同一份讲稿出发（`play.script:out` 分别连到形象 / 配音 / 视频三个节点的 `in-text`），所以**讲稿里的分段与措辞会同时影响画面与配音**。
+## 端口与参数速查
 
-## 关键约束与顺序（为什么）
-
-- **顺序**：先「主讲人形象」和「课程讲稿」→ 用形象生成「口播视频」→ 出「口播配音」→ 最后跑「口型同步」。
-- `video.lipSync` 的接线是固定的两条：`口播视频:out → in-video`、`口播配音:out → in-voice`。这两口都是**单选（`multiple: false`）**，一个口只能接一条边。
-- **口型同步优先用视频**：执行时只要有视频参考，就走「视频 + 音频」，`in-image` 会被忽略；只有没有视频时才回退「图片 + 音频」。所以 `in-image` 可以不接 —— 这也是本工作流把形象图先喂给口播视频、再由视频驱动口型的原因。
-- **配音是必需项**：口型同步节点找不到音频参考会直接抛错（缺音频 / 缺画面各有一条错误），不要试图只连视频。
-- **要让口播视频静音**：给「口播视频」节点设 `generateAudio: false`。模型能力表里声明了 `generate_audio` 时，视频节点默认会带音轨；不静音的话口型同步会拿到"原音 + 新配音"两条声音。
-- **想只重做配音**：只重跑「口播配音」再重跑「口型同步」即可，不必重做形象与视频。
-- **口型同步不做首尾帧拼装**（`frameMode` 被强制为 `none`），模板里不要加首尾帧逻辑。
-
-## 常见追问怎么答
-
-- **"能加字幕吗"**：本工作流不产字幕。字幕要另做（应用有时间线字幕类能力，不要凭想象在这张图里加节点）。
-- **"能做成 PPT 讲解那种画面吗"**：不能，画面就是主讲人对镜的半身镜头。要图文并茂的画面走别的链路。
-- **"能克隆我的声音吗"**：本工作流只是按描述生成音色。想用真实音色，需要用支持音色参考的配音能力，不是这张图能承诺的事。
-- **"讲稿很长，能一次讲完吗"**：不能一镜到底讲十分钟。口播视频的时长是模型档位（模板给 10 秒），讲稿长度要与目标成片时长匹配；长内容要拆成多段、多条视频，不是把稿子全塞进去。
-- **"视频和配音时长不一样怎么办"**：口型同步由音频驱动，视频只提供人物形象与运镜。先确认视频时长够覆盖音频，再跑同步。
-- **"要换背景/换机位"**：改「口播视频」节点的 `generateInstruction` 与形象节点，不要在口型同步节点上写这些（它只认参考视频 + 音频 + 文本提示）。
-
-## 参数去哪查
-
-节点端口、参数名与错误对照见 `references/ports.md`。
-
-## 操作建议
-
-1. 先问清成片时长与画幅（竖版 9:16 还是横版），据此决定讲稿分段数与 `generateDuration`。
-2. 用 `workflow_use_installed` 落图 → `graph_edit` 写讲稿 / 音色 / 画风 → 让用户确认讲稿再开跑。
-3. 用 `task_run` 跑整图；口型同步是**远程视频任务**，耗时以分钟计，用 `task_status` 轮询，不要在同一轮里反复重试。
+详见 `references/ports.md`。

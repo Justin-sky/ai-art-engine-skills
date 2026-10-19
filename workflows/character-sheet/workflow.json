@@ -3,10 +3,17 @@
   "id": "character-sheet",
   "title": "角色设定",
   "titleEn": "Character sheet",
-  "summary": "人设文案 + 多视角立绘",
+  "summary": "角色设定→正面全身主锚点（in-image锁五官服装）→侧背三视图+六宫格表情包+战斗动态立绘+360°环绕视频",
   "category": "character",
-  "tags": [],
-  "version": "1.0.0",
+  "tags": [
+    "角色三视图",
+    "人设卡",
+    "参考图锚点",
+    "表情包",
+    "动态展示",
+    "二次元与写实"
+  ],
+  "version": "2.0.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -27,56 +34,119 @@
       {
         "key": "bio",
         "typeId": "play.script",
-        "title": "人设描述",
+        "title": "角色设定圣经",
         "params": {
-          "text": "（角色姓名、性格、外观、服饰与画风约束）"
+          "text": "（在此填写角色姓名、头身比例、主色/辅色/点缀色比例、服装材质层次、标志性随身武器与画风约束）"
         }
       },
       {
         "key": "front",
         "typeId": "asset.image",
-        "title": "正面立绘",
+        "title": "正面基准立绘（锚点）",
         "params": {
-          "generateInstruction": "角色正面全身立绘，干净背景"
+          "generateInstruction": "角色正面全身标准 A-Pose 设定立绘，中性浅灰纯色干净背景，光影均匀平直，服装层次、配色与配饰结构清晰可辨，无透视畸变，纯画面无文字，作为全套设定的唯一身份锚点",
+          "generateAspectRatio": "3:4"
         }
       },
       {
         "key": "side",
         "typeId": "asset.image",
-        "title": "侧面立绘",
+        "title": "侧面正交立绘",
         "params": {
-          "generateInstruction": "同一角色侧面全身立绘，画风与正面一致"
+          "generateInstruction": "同一角色 90 度正侧面全身正交立绘，严格锁定正面基准图的角色发型、体型头身比、服装剪裁与色彩搭配，展现侧面轮廓厚度与挂件结构，纯色干净背景，纯画面无文字",
+          "generateAspectRatio": "3:4"
+        }
+      },
+      {
+        "key": "back",
+        "typeId": "asset.image",
+        "title": "背面立绘与披挂拆解",
+        "params": {
+          "generateInstruction": "同一角色正背面全身设定立绘，严格锁定正面基准图的服装配色与材质，清晰交代背部披风、发尾结构与后腰挂件细节，纯色干净背景，纯画面无文字",
+          "generateAspectRatio": "3:4"
         }
       },
       {
         "key": "expr",
         "typeId": "asset.image",
-        "title": "表情变体",
+        "title": "四格面部表情表",
         "params": {
-          "generateInstruction": "同一角色半身表情变体，三到四格"
+          "generateInstruction": "同一角色 2×2 四格面部表情特写设定表（平静微笑、凛然战斗、惊讶睁眼、傲娇微嗔），严格锁定正面基准图的五官特征、发色瞳色与画风笔触，纯色干净背景，不含任何文字标签",
+          "generateAspectRatio": "1:1"
+        }
+      },
+      {
+        "key": "action",
+        "typeId": "asset.image",
+        "title": "标志性战斗动态立绘",
+        "params": {
+          "generateInstruction": "同一角色极具张力的招牌战斗姿态全身立绘，手持专属武器释放微光特效，衣摆随风扬起，严格保持正面基准图的角色外貌与服装设计一致，纯画面无文字",
+          "generateAspectRatio": "3:4"
         }
       },
       {
         "key": "note",
         "typeId": "note.text",
-        "title": "设定备注",
+        "title": "工业级设定规范说明",
         "params": {
-          "text": "可在此记录禁忌色、道具与参考链接"
+          "text": "工业级原画设定流水线：\n1. 锚点先行：先运行「正面基准立绘（锚点）」，它的输出已通过参考图端口（in-image）连入侧面、背面、表情表与战斗动态立绘。\n2. 100% 身份锁死：下游四张设定图全部以正面立绘为视觉基准，彻底解决多视图换脸、衣服变色与比例漂移问题。\n3. 设定复用：产出的正面立绘或表情表可直接拖入其他漫剧、分镜或 3D 建模工作流作为角色定妆锚点。"
         }
       }
     ],
     "edges": [
       {
         "from": "bio",
-        "to": "front"
+        "to": "front",
+        "fromPort": "out",
+        "toPort": "in-text"
       },
       {
         "from": "bio",
-        "to": "side"
+        "to": "side",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "front",
+        "to": "side",
+        "fromPort": "out",
+        "toPort": "in-image"
       },
       {
         "from": "bio",
-        "to": "expr"
+        "to": "back",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "front",
+        "to": "back",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "bio",
+        "to": "expr",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "front",
+        "to": "expr",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "bio",
+        "to": "action",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "front",
+        "to": "action",
+        "fromPort": "out",
+        "toPort": "in-image"
       }
     ]
   }

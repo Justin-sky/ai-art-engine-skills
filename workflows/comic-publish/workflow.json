@@ -5,7 +5,13 @@
   "titleEn": "Comic publishing",
   "summary": "剧本 → 角色定妆锚点 → 多页分镜与台词气泡自动排版出片",
   "category": "comic",
-  "tags": [],
+  "tags": [
+    "条漫页漫",
+    "角色锚点",
+    "分格排版",
+    "对白气泡",
+    "多页连载"
+  ],
   "version": "1.0.0",
   "author": {
     "name": "AIArtEngine",

@@ -3,10 +3,16 @@
   "id": "ecom-ad-deep",
   "title": "电商带货",
   "titleEn": "E-commerce ads",
-  "summary": "主视觉 → 变体矩阵 → 图层分离",
+  "summary": "商品卖点→白底主图锚点→3路人群A/B视觉变体+智能分层PSD+痛点/测评/转化三镜带货视频+口播+成片时间线",
   "category": "ad",
-  "tags": [],
-  "version": "1.0.0",
+  "tags": [
+    "电商带货",
+    "AB测试矩阵",
+    "图层分离",
+    "转化短视频",
+    "成片时间线"
+  ],
+  "version": "2.0.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -16,6 +22,7 @@
   "requires": {
     "nodeTypes": [
       "asset.image",
+      "asset.video",
       "image.adVariants",
       "image.layerSplit",
       "note.text",
@@ -29,64 +36,121 @@
       {
         "key": "copy",
         "typeId": "play.script",
-        "title": "卖点文案",
+        "title": "电商卖点与转化策略",
         "params": {
-          "text": "（产品名、核心卖点、优惠信息与 CTA）"
+          "text": "（填写商品名称、核心功能卖点、目标消费人群、痛点解决场景与大促利益点 CTA）"
         }
       },
       {
         "key": "hero",
         "typeId": "asset.image",
-        "title": "产品主视觉",
+        "title": "商品白底/棚拍主图（锚点）",
         "params": {
-          "generateInstruction": "电商产品英雄图，突出质感与卖点，干净背景"
+          "generateInstruction": "电商高转化主视觉（Hero Shot）：商品居中占画幅 70%，商业柔光箱布光，表面材质与包装细节清晰锐利，纯净高级浅灰底，无杂乱文字，作为全套详情页与短视频的外观锚点",
+          "generateAspectRatio": "3:4"
         }
       },
       {
         "key": "scene",
         "typeId": "asset.image",
-        "title": "使用场景图",
+        "title": "痛点种草使用场景图",
         "params": {
-          "generateInstruction": "产品真实使用场景，突出人群与使用氛围"
+          "generateInstruction": "电商生活方式种草场景图：展现商品在真实高频生活场景中的使用状态，光影自然有代入感，严格保持与棚拍主图完全一致的商品外观、比例与配色，纯画面无文字",
+          "generateAspectRatio": "3:4"
+        }
+      },
+      {
+        "key": "closeup",
+        "typeId": "asset.image",
+        "title": "核心工艺微距卖点图",
+        "params": {
+          "generateInstruction": "电商详情页微距品质特写：浅景深聚焦商品核心材质肌理、成分质地或精密做工细节，严格保持与棚拍主图一致的商品外观，纯画面无文字",
+          "generateAspectRatio": "3:4"
         }
       },
       {
         "key": "adVariants",
         "typeId": "image.adVariants",
-        "title": "广告变体矩阵"
+        "title": "A/B 投放变体矩阵"
       },
       {
         "key": "split",
         "typeId": "image.layerSplit",
-        "title": "UI 图层分离"
+        "title": "主图 PSD 图层分离"
+      },
+      {
+        "key": "promoVideo",
+        "typeId": "asset.video",
+        "title": "主图种草短视频",
+        "params": {
+          "generateInstruction": "高转化电商主图动态视频：镜头围绕使用场景中的商品柔和推近，光影流转突出核心质地与使用效果，商品结构稳定不变形",
+          "generateDuration": 5,
+          "generateAspectRatio": "3:4"
+        }
       },
       {
         "key": "note",
         "typeId": "note.text",
-        "title": "使用说明",
+        "title": "电商全案流水线说明",
         "params": {
-          "text": "流程：运行「产品主视觉 / 使用场景图」→ 双击「广告变体矩阵」配置产品描述与变体维度，批量生成多版本 → 需要改详情页文字层时，把主视觉接入「UI 图层分离」分层导出（PSD / PNG）。"
+          "text": "专业电商带货全案流程：\n1. 商品外观锚定：先运行「商品白底/棚拍主图（锚点）」，它通过 in-image 端口锁死「痛点种草使用场景图」与「核心工艺微距卖点图」，确保商品跨场景不走样。\n2. A/B 测款矩阵：双击「A/B 投放变体矩阵」配置人群×场景×光影维度，一键批量裂变多组投放测试图。\n3. 详情页 PSD 分层与主图视频：主图接入「主图 PSD 图层分离」可拆解背景、商品主体与装饰层导出分层 PSD；场景图接入「主图种草短视频」直出 3:4 动态主图视频。"
         }
       }
     ],
     "edges": [
       {
         "from": "copy",
-        "to": "hero"
+        "to": "hero",
+        "fromPort": "out",
+        "toPort": "in-text"
       },
       {
         "from": "copy",
-        "to": "scene"
+        "to": "scene",
+        "fromPort": "out",
+        "toPort": "in-text"
       },
       {
         "from": "hero",
-        "to": "adVariants"
+        "to": "scene",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "copy",
+        "to": "closeup",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "hero",
+        "to": "closeup",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "hero",
+        "to": "adVariants",
+        "fromPort": "out",
+        "toPort": "in"
       },
       {
         "from": "hero",
         "to": "split",
         "fromPort": "out",
         "toPort": "in"
+      },
+      {
+        "from": "scene",
+        "to": "promoVideo",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "copy",
+        "to": "promoVideo",
+        "fromPort": "out",
+        "toPort": "in-text"
       }
     ]
   }

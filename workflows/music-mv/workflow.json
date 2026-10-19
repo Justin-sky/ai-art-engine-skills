@@ -1,0 +1,244 @@
+{
+  "schemaVersion": 1,
+  "id": "music-mv",
+  "title": "音乐 MV 短片",
+  "titleEn": "Music MV",
+  "summary": "歌词企划→主角视觉锚点+AI原创音乐（asset.music）+主歌叙事/副歌爆发/尾奏意境三镜视频→成片时间线",
+  "category": "film",
+  "tags": [
+    "音乐MV",
+    "AI作曲",
+    "视觉锚点",
+    "卡点短片",
+    "成片时间线"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "asset.music",
+      "asset.video",
+      "note.text",
+      "output.timeline",
+      "play.script"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "音乐 MV 短片",
+    "nodes": [
+      {
+        "key": "script",
+        "typeId": "play.script",
+        "title": "歌曲意境与 MV 分幕脚本",
+        "params": {
+          "text": "【曲风与母题】赛博都市 Synthwave 电子流行，关于霓虹雨夜中的追光之旅。\n【第一幕·主歌 Verse】少女独自站在空旷的天台边缘，远方全息霓虹在雨雾中闪烁。\n【第二幕·副歌 Chorus】少女跨上发光悬浮机车穿梭于高架流光溢彩的车流，情绪彻底释放。\n【第三幕·尾奏 Outro】黎明破晓的第一缕金光穿透云层，照亮她的侧脸。"
+        }
+      },
+      {
+        "key": "charAnchor",
+        "typeId": "asset.image",
+        "title": "MV 主角与色调锚点",
+        "params": {
+          "generateInstruction": "电影感 16:9 音乐 MV 主角与美学基准图：极具辨识度的主角造型与服装设定，赛博青橙冷暖撞色光影，胶片颗粒质感，纯画面无文字，作为全片所有镜头的视觉锚点",
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "bgm",
+        "typeId": "asset.music",
+        "title": "原创主题音乐（BGM/歌曲）",
+        "params": {
+          "generateInstruction": "极具电影感与律动张力的 Synthwave 电子流行主题曲，前奏空灵梦幻，副歌鼓点澎湃抓耳，旋律动人",
+          "generateMusicInstrumental": false
+        }
+      },
+      {
+        "key": "shot1",
+        "typeId": "asset.image",
+        "title": "第一幕 · 主歌氛围关键帧",
+        "params": {
+          "generateInstruction": "MV 第一幕（主歌 Verse 远景/中景定场）：雨夜天台霓虹倒影，主角静立凝望远方，情绪内敛梦幻，严格保持与视觉锚点一致的主角面容、服装与色彩美学，纯画面无文字",
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "shot2",
+        "typeId": "asset.image",
+        "title": "第二幕 · 副歌高潮关键帧",
+        "params": {
+          "generateInstruction": "MV 第二幕（副歌 Chorus 动态高潮）：主角在流光溢彩的都市光轨中疾驰，发丝与衣角飞扬，张力爆棚，严格保持与视觉锚点一致的主角形象与画风，纯画面无文字",
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "shot3",
+        "typeId": "asset.image",
+        "title": "第三幕 · 尾奏余韵关键帧",
+        "params": {
+          "generateInstruction": "MV 第三幕（尾奏 Outro 逆光特写）：破晓晨光洒在主角脸庞，浅景深光斑唯美柔和，严格保持与视觉锚点一致的主角面部特征，纯画面无文字",
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "vid1",
+        "typeId": "asset.video",
+        "title": "第一幕 · 主歌慢镜视频",
+        "params": {
+          "generateInstruction": "唯美电影感慢镜头环绕推近，霓虹光影与雨丝在空气中柔和漂浮，主角微转身回眸，情绪氛围拉满",
+          "generateDuration": 5,
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "vid2",
+        "typeId": "asset.video",
+        "title": "第二幕 · 副歌律动视频",
+        "params": {
+          "generateInstruction": "极具速度感与音乐律动的动态跟拍运镜，背景流光飞速掠过，光影随节拍闪烁，视觉冲击力极强",
+          "generateDuration": 5,
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "vid3",
+        "typeId": "asset.video",
+        "title": "第三幕 · 尾奏收束视频",
+        "params": {
+          "generateInstruction": "镜头缓缓拉远升起，晨光穿透云雾洒满画面，主角沐浴在温暖逆光中，留下悠长电影感余韵",
+          "generateDuration": 5,
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "timeline",
+        "typeId": "output.timeline",
+        "title": "MV 成片时间线"
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "音乐 MV 制作说明",
+        "params": {
+          "text": "专业音乐 MV 短片流水线：\n1. 视觉母题锁死：「MV 主角与色调锚点」通过 in-image 端口锁死主歌、副歌、尾奏三幕关键帧，确保全片人物、服装与胶片色调高度统一。\n2. 词曲与画面同步生成：「原创主题音乐」生成完整配乐/歌曲，三幕关键帧分别转化为情绪递进的动态镜头，汇入「MV 成片时间线」一键合成电影感音乐短片。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "script",
+        "to": "charAnchor",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "bgm",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "shot1",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "charAnchor",
+        "to": "shot1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "shot2",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "charAnchor",
+        "to": "shot2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "shot3",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "charAnchor",
+        "to": "shot3",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "shot1",
+        "to": "vid1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "vid1",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "shot2",
+        "to": "vid2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "vid2",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "shot3",
+        "to": "vid3",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "vid3",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "vid1",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "vid2",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "vid3",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "bgm",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-music"
+      }
+    ]
+  }
+}

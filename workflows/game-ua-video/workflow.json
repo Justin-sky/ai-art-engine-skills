@@ -3,10 +3,17 @@
   "id": "game-ua-video",
   "title": "游戏买量",
   "titleEn": "Game UA",
-  "summary": "剧本 → 分镜图 → 视频",
+  "summary": "卖点文案→视觉锚点锁画风→黄金3秒钩子+实机爽点+转化尾帧三镜图生视频+配音+BGM→成片时间线合成",
   "category": "ad",
-  "tags": [],
-  "version": "1.0.0",
+  "tags": [
+    "买量",
+    "游戏广告",
+    "竖屏短视频",
+    "多镜成片",
+    "配音BGM",
+    "成片时间线"
+  ],
+  "version": "2.0.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -16,8 +23,11 @@
   "requires": {
     "nodeTypes": [
       "asset.image",
+      "asset.music",
       "asset.video",
+      "asset.voice",
       "note.text",
+      "output.timeline",
       "play.script"
     ],
     "appMinVersion": "7.1.0"
@@ -28,46 +38,227 @@
       {
         "key": "script",
         "typeId": "play.script",
-        "title": "卖点与旁白",
+        "title": "买量三段式脚本",
         "params": {
-          "text": "（在此填写游戏卖点、钩子与旁白文案）"
+          "text": "【黄金前3秒钩子】Lv.1 菜鸟被巨龙一爪拍飞，满屏红字暴击告警！\n【核心爽点演示】拾取神级传说武器，技能全屏连携秒杀 Boss，伤害数字爆表！\n【转化口播】现在下载登录即送百连抽与限定神装，零氪也能霸榜全服！"
         }
       },
       {
         "key": "keyart",
         "typeId": "asset.image",
-        "title": "关键分镜图",
+        "title": "角色与画风锚点",
         "params": {
-          "generateInstruction": "竖屏游戏买量关键帧，角色清晰，强视觉冲击"
-        }
-      },
-      {
-        "key": "video",
-        "typeId": "asset.video",
-        "title": "买量视频",
-        "params": {
-          "generateInstruction": "15 秒左右竖屏广告节奏，承接关键帧画面",
-          "generateDuration": 15,
+          "generateInstruction": "竖屏 9:16 游戏主角与美术风格基准图：高精度次世代角色全身立绘，装备发光纹理锐利，高饱和强对比，纯画面无任何 UI 文字，作为全片分镜的角色与画风参考锚点",
           "generateAspectRatio": "9:16"
         }
       },
       {
+        "key": "hookImg",
+        "typeId": "asset.image",
+        "title": "黄金3秒·危机钩子帧",
+        "params": {
+          "generateInstruction": "竖屏 9:16 买量前 3 秒强冲突画面：低机位仰拍巨型 Boss 压迫感十足地扑向主角，张力拉满，严格保持与参考锚点一致的角色外貌与画风，纯画面无文字",
+          "generateAspectRatio": "9:16"
+        }
+      },
+      {
+        "key": "hookVid",
+        "typeId": "asset.video",
+        "title": "黄金3秒·钩子视频",
+        "params": {
+          "generateInstruction": "快节奏强冲击开场镜头：Boss 怒吼震碎地面、镜头急推向主角绝境反击瞬间，动作迅猛，竖屏买量高留存节奏",
+          "generateDuration": 5,
+          "generateAspectRatio": "9:16"
+        }
+      },
+      {
+        "key": "coreImg",
+        "typeId": "asset.image",
+        "title": "核心爽点·觉醒爆发帧",
+        "params": {
+          "generateInstruction": "竖屏 9:16 游戏爽点爆发关键帧：主角神装觉醒释放全屏华丽大招，光效绚丽、打击感炸裂，严格保持角色服装与画风一致，纯画面无文字",
+          "generateAspectRatio": "9:16"
+        }
+      },
+      {
+        "key": "coreVid",
+        "typeId": "asset.video",
+        "title": "核心爽点·实机演示视频",
+        "params": {
+          "generateInstruction": "高燃战斗爽点镜头：主角高速连斩释放满屏粒子特效，一击必杀巨型 Boss，镜头伴随震屏打击感推进",
+          "generateDuration": 5,
+          "generateAspectRatio": "9:16"
+        }
+      },
+      {
+        "key": "ctaVid",
+        "typeId": "asset.video",
+        "title": "福利收尾·转化镜头",
+        "params": {
+          "generateInstruction": "主角身披顶级神装霸气定格亮相，身后金色宝箱与华丽光柱冲天而起，营造极强收获爽感与下载欲望",
+          "generateDuration": 5,
+          "generateAspectRatio": "9:16"
+        }
+      },
+      {
+        "key": "voice1",
+        "typeId": "asset.voice",
+        "title": "钩子痛点口播",
+        "params": {
+          "generateInstruction": "语速紧凑、情绪夸张抓耳的游戏主播男声口播：「开局总是卡关被 Boss 秒？那是你没解锁这套隐藏神装流派！」"
+        }
+      },
+      {
+        "key": "voice2",
+        "typeId": "asset.voice",
+        "title": "爽点与福利转化口播",
+        "params": {
+          "generateInstruction": "高燃激昂的福利转化口播：「上线直接领免费百连抽，全屏暴击一刀满级，点击下方立即开玩！」"
+        }
+      },
+      {
+        "key": "bgm",
+        "typeId": "asset.music",
+        "title": "高燃卡点买量 BGM",
+        "params": {
+          "generateInstruction": "快节奏史诗电子摇滚与交响融合的战斗买量背景音乐，鼓点密集、重低音卡点清晰，高潮情绪拉满",
+          "generateMusicInstrumental": true
+        }
+      },
+      {
+        "key": "timeline",
+        "typeId": "output.timeline",
+        "title": "买量成片时间线"
+      },
+      {
         "key": "note",
         "typeId": "note.text",
-        "title": "剪辑说明",
+        "title": "买量全流程说明",
         "params": {
-          "text": "成片剪辑顺序与时长备注"
+          "text": "专业游戏买量三段式流水线：\n1. 角色与画风锁定：「角色与画风锚点」通过参考图端口（in-image）同时锁死「危机钩子帧」「觉醒爆发帧」与「转化镜头」，杜绝多镜头角色换脸。\n2. 黄金前3秒 + 核心爽点 + 福利转化：三段 5 秒竖屏视频分别承担留存破冰、玩法种草与行动号召。\n3. 自动成片合成：全部视频、分段口播配音与高燃 BGM 汇入「买量成片时间线」，运行即可自动对齐音画、烧录字幕并压低 BGM 导出 9:16 投放成片。"
         }
       }
     ],
     "edges": [
       {
         "from": "script",
-        "to": "keyart"
+        "to": "keyart",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "hookImg",
+        "fromPort": "out",
+        "toPort": "in-text"
       },
       {
         "from": "keyart",
-        "to": "video"
+        "to": "hookImg",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "hookImg",
+        "to": "hookVid",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "hookVid",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "coreImg",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "keyart",
+        "to": "coreImg",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "coreImg",
+        "to": "coreVid",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "coreVid",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "keyart",
+        "to": "ctaVid",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "ctaVid",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "voice1",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "voice2",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "bgm",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "hookVid",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "coreVid",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "ctaVid",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "voice1",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "voice2",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "bgm",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-music"
       }
     ]
   }

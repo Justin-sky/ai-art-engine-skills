@@ -134,7 +134,7 @@
         "from": "anchorRef",
         "to": "lockedBase",
         "fromPort": "out",
-        "toPort": "in-image-1"
+        "toPort": "in-image"
       },
       {
         "from": "subject",
@@ -146,25 +146,25 @@
         "from": "lockedBase",
         "to": "scribblePass1",
         "fromPort": "out",
-        "toPort": "in-image-1"
+        "toPort": "in-image"
       },
       {
         "from": "anchorRef",
         "to": "scribblePass1",
         "fromPort": "out",
-        "toPort": "in-image-2"
+        "toPort": "in-image"
       },
       {
         "from": "scribblePass1",
         "to": "scribblePass2",
         "fromPort": "out",
-        "toPort": "in-image-1"
+        "toPort": "in-image"
       },
       {
         "from": "anchorRef",
         "to": "scribblePass2",
         "fromPort": "out",
-        "toPort": "in-image-2"
+        "toPort": "in-image"
       }
     ]
   }

@@ -5,7 +5,13 @@
   "titleEn": "Film pipeline",
   "summary": "剧本→分镜拆解→导演审核自动修订→角色场景设定→批量拍摄（质检重拍+图生视频）",
   "category": "film",
-  "tags": [],
+  "tags": [
+    "短剧漫剧",
+    "分镜拆解",
+    "导演审核",
+    "角色场景设定",
+    "质检重拍"
+  ],
   "version": "1.1.0",
   "author": {
     "name": "AIArtEngine",

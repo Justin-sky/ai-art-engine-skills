@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-17T07:44:01.407Z",
+  "generatedAt": "2026-10-19T13:26:01.273Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -10,16 +10,16 @@
       "id": "anim2d-gif",
       "title": "2D 帧动画",
       "titleEn": "2D frame anim",
-      "summary": "序列图 / 动作视频 → 自动抠底稳像 → 逐帧 PNG + GIF 动图",
+      "summary": "角色设定→T-Pose基准锚点（in-image锁比例色板）→待机呼吸/奔跑循环/技能攻击三套序列帧雪碧图与透明GIF",
       "category": "game",
       "tags": [
-        "2D",
-        "帧动画",
-        "GIF",
-        "序列图",
-        "视频抽帧"
+        "2D序列帧",
+        "游戏雪碧图",
+        "透明GIF",
+        "动作循环",
+        "锚点锁比例"
       ],
-      "version": "1.1.0",
+      "version": "2.0.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -30,38 +30,47 @@
         "nodeTypes": [
           "anim.2d",
           "asset.image",
+          "frame.animGen",
           "note.text"
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 3,
-      "edgeCount": 1,
-      "sizeBytes": 2167,
+      "nodeCount": 5,
+      "edgeCount": 3,
+      "sizeBytes": 4008,
       "skill": {
         "name": "wf-anim2d-gif",
-        "description": "用「2D 帧动画」工作流把一张动作序列图（sprite sheet）或一段动作视频切分成透明原地稳像的逐帧 PNG 并合成为 GIF 动图。当用户要角色行走/奔跑/待机/攻击等 2D 帧动画、想把视频抽帧转为序列图/GIF、或已有一张分格序列图要拆帧时加载本技能。",
+        "description": "用「2D 动画套装」工作流从一段角色设定出发，先生成 2D 游戏角色基准锚点图（in-image 锁定头身比、色板与描边风格），再一次性并发产出「待机呼吸循环（Idle）」「奔跑移动循环（Run）」「近战/技能攻击（Attack）」三套标准 3×3 序列帧雪碧图与去底透明 GIF（anim.2d）。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 6998
+            "sizeBytes": 1791
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 5206
+            "sizeBytes": 3184
           }
         ],
-        "sizeBytes": 12204
+        "sizeBytes": 4975
       }
     },
     {
       "id": "character-sheet",
       "title": "角色设定",
       "titleEn": "Character sheet",
-      "summary": "人设文案 + 多视角立绘",
+      "summary": "角色设定→正面全身主锚点（in-image锁五官服装）→侧背三视图+六宫格表情包+战斗动态立绘+360°环绕视频",
       "category": "character",
-      "version": "1.0.0",
+      "tags": [
+        "角色三视图",
+        "人设卡",
+        "参考图锚点",
+        "表情包",
+        "动态展示",
+        "二次元与写实"
+      ],
+      "version": "2.0.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -76,21 +85,25 @@
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 5,
-      "edgeCount": 3,
-      "sizeBytes": 1855,
+      "nodeCount": 7,
+      "edgeCount": 9,
+      "sizeBytes": 5088,
       "skill": {
         "name": "wf-character-sheet",
-        "description": "用「角色设定」工作流把一段人设文案变成三张立绘（正面 / 侧面 / 半身表情变体）。当用户要角色三视图、立绘、人设图、表情差分，或先定角色形象再往下做分镜 / 视频时加载本技能。",
+        "description": "用「角色设定」工作流从一段人设描述出发，先生成正面全身基准立绘作为唯一视觉锚点（通过 in-image 锁定五官骨相、发色与服装结构），再并发衍生正侧背标准三视图、六宫格微表情包、高张力战斗/招牌动作立绘以及 360° 环绕动态展示视频。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
+            "path": "references/ports.md",
+            "sizeBytes": 2065
+          },
+          {
             "path": "SKILL.md",
-            "sizeBytes": 6344
+            "sizeBytes": 3107
           }
         ],
-        "sizeBytes": 6344
+        "sizeBytes": 5172
       }
     },
     {
@@ -99,6 +112,13 @@
       "titleEn": "Comic publishing",
       "summary": "剧本 → 角色定妆锚点 → 多页分镜与台词气泡自动排版出片",
       "category": "comic",
+      "tags": [
+        "条漫页漫",
+        "角色锚点",
+        "分格排版",
+        "对白气泡",
+        "多页连载"
+      ],
       "version": "1.0.0",
       "author": {
         "name": "AIArtEngine",
@@ -117,7 +137,7 @@
       },
       "nodeCount": 16,
       "edgeCount": 31,
-      "sizeBytes": 18295,
+      "sizeBytes": 18397,
       "skill": {
         "name": "wf-comic-publish",
         "description": "用「漫画出版」工作流把一段剧本自动变成一集多页漫画（剧本 → 角色与画风定妆锚点 → 多页分镜图 ×10 → 3 张漫画页自动排版、斜切破格、速度线/集中线与台词气泡/音效字合成 PNG）。当用户要做一集漫画、多页连载条漫/日漫、或输入一段剧本自动生成带台词气泡的漫画成片时加载本技能。",
@@ -206,9 +226,16 @@
       "id": "course-narrate",
       "title": "知识口播",
       "titleEn": "Knowledge talking-head",
-      "summary": "讲稿 → 配音 + 口播视频 → 口型同步",
+      "summary": "课程讲稿→讲师定妆照+口播视频+口型同步（video.lipSync）+SVG知识图解动画+配音+BGM→成片时间线",
       "category": "comic",
-      "version": "1.0.0",
+      "tags": [
+        "知识口播",
+        "口型同步",
+        "SVG图解动效",
+        "课程视频",
+        "成片时间线"
+      ],
+      "version": "2.0.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -218,33 +245,37 @@
       "requires": {
         "nodeTypes": [
           "asset.image",
+          "asset.music",
           "asset.video",
           "asset.voice",
           "note.text",
+          "output.timeline",
           "play.script",
+          "svg.anim",
+          "svg.gen",
           "video.lipSync"
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 6,
-      "edgeCount": 6,
-      "sizeBytes": 2856,
+      "nodeCount": 11,
+      "edgeCount": 15,
+      "sizeBytes": 7068,
       "skill": {
         "name": "wf-course-narrate",
-        "description": "用「知识口播」工作流把一份讲稿做成一镜到底的真人感口播成片：讲稿 → 主讲人形象 → 口播视频 + 配音 → 口型同步。当用户要做知识/课程口播、讲解视频、单人对镜说话的视频时加载本技能。",
+        "description": "用「知识口播」工作流制作专业数字人课程与知识博主视频：课程讲稿→讲师半身定妆照（in-image）→讲师自然手势参考视频+讲师口播配音（asset.voice）→口型同步成片（video.lipSync），并同步生成 SVG 核心知识框架动效（svg.gen→svg.anim）、课程背景轻音乐（asset.music）汇入成片时间线（output.timeline）。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 5944
+            "sizeBytes": 2540
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 6611
+            "sizeBytes": 4224
           }
         ],
-        "sizeBytes": 12555
+        "sizeBytes": 6764
       }
     },
     {
@@ -253,6 +284,13 @@
       "titleEn": "3D director previz",
       "summary": "全景参考 → 几何体搭景 → 站位图锁构图",
       "category": "film",
+      "tags": [
+        "3D导演台",
+        "机位阻断",
+        "灯光运镜",
+        "分镜预演",
+        "图生视频"
+      ],
       "version": "1.0.0",
       "author": {
         "name": "AIArtEngine",
@@ -273,7 +311,7 @@
       },
       "nodeCount": 6,
       "edgeCount": 5,
-      "sizeBytes": 2597,
+      "sizeBytes": 2698,
       "skill": {
         "name": "wf-director-previz",
         "description": "用「3D导演台预演」工作流先在 3D 导演台里搭景、摆机位、截站位图锁构图，再据此生成预演成片。当用户要做镜头预演、previz、构图推演、或想在出片前把景别与站位定死时加载本技能。",
@@ -296,9 +334,16 @@
       "id": "ecom-ad-deep",
       "title": "电商带货",
       "titleEn": "E-commerce ads",
-      "summary": "主视觉 → 变体矩阵 → 图层分离",
+      "summary": "商品卖点→白底主图锚点→3路人群A/B视觉变体+智能分层PSD+痛点/测评/转化三镜带货视频+口播+成片时间线",
       "category": "ad",
-      "version": "1.0.0",
+      "tags": [
+        "电商带货",
+        "AB测试矩阵",
+        "图层分离",
+        "转化短视频",
+        "成片时间线"
+      ],
+      "version": "2.0.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -308,6 +353,7 @@
       "requires": {
         "nodeTypes": [
           "asset.image",
+          "asset.video",
           "image.adVariants",
           "image.layerSplit",
           "note.text",
@@ -315,12 +361,12 @@
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 6,
-      "edgeCount": 4,
-      "sizeBytes": 2283,
+      "nodeCount": 8,
+      "edgeCount": 9,
+      "sizeBytes": 5016,
       "skill": {
         "name": "wf-ecom-ad-deep",
-        "description": "用「电商带货」工作流把产品卖点做成一批可 A/B 对比的电商广告图（主视觉 + 使用场景 → 变体矩阵批量出图 → 主视觉图层分离交付 PSD/PNG）。当用户要电商主图/详情页素材、要多版本素材做投放对比、或要求把主视觉拆层给设计改字时加载本技能。",
+        "description": "用「电商带货全案」工作流一次交付「A/B 投放平面矩阵 + 智能分层 PSD + 三镜带货成片」：商品卖点脚本→白底标准主图锚点（in-image 锁商品外观）→同时衍生 3 路不同受众场景 KV、可编辑图层分离（image.layerSplit），以及「痛点暴击 → 沉浸功能实测 → 促销转化尾帧」三镜视频+金牌带货口播+卡点BGM→成片时间线（output.timeline）。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
@@ -329,11 +375,15 @@
             "sizeBytes": 7104
           },
           {
+            "path": "references/ports.md",
+            "sizeBytes": 2173
+          },
+          {
             "path": "SKILL.md",
-            "sizeBytes": 8873
+            "sizeBytes": 4427
           }
         ],
-        "sizeBytes": 15977
+        "sizeBytes": 13704
       }
     },
     {
@@ -342,6 +392,12 @@
       "titleEn": "Game icon pack",
       "summary": "名单 ×3 → 3×3 整版表 ×3 → 切格 / 透明打包",
       "category": "game",
+      "tags": [
+        "游戏图标",
+        "道具技能",
+        "风格锚点",
+        "批量套装"
+      ],
       "version": "1.0.0",
       "author": {
         "name": "AIArtEngine",
@@ -361,7 +417,7 @@
       },
       "nodeCount": 14,
       "edgeCount": 15,
-      "sizeBytes": 8101,
+      "sizeBytes": 8183,
       "skill": {
         "name": "wf-game-icons",
         "description": "用「游戏图标包」工作流按名单批量产出游戏图标：三类名单各出一张 3×3 整版表 → 逐格裁切 → 键控透明打包成统一画布 PNG + 清单。当用户要一套技能/道具/状态图标、要透明底图标打包交付、或要按名单命名导出图标时加载本技能。",
@@ -384,9 +440,17 @@
       "id": "game-ua-video",
       "title": "游戏买量",
       "titleEn": "Game UA",
-      "summary": "剧本 → 分镜图 → 视频",
+      "summary": "卖点文案→视觉锚点锁画风→黄金3秒钩子+实机爽点+转化尾帧三镜图生视频+配音+BGM→成片时间线合成",
       "category": "ad",
-      "version": "1.0.0",
+      "tags": [
+        "买量",
+        "游戏广告",
+        "竖屏短视频",
+        "多镜成片",
+        "配音BGM",
+        "成片时间线"
+      ],
+      "version": "2.0.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -396,31 +460,34 @@
       "requires": {
         "nodeTypes": [
           "asset.image",
+          "asset.music",
           "asset.video",
+          "asset.voice",
           "note.text",
+          "output.timeline",
           "play.script"
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 4,
-      "edgeCount": 2,
-      "sizeBytes": 1685,
+      "nodeCount": 12,
+      "edgeCount": 20,
+      "sizeBytes": 8142,
       "skill": {
         "name": "wf-game-ua-video",
-        "description": "用「游戏买量」工作流把一段游戏卖点文案变成竖屏买量短视频（卖点文案 → 关键分镜图 → 15 秒视频）。当用户要做游戏投放素材、买量广告、手游买量短视频时加载本技能。",
+        "description": "用「游戏买量」工作流把游戏卖点转化为工业级三镜竖屏买量成片：卖点脚本→游戏主视觉/主角锚点（in-image 锁画风）→黄金前3秒痛点钩子+中段核心玩法高潮+尾帧福利转化三镜关键帧与图生视频+激昂买量口播（asset.voice）+卡点战歌 BGM（asset.music）→成片时间线（output.timeline）自动合成。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 5257
+            "sizeBytes": 2732
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 5383
+            "sizeBytes": 4690
           }
         ],
-        "sizeBytes": 10640
+        "sizeBytes": 7422
       }
     },
     {
@@ -429,6 +496,12 @@
       "titleEn": "Game UI screens",
       "summary": "策划案 → UI拆分 → UI生成",
       "category": "game",
+      "tags": [
+        "游戏UI",
+        "HUD界面",
+        "风格锁定",
+        "多界面套件"
+      ],
       "version": "1.0.0",
       "author": {
         "name": "AIArtEngine",
@@ -448,7 +521,7 @@
       },
       "nodeCount": 5,
       "edgeCount": 3,
-      "sizeBytes": 2328,
+      "sizeBytes": 2406,
       "skill": {
         "name": "wf-game-ui",
         "description": "用「游戏UI界面」工作流把一段游戏系统需求变成系统策划案 + 逐屏 UI 界面图（每屏双轨：带字版 + 空字底图）。当用户要做游戏界面/UI 素材、背包/任务/公会的界面设计、或要把策划案拆成一屏屏 UI 图时加载本技能。",
@@ -473,6 +546,12 @@
       "titleEn": "Game 3D assets",
       "summary": "文生3D模型 → 导演台 → 站位图 → 展示视频",
       "category": "game",
+      "tags": [
+        "3D白模",
+        "概念三视图",
+        "PBR网格",
+        "3D导演台"
+      ],
       "version": "1.0.0",
       "author": {
         "name": "AIArtEngine",
@@ -493,7 +572,7 @@
       },
       "nodeCount": 7,
       "edgeCount": 5,
-      "sizeBytes": 2931,
+      "sizeBytes": 3008,
       "skill": {
         "name": "wf-game3d-asset",
         "description": "用「游戏3D资产」工作流把一段资产设定做成 3D 模型预演：文生 3D 模型 → 进 3D 导演台摆机位 → 截站位图 → 出资产展示视频。当用户要游戏角色 / 道具的 3D 资产、旋转展示、或要进导演台预演时加载本技能。",
@@ -544,7 +623,7 @@
       },
       "nodeCount": 9,
       "edgeCount": 9,
-      "sizeBytes": 15452,
+      "sizeBytes": 15442,
       "skill": {
         "name": "wf-hand-drawn-styles",
         "description": "用「21种手绘插画画风」技能与工作流按原样配方生成21种手绘插画（xkcd火柴人、蜡笔童涂、吉卜力、亲子投稿蜡笔卡3.1、小豆人信息图、MS Paint烂涂鸦、圆珠笔涂鸦、蜡笔实拍、水墨写意、复古像素、淡彩速写、复古动画概念稿、暖光童画、北欧纸雕、北欧绘本水粉、大鼻软偶、聚光水粉立绘、墨线绘本、暖色扁平绘本、圆头红线19、暖黄墨线20）。当用户提到手绘画风、绘本插画或编号1-20/3.1时加载。",
@@ -572,11 +651,18 @@
       }
     },
     {
-      "id": "product-ad",
-      "title": "产品广告",
-      "titleEn": "Product ad",
-      "summary": "卖点文案 + 产品图 + 短视频",
-      "category": "ad",
+      "id": "music-mv",
+      "title": "音乐 MV 短片",
+      "titleEn": "Music MV",
+      "summary": "歌词企划→主角视觉锚点+AI原创音乐（asset.music）+主歌叙事/副歌爆发/尾奏意境三镜视频→成片时间线",
+      "category": "film",
+      "tags": [
+        "音乐MV",
+        "AI作曲",
+        "视觉锚点",
+        "卡点短片",
+        "成片时间线"
+      ],
       "version": "1.0.0",
       "author": {
         "name": "AIArtEngine",
@@ -587,30 +673,140 @@
       "requires": {
         "nodeTypes": [
           "asset.image",
+          "asset.music",
           "asset.video",
+          "note.text",
+          "output.timeline",
           "play.script"
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 4,
-      "edgeCount": 3,
-      "sizeBytes": 1638,
+      "nodeCount": 11,
+      "edgeCount": 18,
+      "sizeBytes": 7661,
       "skill": {
-        "name": "wf-product-ad",
-        "description": "用「产品广告」工作流把卖点文案变成产品主视觉图 + 使用场景图 + 一条短视频。当用户要做产品广告、商品主图/场景图、产品宣传短视频时加载本技能。",
+        "name": "wf-music-mv",
+        "description": "用「音乐 MV 短片」工作流从一段歌词/情绪企划出发，同步生成 AI 原创音乐（asset.music）、锁定主角与光影美学锚点（in-image），并拍摄主歌叙事、副歌爆发、尾奏意境三幕电影级视频，最终在成片时间线（output.timeline）自动完成音画合成与歌词字幕对位。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 5710
+            "sizeBytes": 2633
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 5688
+            "sizeBytes": 4408
           }
         ],
-        "sizeBytes": 11398
+        "sizeBytes": 7041
+      }
+    },
+    {
+      "id": "product-ad",
+      "title": "产品广告",
+      "titleEn": "Product ad",
+      "summary": "产品Brief→高定棚拍主视觉锚点→痛点引入/微距卖点/生活场景三镜TVC视频+广告配音+BGM→成片时间线",
+      "category": "ad",
+      "tags": [
+        "商业TVC",
+        "产品广告",
+        "棚拍主视觉",
+        "三镜带货",
+        "成片时间线"
+      ],
+      "version": "2.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "asset.music",
+          "asset.video",
+          "asset.voice",
+          "note.text",
+          "output.timeline",
+          "play.script"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 10,
+      "edgeCount": 16,
+      "sizeBytes": 6602,
+      "skill": {
+        "name": "wf-product-ad",
+        "description": "用「产品广告」工作流打造商业级品牌 TVC 短片：从产品 Brief 出发，先生成高定商业棚拍主视觉作为工业造型与材质锚点（in-image），再展开「生活痛点/氛围引入 → 微距工艺卖点特写 → 理想生活场景收尾」三镜关键帧与图生视频，配合质感广告旁白（asset.voice）、品牌调性配乐（asset.music）在成片时间线（output.timeline）自动合成。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 2480
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 4285
+          }
+        ],
+        "sizeBytes": 6765
+      }
+    },
+    {
+      "id": "science-explainer",
+      "title": "科普动画全流程",
+      "titleEn": "Science explainer",
+      "summary": "科普文案→扁平矢量风格锚点+SVG原理图解动画+微观/机制/生活三镜视频+逐镜科普配音+BGM→成片时间线",
+      "category": "film",
+      "tags": [
+        "科普动画",
+        "SVG原理动效",
+        "逐镜配音",
+        "字幕时间线",
+        "零门槛成片"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "asset.music",
+          "asset.voice",
+          "note.text",
+          "output.timeline",
+          "play.script",
+          "svg.anim",
+          "svg.gen"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 12,
+      "edgeCount": 16,
+      "sizeBytes": 8553,
+      "skill": {
+        "name": "wf-science-explainer",
+        "description": "用「科普动画全流程」工作流把一篇科普文章或知识点一键转化为含风格锚点、SVG 矢量原理图解动画、三幕电影级科普视频、逐镜专业配音、轻快 BGM 与自动字幕的完整科普成片（output.timeline）。当用户说「根据文章生成科普视频」「做一条科普动画/知识解说短片」时优先加载本技能。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 2726
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 7266
+          }
+        ],
+        "sizeBytes": 9992
       }
     },
     {
@@ -619,6 +815,13 @@
       "titleEn": "Film pipeline",
       "summary": "剧本→分镜拆解→导演审核自动修订→角色场景设定→批量拍摄（质检重拍+图生视频）",
       "category": "film",
+      "tags": [
+        "短剧漫剧",
+        "分镜拆解",
+        "导演审核",
+        "角色场景设定",
+        "质检重拍"
+      ],
       "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
@@ -636,7 +839,7 @@
       },
       "nodeCount": 3,
       "edgeCount": 1,
-      "sizeBytes": 2134,
+      "sizeBytes": 2242,
       "skill": {
         "name": "wf-short-drama",
         "description": "用「影视全流程」工作流通过合一的「影视工作台」（film.workbench）节点把一段剧本或故事梗概自动拆成结构化分镜（镜头数随剧情）、经导演审核自动修订不通过镜头、按出场角色与场景生成设定图，再批量拍摄关键帧（含同场次连续性锁画风与视觉质检自动重拍）与镜头视频。当用户要做一集短剧/漫剧/影视成片、需要角色场景一致性与增量闭环重拍时加载本技能；若只需单镜手动精修请改用 wf-short-drama9。",
@@ -661,6 +864,12 @@
       "titleEn": "Film · single-shot polish",
       "summary": "分镜→设定→镜头节点→关键帧图片→镜头视频（手动精修）",
       "category": "film",
+      "tags": [
+        "9镜短剧",
+        "漫剧工作台",
+        "单镜精修",
+        "角色连续性"
+      ],
       "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
@@ -681,7 +890,7 @@
       },
       "nodeCount": 6,
       "edgeCount": 7,
-      "sizeBytes": 3218,
+      "sizeBytes": 3304,
       "skill": {
         "name": "wf-short-drama9",
         "description": "用「影视精修·单镜头」工作流在「影视工作台」（film.workbench）完成结构化分镜与角色场景设定之后，通过「镜头」（film.shot）节点按序号取出指定镜头的关键帧提示词（含 @1/@2 参考图编号）、动态提示词与出场设定图，直接驱动图片生成与视频生成节点做单镜精修。当用户要逐镜精细调参、或复制多路「镜头 → 关键帧 → 镜头视频」并行打磨重点镜头时加载本技能；若要整集一键批量出片请改用 wf-short-drama。",
@@ -704,8 +913,68 @@
       "id": "storyboard-video",
       "title": "分镜出片",
       "titleEn": "Storyboard to film",
-      "summary": "分镜图串成视频",
+      "summary": "分镜脚本→角色与画风锚点锁死→远景建立/中景推进/特写高潮三镜关键帧+图生视频+逐镜配音+BGM→成片时间线",
       "category": "film",
+      "tags": [
+        "分镜成片",
+        "多镜叙事",
+        "参考图锁画风",
+        "逐镜配音",
+        "成片时间线"
+      ],
+      "version": "2.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "asset.music",
+          "asset.video",
+          "asset.voice",
+          "note.text",
+          "output.timeline",
+          "play.script"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 14,
+      "edgeCount": 24,
+      "sizeBytes": 9280,
+      "skill": {
+        "name": "wf-storyboard-video",
+        "description": "用「分镜出片」工作流将分镜脚本转化为视觉连续的三镜电影短片：先生成角色与场景画风主锚点（in-image 锁死全片角色外观与色调），再依次生成远景环境建立、中景动作推进、特写情绪高潮三镜关键帧与图生视频，配合逐镜旁白配音（asset.voice）、电影感配乐（asset.music）在成片时间线（output.timeline）自动合成。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 2956
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 4824
+          }
+        ],
+        "sizeBytes": 7780
+      }
+    },
+    {
+      "id": "storybook-narrate",
+      "title": "有声绘本故事",
+      "titleEn": "Narrated storybook",
+      "summary": "童话故事→绘本主角与水彩画风锚点→开篇/奇遇/结局三幕跨页插画+微动效视频+亲切旁白配音+八音盒BGM→成片时间线",
+      "category": "comic",
+      "tags": [
+        "有声绘本",
+        "儿童故事",
+        "插画锚点",
+        "旁白配音",
+        "成片时间线"
+      ],
       "version": "1.0.0",
       "author": {
         "name": "AIArtEngine",
@@ -716,27 +985,34 @@
       "requires": {
         "nodeTypes": [
           "asset.image",
-          "asset.video",
+          "asset.music",
+          "asset.sfx",
+          "asset.voice",
           "note.text",
+          "output.timeline",
           "play.script"
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 6,
-      "edgeCount": 4,
-      "sizeBytes": 2099,
+      "nodeCount": 12,
+      "edgeCount": 19,
+      "sizeBytes": 8061,
       "skill": {
-        "name": "wf-storyboard-video",
-        "description": "用「分镜出片」工作流把一份镜头列表变成 3 张分镜图 + 1 段高潮镜头短视频，并可经成片时间线合成 MP4。当用户要分镜图、故事板、把镜头脚本画出来、或给某个镜头出一小段视频时加载本技能。",
+        "name": "wf-storybook-narrate",
+        "description": "用「有声绘本故事」工作流把一段童话、寓言或睡前故事转化为角色画风高度统一的儿童绘本动画短片：主角水彩设定锚点锁死三幕插画形象，配合微动效图生视频、三段亲切故事配音（asset.voice）、八音盒背景音乐（asset.music）与成片时间线（output.timeline）自动合成。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
+            "path": "references/ports.md",
+            "sizeBytes": 2776
+          },
+          {
             "path": "SKILL.md",
-            "sizeBytes": 7420
+            "sizeBytes": 4922
           }
         ],
-        "sizeBytes": 7420
+        "sizeBytes": 7698
       }
     },
     {
@@ -745,6 +1021,12 @@
       "titleEn": "World model",
       "summary": "空间世界生成 → 空间世界导出 → 3D 导演台",
       "category": "character",
+      "tags": [
+        "3D世界模型",
+        "空间生成",
+        "GLB网格导出",
+        "3D导演台"
+      ],
       "version": "1.0.0",
       "author": {
         "name": "AIArtEngine",
@@ -766,7 +1048,7 @@
       },
       "nodeCount": 7,
       "edgeCount": 6,
-      "sizeBytes": 3881,
+      "sizeBytes": 3967,
       "skill": {
         "name": "wf-world-model",
         "description": "用「世界模型」工作流把一张参考图或一段场景设定变成可继续编排的 3D 世界产物（Marble 空间世界 → 导出网格/泼溅 → 导演台）。当用户要做空间世界、沉浸式场景、或想从图片得到一个可进入的 3D 环境时加载本技能。",

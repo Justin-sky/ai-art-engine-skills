@@ -5,7 +5,12 @@
   "titleEn": "Film · single-shot polish",
   "summary": "分镜→设定→镜头节点→关键帧图片→镜头视频（手动精修）",
   "category": "film",
-  "tags": [],
+  "tags": [
+    "9镜短剧",
+    "漫剧工作台",
+    "单镜精修",
+    "角色连续性"
+  ],
   "version": "1.1.0",
   "author": {
     "name": "AIArtEngine",

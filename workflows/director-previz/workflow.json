@@ -5,7 +5,13 @@
   "titleEn": "3D director previz",
   "summary": "全景参考 → 几何体搭景 → 站位图锁构图",
   "category": "film",
-  "tags": [],
+  "tags": [
+    "3D导演台",
+    "机位阻断",
+    "灯光运镜",
+    "分镜预演",
+    "图生视频"
+  ],
   "version": "1.0.0",
   "author": {
     "name": "AIArtEngine",
