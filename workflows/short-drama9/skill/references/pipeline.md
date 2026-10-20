@@ -6,7 +6,7 @@
 
 | key | 节点标题 | `typeId` | 关键参数 |
 |---|---|---|---|
-| `script` | 剧本 | `play.script` | `text`（剧本全文） |
+| `script` | 剧本 | `text.plain` | `text`（剧本全文） |
 | `workbench` | 影视工作台 | `film.workbench` | `filmAspectRatio: "16:9"`, `filmTargetShots: 0`, `filmShotDurationSec: 0`, `filmReviewMaxRounds: 1`, `filmCastKinds: "character,location"` |
 | `shot` | 镜头 1 | `film.shot` | `filmShotRef: "1"`（1 起序号或镜头 id，如 `"S01-02"`） |
 | `keyframe` | 关键帧 | `asset.image` | `generateAspectRatio: "16:9"`, `generateModel` |

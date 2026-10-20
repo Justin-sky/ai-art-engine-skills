@@ -49,13 +49,13 @@ workflow-version: 1.0.0
 
 | 要提供的东西 | 落到哪里 | 格式 |
 |---|---|---|
-| 技能图标名单 | `play.script`「技能图标名单」的 `params.text` | **一行一枚**，≤ 9 枚 |
-| 道具图标名单 | `play.script`「道具图标名单」的 `params.text` | 同上 |
-| 状态图标名单 | `play.script`「状态图标名单」的 `params.text` | 同上 |
-| 画风主题句 | `play.script`「画风主题」的 `params.text` | 一句话；三条轨道共用 |
+| 技能图标名单 | `text.plain`「技能图标名单」的 `params.text` | **一行一枚**，≤ 9 枚 |
+| 道具图标名单 | `text.plain`「道具图标名单」的 `params.text` | 同上 |
+| 状态图标名单 | `text.plain`「状态图标名单」的 `params.text` | 同上 |
+| 画风主题句 | `text.plain`「画风主题」的 `params.text` | 一句话；三条轨道共用 |
 | 统一画风参考图 | 各「·整版」节点（`asset.image`）的 `styleImages`，配 `styleReferenceSubject: 'ui'` | 条目须带 `libraryId` 或 `data:` 开头的 `dataUrl` |
 
-名单格式细节（`play.script` 就是纯文本，文本怎么解析由下游决定）：
+名单格式细节（`text.plain` 就是纯文本，文本怎么解析由下游决定）：
 
 - 换行分隔，**一行的顺序就是格位顺序**，row-major：第 1 枚 → `1-1`，第 3 枚 → `1-3`，
   第 4 枚 → `2-1`；缺省 `3×3` 时第 9 枚 → `3-3`；
@@ -74,7 +74,7 @@ workflow-version: 1.0.0
 技能图标·整版:out → 技能图标·切格:in
 ```
 
-`play.script` 只有 `out` 一个口，可以扇出到多个下游；`image.iconPack` 有两个入口
+`text.plain` 只有 `out` 一个口，可以扇出到多个下游；`image.iconPack` 有两个入口
 （`in` 吃整版图、`in-text` 吃名单），**别把名单接到 `in`**。
 
 ## 关键约束与顺序

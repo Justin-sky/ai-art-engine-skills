@@ -24,7 +24,7 @@
     "nodeTypes": [
       "asset.image",
       "note.text",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -33,7 +33,7 @@
     "nodes": [
       {
         "key": "bio",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "角色设定圣经",
         "params": {
           "text": "（在此填写角色姓名、头身比例、主色/辅色/点缀色比例、服装材质层次、标志性随身武器与画风约束）"

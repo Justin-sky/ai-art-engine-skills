@@ -13,7 +13,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 ## 拓扑架构与交付物
 
 ```
-歌词与MV视觉企划 (play.script)
+歌词与MV视觉企划 (text.plain)
   ├─out→in-text──→ 主角与视觉美学锚点 (asset.image)
   │                  ├─out→in-image──→ 主歌·叙事铺垫关键帧 (asset.image) ──out→in-image──→ 主歌·叙事视频 (asset.video) ──out→in-clips─┐
   │                  ├─out→in-image──→ 副歌·情绪爆发关键帧 (asset.image) ──out→in-image──→ 副歌·高潮视频 (asset.video) ──out→in-clips─┤
@@ -26,7 +26,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 
 | 阶段节点 | 角色定位 | 提示词与参数覆写公式 |
 |---|---|---|
-| `lyrics` (`play.script`) | 歌词字幕源 | 写入按句分行的核心歌词（每行一句，不带 `[Verse]` 等结构标签以免出现在屏幕字幕上），直接流入 `output.timeline` 的 `in-subtitles` 自动铺排歌词字幕轨。 |
+| `lyrics` (`text.plain`) | 歌词字幕源 | 写入按句分行的核心歌词（每行一句，不带 `[Verse]` 等结构标签以免出现在屏幕字幕上），直接流入 `output.timeline` 的 `in-subtitles` 自动铺排歌词字幕轨。 |
 | `visualAnchor` (`asset.image`) | 主角与胶片调色锚点 | 公式：`主角面部骨相与穿搭设定 + 电影胶片颗粒感（35mm Kodak Vision3） + 主副色温对比（如冷青霓虹 vs 暖金逆光） + 干净无文字`。连入三幕关键帧的 `in-image`，杜绝跨镜头换脸。 |
 | `musicTrack` (`asset.music`) | 原创曲风与配器 | 公式：`曲风流派（Synthwave / 独立摇滚 / 国风电子 / 抒情钢琴） + BPM 速度 + 乐器编制 + 情绪推进（主歌克制→副歌宏大→尾奏空灵）`。 |
 | `verseImg` / `chorusImg` / `outroImg` | 三段情绪景别递进 | **主歌（Verse）**：中远景孤独氛围，静态构图；**副歌（Chorus）**：中近景动态张力，强烈光影对比与粒子氛围；**尾奏（Outro）**：大远景背影或空镜留白，情绪释怀。 |

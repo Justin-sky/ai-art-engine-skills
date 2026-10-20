@@ -26,7 +26,7 @@
       "image.adVariants",
       "image.layerSplit",
       "note.text",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -35,7 +35,7 @@
     "nodes": [
       {
         "key": "copy",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "电商卖点与转化策略",
         "params": {
           "text": "（填写商品名称、核心功能卖点、目标消费人群、痛点解决场景与大促利益点 CTA）"

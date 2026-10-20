@@ -13,7 +13,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 ## 拓扑架构与交付物
 
 ```
-绘本故事文稿 (play.script)
+绘本故事文稿 (text.plain)
   ├─out→in-text──→ 主角与绘本画风锚点 (asset.image)
   │                  ├─out→in-image──→ 第一幕·开篇插画 (asset.image) ──out→in-image──→ 第一幕·绘本动态画面 (asset.video) ──out→in-clips─┐
   │                  ├─out→in-image──→ 第二幕·奇遇插画 (asset.image) ──out→in-image──→ 第二幕·绘本动态画面 (asset.video) ──out→in-clips─┤

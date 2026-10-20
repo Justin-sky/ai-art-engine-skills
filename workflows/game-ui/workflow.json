@@ -47,7 +47,10 @@
       {
         "key": "uiGen",
         "typeId": "ui.gen",
-        "title": "UI界面生成"
+        "title": "UI界面生成",
+        "params": {
+          "generateTransparentBg": true
+        }
       },
       {
         "key": "uiLayerSplit",

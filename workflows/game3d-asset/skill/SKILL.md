@@ -52,9 +52,9 @@ workflow-version: 1.0.0
 
 ## 上游输入怎么给
 
-### 1. 资产设定（`script`，`play.script`）
+### 1. 资产设定（`script`，`text.plain`）
 
-写进 `play.script` 节点（默认标题「资产设定」）的 `text`：
+写进 `text.plain` 节点（默认标题「资产设定」）的 `text`：
 
 ```json
 { "op": "node_update", "nodeId": "<script 节点 id>", "params": { "text": "外观 / 材质 / 比例 / 用途（角色、道具还是载具）" } }

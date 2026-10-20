@@ -4,7 +4,7 @@
 
 | key | typeId | 标题 |
 |---|---|---|
-| `script` | `play.script` | 买量三段式脚本 |
+| `script` | `text.plain` | 买量三段式脚本 |
 | `keyart` | `asset.image` | 角色与画风锚点 |
 | `hookImg` | `asset.image` | 黄金3秒·危机钩子帧 |
 | `hookVid` | `asset.video` | 黄金3秒·钩子视频 |

@@ -4,7 +4,7 @@
 
 | key | typeId | 标题 |
 |---|---|---|
-| `bio` | `play.script` | 角色设定圣经 |
+| `bio` | `text.plain` | 角色设定圣经 |
 | `front` | `asset.image` | 正面基准立绘（锚点） |
 | `side` | `asset.image` | 侧面正交立绘 |
 | `back` | `asset.image` | 背面立绘与披挂拆解 |

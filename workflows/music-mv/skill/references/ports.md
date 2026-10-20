@@ -4,7 +4,7 @@
 
 | key | typeId | 标题 |
 |---|---|---|
-| `script` | `play.script` | 歌曲意境与 MV 分幕脚本 |
+| `script` | `text.plain` | 歌曲意境与 MV 分幕脚本 |
 | `charAnchor` | `asset.image` | MV 主角与色调锚点 |
 | `bgm` | `asset.music` | 原创主题音乐（BGM/歌曲） |
 | `shot1` | `asset.image` | 第一幕 · 主歌氛围关键帧 |

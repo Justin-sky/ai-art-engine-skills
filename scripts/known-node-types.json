@@ -74,7 +74,7 @@
     "output.timeline",
     "output.video",
     "output.voice",
-    "play.script",
+    "text.plain",
     "prompt.optimize",
     "script.run",
     "semantic.analyze",

@@ -7,7 +7,7 @@
 
 | key | typeId | 标题 | 说明 |
 |---|---|---|---|
-| `brief` | `play.script` | 分镜与场景需求 | 文本源，扇出到全景图与预演成片 |
+| `brief` | `text.plain` | 分镜与场景需求 | 文本源，扇出到全景图与预演成片 |
 | `pano` | `asset.image` | 全景氛围参考 | 出全景图，接 `motion:in-panorama` |
 | `motion` | `asset.motion` | 导演台预演 | 3D 舞台；出口是站位图与动作视频 |
 | `select` | `image.select` | 选站位图 | 多图 → 单图 |

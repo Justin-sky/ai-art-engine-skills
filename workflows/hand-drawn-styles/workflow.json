@@ -25,7 +25,7 @@
     "nodeTypes": [
       "asset.image",
       "note.text",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -34,7 +34,7 @@
     "nodes": [
       {
         "key": "subject",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "画面主题与故事设定",
         "params": {
           "text": "一个小女孩抱着橘猫坐在洒满晨光的窗台边看绘本，窗外有几片绿叶"

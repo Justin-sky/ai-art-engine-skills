@@ -10,7 +10,7 @@ workflow-version: 1.0.0
 ## 这条工作流产出什么
 
 ```
-漫画剧本（play.script）
+漫画剧本（text.plain）
   ├─→ 角色与画风定妆（asset.image，输出参考图连入全集所有分镜的 in-image 端口，锁定主角外貌与统一画风）
   ├─→ 第 1 页（起承）：分镜图 ×3（asset.image）→ 漫画页 · 第 1 页（comic.page，含分格版式 + 旁白框 + 对话气泡 + 音效字）
   ├─→ 第 2 页（高潮）：分镜图 ×4（asset.image）→ 漫画页 · 第 2 页（comic.page，含斜切破格 + 速度线/集中线 + 咆哮气泡 + 心声 + 音效字）
@@ -41,11 +41,11 @@ workflow-version: 1.0.0
   - **第 2 页（高潮，4 格斜切破格）**：格 1 顶部斜切疾速逼近（`row:0, col:0, rowSpan:2, colSpan:6`）+ 格 2 中左斜切正面交锋（`row:2, col:0, rowSpan:2, colSpan:3`）+ 格 3 中右斜切特写反击（`row:2, col:3, rowSpan:2, colSpan:3`）+ 格 4 底部横幅破局一击（`row:4, col:0, rowSpan:2, colSpan:6`）。
   - **第 3 页（收尾，3 格终幕悬念）**：格 1 左上余波散尽（`row:0, col:0, rowSpan:2, colSpan:3`）+ 格 2 右上特写线索（`row:0, col:3, rowSpan:2, colSpan:3`）+ 格 3 底部跨幅大格终幕悬念（`row:2, col:0, rowSpan:4, colSpan:6`）。
 - **如果用户剧本更长（如需要 4~6 页）或某页需要更多/更少格**：
-  - 可用 `graph_edit` 的 `node_add` 新增 `asset.image` 分镜节点与 `comic.page` 页面节点，并用 `edge_add` 把 `play.script:out → in-text`、`角色与画风定妆:out → in-image` 连到新增分镜图，再把分镜图 `out → in-image` 按阅读顺序连入对应的 `comic.page`。
+  - 可用 `graph_edit` 的 `node_add` 新增 `asset.image` 分镜节点与 `comic.page` 页面节点，并用 `edge_add` 把 `text.plain:out → in-text`、`角色与画风定妆:out → in-image` 连到新增分镜图，再把分镜图 `out → in-image` 按阅读顺序连入对应的 `comic.page`。
 
 ### 第 3 步：更新剧本、角色定妆锚点与每一格画面指令（`graph_edit`）
 在一次 `graph_edit` 批量操作中同时更新：
-1. **「漫画剧本」（`play.script`）**：把整理好的分场分格剧本写入 `params.text`。
+1. **「漫画剧本」（`text.plain`）**：把整理好的分场分格剧本写入 `params.text`。
 2. **「角色与画风定妆」（`asset.image`）**：在 `params.generateInstruction` 中写明主角外貌特征（发型、发色、瞳色、服饰、年龄气质）与整集漫画画风（如「日系热血黑白网点漫画风」「韩系全彩条漫风」「国漫古风厚涂」「美式硬派漫画风」），强调「角色设定基准图，纯画面不含任何文字」。
 3. **全部「第 X 页 · 格 Y」（`asset.image`）**：为每一格写入具体的 `params.generateInstruction`，包含：
    - **景别与机位**：远景定场 / 中景互动 / 面部特写 / 低角度仰拍 / 俯拍等；

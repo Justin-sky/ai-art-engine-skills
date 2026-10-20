@@ -6,16 +6,16 @@
 
 | 节点标题 | typeId | 入端口 | 出端口 |
 |---|---|---|---|
-| 画风主题 | `play.script` | 无 | `out`（`text`） |
-| 技能/道具/状态图标名单 | `play.script` | 无 | `out`（`text`） |
+| 画风主题 | `text.plain` | 无 | `out`（`text`） |
+| 技能/道具/状态图标名单 | `text.plain` | 无 | `out`（`text`） |
 | ·整版 | `asset.image` | `in-text`(text，可多) / `in-image`(image，可多) | `out`（当前选中）/ `out-all`（历史） |
 | ·切格 | `image.process` | `in`(image，**单个**) | `out` / `out-all` |
 | ·打包 | `image.iconPack` | `in`(image，**单个**) / `in-text`(text，**单个**) | `out` / `out-all` |
 | 使用说明 | `note.text` | 无端口 | 无端口 |
 
-三条轨道各 5 个节点（2 个 `play.script` + ·整版 + ·切格 + ·打包），再加 1 个共用的 `note.text`；
+三条轨道各 5 个节点（2 个 `text.plain` + ·整版 + ·切格 + ·打包），再加 1 个共用的 `note.text`；
 每条轨道 5 条边（主题→整版、名单→整版、整版→切格、名单→打包、整版→打包），共 15 条。
-`play.script:out` 可扇出；`image.iconPack` 的 `in` 与 `in-text` **不能接反**
+`text.plain:out` 可扇出；`image.iconPack` 的 `in` 与 `in-text` **不能接反**
 （孔位类型是 `image` 与 `text`，接反会被端口兼容性校验拒掉）。
 
 ## `image.process`（`imageProcessTool: 'gridSplit'`，·切格，纯本地裁切，不调模型）
@@ -71,7 +71,7 @@
 
 ## 名单解析规则
 
-名单来自 `play.script` 的 `params.text`（或任何接入 `in-text` 的文本）：
+名单来自 `text.plain` 的 `params.text`（或任何接入 `in-text` 的文本）：
 
 - 按 `\r?\n` 拆行 → 去首尾空白 → 丢弃空行 → 丢弃以 `#` 或 `//` 开头的行；
 - **行序 = 格位顺序**：`cellKey` 的 `行-列` 由 `index` 反推，

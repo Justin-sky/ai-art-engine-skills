@@ -4,7 +4,7 @@
 
 | key | typeId | 标题 |
 |---|---|---|
-| `shots` | `play.script` | 导演分镜与旁白脚本 |
+| `shots` | `text.plain` | 导演分镜与旁白脚本 |
 | `charRef` | `asset.image` | 主角与光影定妆锚点 |
 | `board1` | `asset.image` | 分镜 1 · 远景定场 |
 | `board2` | `asset.image` | 分镜 2 · 中景叙事推进 |

@@ -26,7 +26,7 @@
       "asset.video",
       "image.select",
       "note.text",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -35,7 +35,7 @@
     "nodes": [
       {
         "key": "brief",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "分镜与场景需求",
         "params": {
           "text": "（描述场景氛围、镜头景别与构图意图）"
@@ -46,7 +46,8 @@
         "typeId": "asset.image",
         "title": "全景氛围参考",
         "params": {
-          "generateInstruction": "生成场景 360 全景氛围图，透视与光线方向明确"
+          "generateInstruction": "生成场景 360 全景氛围图，透视与光线方向明确",
+          "generateTransparentBg": false
         }
       },
       {

@@ -24,7 +24,7 @@
       "asset.image",
       "comic.page",
       "note.text",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -33,7 +33,7 @@
     "nodes": [
       {
         "key": "script",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "漫画剧本",
         "params": {
           "text": "（在此输入整集漫画剧本；在 AI 对话栏选择本工作流并输入剧本后，AI 会自动拆解多页分镜、锁定角色定妆，并将分格版式、斜切、镜头特效、台词气泡与音效字写入各漫画页节点后一键出片）"

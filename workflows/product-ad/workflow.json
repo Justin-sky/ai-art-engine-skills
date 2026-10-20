@@ -27,7 +27,7 @@
       "asset.voice",
       "note.text",
       "output.timeline",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -36,7 +36,7 @@
     "nodes": [
       {
         "key": "copy",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "品牌卖点与脚本",
         "params": {
           "text": "（填写产品名称、核心材质/科技卖点、目标人群使用场景与品牌口播金句）"

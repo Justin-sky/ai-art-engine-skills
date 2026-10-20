@@ -12,7 +12,7 @@ workflow-version: 1.1.0
 ## 这条工作流产出什么
 
 ```
-剧本 (play.script) ──out→in──→ 影视工作台 (film.workbench) ←──in-cast── 全剧圣经/上集设定库 (可选)
+剧本 (text.plain) ──out→in──→ 影视工作台 (film.workbench) ←──in-cast── 全剧圣经/上集设定库 (可选)
                                  ├─ out (storyboard：结构化分镜文档)
                                  ├─ out-cast (filmCast：角色与场景设定库，可跨集连入下一集 in-cast)
                                  ├─ out-sheets (images：角色/地点设定图)
@@ -38,10 +38,10 @@ workflow-version: 1.1.0
 
 1. `workflow_list_installed` 确认 id；`workflow_use_installed({ id: "short-drama", name?, generateAspectRatio?, textModel?, imageModel?, videoModel? })` 落盘为工程资产，得到 `assetId`（竖屏短剧默认 `9:16`，横屏影视可传 `16:9`；传入的 `textModel` / `imageModel` / `videoModel` 会自动写入 `film.workbench` 的拆解审核文本模型、设定图与关键帧生图模型、图生视频模型）。
 2. `graph_read({ assetId, includeParams: true })` 读取节点列表，按标题或 `typeId` 定位：
-   - `play.script`（标题「剧本」）
+   - `text.plain`（标题「剧本」）
    - `film.workbench`（标题「影视工作台」）
 3. `graph_edit` 写入剧本与拍摄参数：
-   - 必填：把 `play.script` 的 `params.text` 替换为完整剧本。
+   - 必填：把 `text.plain` 的 `params.text` 替换为完整剧本。
    - 按需设置 `film.workbench` 的 `filmAspectRatio`（`"9:16"` / `"16:9"`）、`filmTargetShots`（`0` = 自动，或指定镜头数）、`filmShotDurationSec`（`0` = 随剧情自动，或 `4` / `8` / `10` / `15` 秒对齐视频模型时长档位）、`filmStyle`（视觉风格）、`filmRenderConcurrency`（`1`~`8`，默认 `3`）。
    - **运行范围控制（`filmWorkbenchRunMode`）**：
      - 留空或设为 `"all"`：一次运行串联跑完「拆解 → 审核 → 设定 → 拍摄」全流程；

@@ -67,11 +67,11 @@
 模型不支持首帧时会被**回落成 `none`**，此时首帧图不生效。
 另：模型声明某类媒体入参上限为 0 时，对应的 `in-image` / `in-video` / `in-voice` 口会被隐藏。
 
-### `play.script` 与 `note.text`
+### `text.plain` 与 `note.text`
 
 | 类型 | 端口 | 参数 |
 |---|---|---|
-| `play.script` | `out`（`text`，复数） | `text` |
+| `text.plain` | `out`（`text`，复数） | `text` |
 | `note.text` | 无端口 | `text` |
 
 `note.text` 不参与生成，只是画布上的说明位 —— 不要把用户输入写进去。

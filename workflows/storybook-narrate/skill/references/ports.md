@@ -4,7 +4,7 @@
 
 | key | typeId | 标题 |
 |---|---|---|
-| `script` | `play.script` | 绘本故事分幕文本 |
+| `script` | `text.plain` | 绘本故事分幕文本 |
 | `styleAnchor` | `asset.image` | 绘本主角与水彩画风锚点 |
 | `page1` | `asset.image` | 第 1 页 · 奇妙开篇插画 |
 | `page2` | `asset.image` | 第 2 页 · 森林奇遇插画 |

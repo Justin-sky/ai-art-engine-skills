@@ -3,7 +3,7 @@
 字段名与端口 id 均取自应用源码，可直接写进 `graph_edit` 的 `params`。
 节点 id 是随机生成的（`node-<uuid>`），改参数前先用 `graph_read`（`includeParams: true`）拿到真实 id。
 
-## play.script（漫画剧本 / 文本节点）
+## text.plain（漫画剧本 / 文本节点）
 
 | 端口 | 类型 | 说明 |
 |---|---|---|
@@ -17,7 +17,7 @@
 
 | 端口 | 类型 | 说明 |
 |---|---|---|
-| `in-text` | `text`（多） | 提示词来源（`play.script:out` 接这里） |
+| `in-text` | `text`（多） | 提示词来源（`text.plain:out` 接这里） |
 | `in-image` | `image`（多） | 参考图（「角色与画风定妆」的 `out` 连入所有分镜图的 `in-image`，锁定跨页角色形象与统一画风） |
 | `out` | `image` | 当前选中一张（新建生成后默认 = 最新一张） |
 | `out-all` | `images`（多） | 全部历史，仅供 `image.select` 一族消费 |

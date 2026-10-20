@@ -4,7 +4,7 @@
 
 | key | typeId | 标题 |
 |---|---|---|
-| `script` | `play.script` | 课程结构化讲稿 |
+| `script` | `text.plain` | 课程结构化讲稿 |
 | `portrait` | `asset.image` | 主讲人定妆照（锚点） |
 | `talking` | `asset.video` | 主讲人出镜底片 |
 | `voice` | `asset.voice` | 讲师口播配音 |

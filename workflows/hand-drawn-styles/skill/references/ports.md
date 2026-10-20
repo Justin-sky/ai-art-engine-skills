@@ -4,7 +4,7 @@
 
 | 节点 `key` | `typeId` | 默认标题 | 作用说明 |
 | --- | --- | --- | --- |
-| `subject` | `play.script` | 画面主题与故事设定 | 存放通用故事主题（输出口 `out`） |
+| `subject` | `text.plain` | 画面主题与故事设定 | 存放通用故事主题（输出口 `out`） |
 | `styleCardA` | `asset.image` | 手绘画风 A · 暖光童画（#12） | 常规单阶段手绘生成槽位 A（默认预置 `#12` 原样配方） |
 | `styleCardB` | `asset.image` | 手绘画风 B · 情绪叙事淡彩速写（#10） | 常规单阶段手绘生成槽位 B（默认预置 `#10` 原样配方） |
 | `styleCardC` | `asset.image` | 手绘画风 C · 北欧纸雕（#13） | 常规单阶段手绘生成槽位 C（默认预置 `#13` 原样配方） |
@@ -19,7 +19,7 @@
 - **`generateInstruction`**：写入从 `references/STYLES.md` 原样提取并填好 `【...】` 占位符后的完整提示词。
 - **`generateAspectRatio`**：
   - 用户明确指定画幅比例（如 `"3:4"`、`"16:9"`、`"1:1"`）时，同时设置 `params.generateAspectRatio` 并在 `generateInstruction` 末尾追加 `画幅比例:3:4。`。
-- **关于上游 `subject`（`play.script`）连线**：
+- **关于上游 `subject`（`text.plain`）连线**：
   - 当你已经把具体主体填进 `generateInstruction` 的 `【主体】` 占位符时，可保持 `subject.params.text` 为空或移除 `subject -> styleCard*` 的 `in-text` 连线，避免 `asset.image` 执行器把 `incomingText` 再次追加到提示词末尾破坏原样配方的收尾结构。
 - **关于 `#3.1` / `#19` / `#20` 主视觉锚点连线**：
   - `lockedBase` 的 `in-image-1` 接 `anchorRef.out`（对应配方里的 `Image 1 is the only approved style-only anchor`）。

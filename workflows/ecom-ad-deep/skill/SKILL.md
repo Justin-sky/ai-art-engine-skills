@@ -13,7 +13,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 ## 拓扑架构与交付物
 
 ```
-商品卖点与带货口播稿 (play.script)
+商品卖点与带货口播稿 (text.plain)
   ├─out→in-text──→ 商品标准主图锚点 (asset.image)
   │                  ├─out→in-image──→ 变体A·都市白领通勤KV (asset.image) ──out→in──→ 主KV智能分层PSD (image.layerSplit)
   │                  ├─out→in-image──→ 变体B·精致居家治愈KV (asset.image)

@@ -27,7 +27,7 @@
       "asset.voice",
       "note.text",
       "output.timeline",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -36,7 +36,7 @@
     "nodes": [
       {
         "key": "shots",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "导演分镜与旁白脚本",
         "params": {
           "text": "【镜头1·远景定场】雨夜霓虹街道，侦探撑伞驻足在全息广告牌下，冷暖光影交错。旁白：「这座城市从不缺少秘密，只缺少掀开帷幕的人。」\n【镜头2·中景跟拍】侦探压低帽檐推开赛博酒馆大门，回头看向身后暗巷。旁白：「当第十二声钟响落下，所有的线索都指向了同一个名字。」\n【镜头3·特写高潮】瞳孔中倒映出加密芯片的蓝光，神情笃定。旁白：「而这一次，真相无处可逃。」"

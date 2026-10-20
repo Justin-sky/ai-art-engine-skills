@@ -7,7 +7,7 @@
 
 | 节点标题 | typeId | 端口（入 → 出） |
 |---|---|---|
-| 卖点文案 | `play.script` | 无入口 → `out`（`text`） |
+| 卖点文案 | `text.plain` | 无入口 → `out`（`text`） |
 | 产品主视觉 | `asset.image` | `in-text`(text，可多) / `in-image`(image，可多) → `out`（当前选中，`image`）、`out-all`（历史，`images`） |
 | 使用场景图 | `asset.image` | 同上 |
 | 广告变体矩阵 | `image.adVariants` | `in`(image，**单个**) → `out` / `out-all` |

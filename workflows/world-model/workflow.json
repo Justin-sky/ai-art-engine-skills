@@ -25,7 +25,7 @@
       "asset.video",
       "image.select",
       "note.text",
-      "play.script",
+      "text.plain",
       "spatialWorld.export"
     ],
     "appMinVersion": "7.1.0"
@@ -35,7 +35,7 @@
     "nodes": [
       {
         "key": "brief",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "世界设定与漫游意图",
         "params": {
           "text": "（描述场景：环境、时代、天气、光线、材质氛围，以及镜头想怎么走）"

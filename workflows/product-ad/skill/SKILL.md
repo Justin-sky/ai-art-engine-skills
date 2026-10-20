@@ -13,7 +13,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 ## 拓扑架构与交付物
 
 ```
-产品Brief与广告词 (play.script)
+产品Brief与广告词 (text.plain)
   ├─out→in-text──→ 商业棚拍产品主视觉锚点 (asset.image)
   │                  ├─out→in-image──→ 镜头1·氛围与痛点引入图 (asset.image) ──out→in-image──→ 镜头1·引入视频 (asset.video) ──out→in-clips─┐
   │                  ├─out→in-image──→ 镜头2·微距工艺卖点图 (asset.image) ───out→in-image──→ 镜头2·微距视频 (asset.video) ──out→in-clips─┤

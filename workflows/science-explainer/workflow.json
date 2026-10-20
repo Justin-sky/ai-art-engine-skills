@@ -26,7 +26,7 @@
       "asset.voice",
       "note.text",
       "output.timeline",
-      "play.script",
+      "text.plain",
       "svg.anim",
       "svg.gen"
     ],
@@ -37,7 +37,7 @@
     "nodes": [
       {
         "key": "script",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "科普文章与分镜旁白稿",
         "params": {
           "text": "【第1镜·现象引入】你身体的每一个细胞里，都有数以亿计的纳米机器人在昼夜不停地精密运转——它们就是蛋白质。\n【第2镜·微观原理】二十种氨基酸像彩色的乐高积木，沿着核糖体流水线按基因密码精准折叠，搭出千变万化的三维结构。\n【第3镜·生命运转】从运送氧气的血红蛋白，到精准狙击病毒的抗体军团，正是这些微观工匠撑起了生命的奇迹。"

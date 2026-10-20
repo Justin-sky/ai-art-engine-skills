@@ -27,7 +27,7 @@
       "asset.voice",
       "note.text",
       "output.timeline",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -36,7 +36,7 @@
     "nodes": [
       {
         "key": "script",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "绘本故事分幕文本",
         "params": {
           "text": "【第1页·奇妙开篇】在云朵尽头的糖果森林里，住着一只耳朵会发光的小狐狸阿布，它最喜欢收集夜晚掉下来的星星碎片。\n【第2页·森林奇遇】这天夜里，一颗迷路的小流星落在了蒲公英草地上，阿布小心翼翼地捧起它，用温暖的尾巴替它拂去露水。\n【第3页·温暖归途】小流星重新焕发出金色的光芒，化作漫天柔和的星雨，陪伴阿布进入了甜甜的梦乡。"

@@ -13,7 +13,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 ## 拓扑架构与交付物
 
 ```
-科普脚本与字幕 (play.script)
+科普脚本与字幕 (text.plain)
   ├─out→in-text──→ 科普视觉风格锚点 (asset.image)
   │                  ├─out→in-image──→ 镜头1·现象引入关键帧 (asset.image) ──out→in-image──→ 镜头1·现象引入视频 (asset.video) ──out→in-clips─┐
   │                  ├─out→in-image──→ 镜头2·核心机制关键帧 (asset.image) ──out→in-image──→ 镜头2·核心机制视频 (asset.video) ──out→in-clips─┤
@@ -32,7 +32,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 
 | 阶段节点 | 角色定位 | 提示词与参数覆写公式 |
 |---|---|---|
-| `script` (`play.script`) | 全局叙事与字幕源 | 将文章提炼为 **3 段式口播字幕稿**（每句以句号/感叹号/问号或换行分隔，以便 `output.timeline` 自动切分字幕时间轴）：① 现象悬念引入 → ② 核心微观机制拆解 → ③ 现实生活启发。 |
+| `script` (`text.plain`) | 全局叙事与字幕源 | 将文章提炼为 **3 段式口播字幕稿**（每句以句号/感叹号/问号或换行分隔，以便 `output.timeline` 自动切分字幕时间轴）：① 现象悬念引入 → ② 核心微观机制拆解 → ③ 现实生活启发。 |
 | `styleAnchor` (`asset.image`) | 视觉母版锁（锁色板与画风） | 公式：`Kurzgesagt / 现代扁平科学插画设定表 + 主题核心视觉符号 + 统一明快撞色色板（深空蓝底 + 青绿/暖橙高亮） + 干净无文字无水印`。其 `out` 已连入 3 个分镜图的 `in-image`，强制三幕画面色调与图形语言 100% 统一。 |
 | `svgDiagram` (`svg.gen`) → `svgAnim` (`svg.anim`) | 矢量机制图解动效 | 在 `svgDiagram` 的 `generateInstruction` 中写明核心因果/流程结构图（如「ATP 能量循环四步箭头图」「温室效应红外反射示意图」），由 `svg.anim` 自动生成平滑描边与脉冲补间并输出 MP4 视频流汇入时间线。 |
 | `shot1Img`~`shot3Img` (`asset.image`) | 三幕叙事关键帧 | 严格遵循「1镜微距/悬念特写 → 2镜机制剖面展示 → 3镜宏观生活场景」景别递进，全部显式声明 `严格沿用参考图色板与扁平矢量材质，画面干净无文字`。 |

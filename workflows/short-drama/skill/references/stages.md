@@ -6,7 +6,7 @@
 
 | key | 节点标题 | `typeId` | 职责 |
 |---|---|---|---|
-| `script` | 剧本 | `play.script` | 存放剧本文本（`params.text`） |
+| `script` | 剧本 | `text.plain` | 存放剧本文本（`params.text`） |
 | `workbench` | 影视工作台 | `film.workbench` | 合一承载「①分镜拆解 → ②导演审核 → ③角色场景设定 → ④批量拍摄」全流程，既可按阶段单独运行，也可一键全流程闭环 |
 | `note` | 流水线说明 | `note.text` | 流程、迭代与精修说明便签 |
 

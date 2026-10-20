@@ -27,7 +27,7 @@
       "asset.voice",
       "note.text",
       "output.timeline",
-      "play.script",
+      "text.plain",
       "svg.anim",
       "svg.gen",
       "video.lipSync"
@@ -39,7 +39,7 @@
     "nodes": [
       {
         "key": "script",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "课程结构化讲稿",
         "params": {
           "text": "【黄金前3秒认知钩子】为什么 90% 的人学了很多方法依然做不好时间管理？\n【核心原理图解】真正决定效率的不是日程表，而是认知负荷的「双通道分配模型」。\n【实操行动指南】记住这三个微习惯，每天立刻省出两小时深度工作时间。"

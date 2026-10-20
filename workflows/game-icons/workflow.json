@@ -24,7 +24,7 @@
       "image.iconPack",
       "image.process",
       "note.text",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -33,7 +33,7 @@
     "nodes": [
       {
         "key": "scriptTheme",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "画风主题",
         "params": {
           "text": "画风主题（示例）：暖色 2D 卡通、浅色卡片底、描边统一——可按需改写主题句，正式风格以「风格参考图 → UI/图标」为准。"
@@ -41,7 +41,7 @@
       },
       {
         "key": "skillNames",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "技能图标名单",
         "params": {
           "text": "火焰斩\n冰霜护盾\n雷击\n冲刺\n治疗术\n狂暴\n破甲\n圣光祝福"
@@ -88,7 +88,7 @@
       },
       {
         "key": "itemNames",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "道具图标名单",
         "params": {
           "text": "体力药水\n金币袋\n钥匙\n魔法卷轴\n地图\n护身符"
@@ -135,7 +135,7 @@
       },
       {
         "key": "statusNames",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "状态图标名单",
         "params": {
           "text": "中毒\n灼烧\n冰冻\n护盾\n眩晕\n虚弱\n流血"

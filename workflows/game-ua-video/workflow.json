@@ -28,7 +28,7 @@
       "asset.voice",
       "note.text",
       "output.timeline",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -37,7 +37,7 @@
     "nodes": [
       {
         "key": "script",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "买量三段式脚本",
         "params": {
           "text": "【黄金前3秒钩子】Lv.1 菜鸟被巨龙一爪拍飞，满屏红字暴击告警！\n【核心爽点演示】拾取神级传说武器，技能全屏连携秒杀 Boss，伤害数字爆表！\n【转化口播】现在下载登录即送百连抽与限定神装，零氪也能霸榜全服！"

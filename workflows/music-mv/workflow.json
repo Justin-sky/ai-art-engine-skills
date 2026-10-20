@@ -26,7 +26,7 @@
       "asset.video",
       "note.text",
       "output.timeline",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.1.0"
   },
@@ -35,7 +35,7 @@
     "nodes": [
       {
         "key": "script",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "歌曲意境与 MV 分幕脚本",
         "params": {
           "text": "【曲风与母题】赛博都市 Synthwave 电子流行，关于霓虹雨夜中的追光之旅。\n【第一幕·主歌 Verse】少女独自站在空旷的天台边缘，远方全息霓虹在雨雾中闪烁。\n【第二幕·副歌 Chorus】少女跨上发光悬浮机车穿梭于高架流光溢彩的车流，情绪彻底释放。\n【第三幕·尾奏 Outro】黎明破晓的第一缕金光穿透云层，照亮她的侧脸。"

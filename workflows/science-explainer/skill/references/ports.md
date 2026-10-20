@@ -4,7 +4,7 @@
 
 | key | typeId | 标题 |
 |---|---|---|
-| `script` | `play.script` | 科普文章与分镜旁白稿 |
+| `script` | `text.plain` | 科普文章与分镜旁白稿 |
 | `svgGen1` | `svg.gen` | 第 1 镜 · 核心概念动态矢量图（SVG） |
 | `svgAnim1` | `svg.anim` | 第 1 镜 · 动效烘焙（GIF） |
 | `svgGen2` | `svg.gen` | 第 2 镜 · 微观机制动态图解（SVG） |

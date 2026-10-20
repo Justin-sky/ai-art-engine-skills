@@ -12,7 +12,7 @@ workflow-version: 1.1.0
 ## 这条工作流产出什么
 
 ```
-剧本 (play.script) ──out→in──→ 影视工作台 (film.workbench)
+剧本 (text.plain) ──out→in──→ 影视工作台 (film.workbench)
                                  ├─ out (storyboard) ────→ 镜头 1 (film.shot)
                                  └─ out-cast (filmCast) ─→   ├─ out (关键帧提示词) ──→ 关键帧 (asset.image) ──out──┐
                                                              ├─ out-refs (出场设定图) ─↗                           ↓
@@ -37,7 +37,7 @@ workflow-version: 1.1.0
 
 1. `workflow_use_installed({ id: "short-drama9", name?, generateAspectRatio?, textModel?, imageModel?, videoModel? })` 落盘为工程资产，得到 `assetId`（预设默认横屏 `16:9`，竖屏短剧可传 `9:16`；传入的 `textModel` / `imageModel` / `videoModel` 会自动写入 `film.workbench` 与下游 `asset.image` / `asset.video` 节点）。
 2. `graph_read({ assetId, includeParams: true })` 获取各节点真实 `nodeId`。
-3. `graph_edit` 将剧本写入 `play.script` 的 `params.text`，并可按需设置：
+3. `graph_edit` 将剧本写入 `text.plain` 的 `params.text`，并可按需设置：
    - `film.workbench` 的 `filmAspectRatio`、`filmTargetShots`、`filmShotDurationSec`、`filmStyle`；
    - `film.shot` 的 `params.filmShotRef`：填镜头序号（从 `"1"` 起）或镜头 id；
    - `asset.image`（关键帧）与 `asset.video`（镜头视频）的模型、画幅与 `generateDuration`。

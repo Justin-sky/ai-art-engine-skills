@@ -13,7 +13,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 ## 拓扑架构与交付物
 
 ```
-课程讲稿与字幕 (play.script)
+课程讲稿与字幕 (text.plain)
   ├─out→in-text──→ 主讲人定妆形象 (asset.image)
   │                  └─out→in-image──→ 口播底板视频 (asset.video) ──out→in-video─┐
   ├─out→in-text──→ 讲师口播配音 (asset.voice) ──────────────────────┬─out→in-voice─┴─→ 精准口型同步 (video.lipSync) ──out→in-clips─┐

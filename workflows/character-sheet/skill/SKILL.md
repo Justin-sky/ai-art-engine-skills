@@ -13,7 +13,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 ## 拓扑架构与交付物
 
 ```
-人设档案 (play.script)
+人设档案 (text.plain)
   └─out→in-text──→ ① 正面全身主锚点立绘 (asset.image)
                      ├─out→in-image──→ ② 正/侧/背标准三视图设定表 (asset.image, 16:9)
                      ├─out→in-image──→ ③ 六宫格喜怒哀乐表情设定表 (asset.image, 16:9)
@@ -31,7 +31,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 
 ## 提示词覆写规范（Agent 必读）
 
-1. **`bio`（`play.script`）**：结构化撰写「姓名/年龄体态 + 面部骨相与发型发色 + 上装/下装/鞋履/配饰材质 + 标志性手持道具 + 渲染画风 + 绝对禁止项（无杂乱背景、无文字水印）」。
+1. **`bio`（`text.plain`）**：结构化撰写「姓名/年龄体态 + 面部骨相与发型发色 + 上装/下装/鞋履/配饰材质 + 标志性手持道具 + 渲染画风 + 绝对禁止项（无杂乱背景、无文字水印）」。
 2. **`masterFront`（主锚点）**：强调 `标准 A-Pose 正面全身站姿、头顶至脚底完整入画、纯净浅灰底、高精细节`。
 3. **分步省流策略（可选）**：若用户想先挑出最满意的正面立绘再跑衍生图，可先单独对 `masterFront` 节点调用 `task_run({ assetId, nodeId: "<masterFrontId>" })`，确认后再整图运行。
 

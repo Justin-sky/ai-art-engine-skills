@@ -13,7 +13,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 ## 拓扑架构与交付物
 
 ```
-买量脚本与字幕 (play.script)
+买量脚本与字幕 (text.plain)
   ├─out→in-text──→ 主角与美术风格锚点 (asset.image)
   │                  ├─out→in-image──→ 镜头1·黄金3秒钩子图 (asset.image) ──out→in-image──→ 镜头1·黄金3秒钩子视频 (asset.video) ──out→in-clips─┐
   │                  ├─out→in-image──→ 镜头2·核心爽点实机图 (asset.image) ──out→in-image──→ 镜头2·核心爽点实机视频 (asset.video) ──out→in-clips─┤

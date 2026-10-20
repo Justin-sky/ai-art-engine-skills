@@ -13,7 +13,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 ## 拓扑架构与交付物
 
 ```
-2D角色与动作设定 (play.script)
+2D角色与动作设定 (text.plain)
   └─out→in-text──→ 2D角色基准锚点图 (asset.image, 纯白底侧面标准站姿)
                      ├─out→in-image──→ ① 待机呼吸动画·Idle (anim.2d, 3×3 序列帧 + 透明GIF, 8fps)
                      ├─out→in-image──→ ② 奔跑循环动画·Run (anim.2d, 3×3 序列帧 + 透明GIF, 10fps)

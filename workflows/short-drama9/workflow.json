@@ -25,7 +25,7 @@
       "film.shot",
       "film.workbench",
       "note.text",
-      "play.script"
+      "text.plain"
     ],
     "appMinVersion": "7.5.0"
   },
@@ -34,7 +34,7 @@
     "nodes": [
       {
         "key": "script",
-        "typeId": "play.script",
+        "typeId": "text.plain",
         "title": "剧本",
         "params": {
           "text": "（在此填写剧本 / 故事梗概；也可以先用「剧本生成」节点产出后接入分镜拆解）"

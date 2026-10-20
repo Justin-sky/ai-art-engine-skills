@@ -4,7 +4,7 @@
 
 | key | typeId | 标题 |
 |---|---|---|
-| `copy` | `play.script` | 电商卖点与转化策略 |
+| `copy` | `text.plain` | 电商卖点与转化策略 |
 | `hero` | `asset.image` | 商品白底/棚拍主图（锚点） |
 | `scene` | `asset.image` | 痛点种草使用场景图 |
 | `closeup` | `asset.image` | 核心工艺微距卖点图 |

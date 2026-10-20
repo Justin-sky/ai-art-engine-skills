@@ -13,7 +13,7 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
 ## 拓扑架构与交付物
 
 ```
-分镜脚本与字幕 (play.script)
+分镜脚本与字幕 (text.plain)
   ├─out→in-text──→ 角色与场景视觉锚点 (asset.image)
   │                  ├─out→in-image──→ 镜头1·远景建立关键帧 (asset.image) ──out→in-image──→ 镜头1·远景视频 (asset.video) ──out→in-clips─┐
   │                  ├─out→in-image──→ 镜头2·中景推进关键帧 (asset.image) ──out→in-image──→ 镜头2·中景视频 (asset.video) ──out→in-clips─┤

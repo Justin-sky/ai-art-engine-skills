@@ -4,7 +4,7 @@
 
 | key | typeId | 标题 |
 |---|---|---|
-| `copy` | `play.script` | 品牌卖点与脚本 |
+| `copy` | `text.plain` | 品牌卖点与脚本 |
 | `hero` | `asset.image` | 产品棚拍主视觉（锚点） |
 | `scene` | `asset.image` | 真实生活使用场景 |
 | `detail` | `asset.image` | 微距工艺卖点特写 |

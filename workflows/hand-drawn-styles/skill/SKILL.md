@@ -58,7 +58,7 @@ workflow-version: 1.0.0
    - **在画布落地运行**：
      - 可直接调用 `workflow_use_installed({ id: "hand-drawn-styles" })` 实例化本工作流，或直接在当前画布上的 `asset.image` 节点上写入 `params.generateInstruction`。
      - 工作流预置了两条分支：
-       1. **常规单阶段手绘生成**（节点 `styleCardA` / `styleCardB` / `styleCardC`）：适合 `#1`–`#18` 任意画风，将组装好的完整配方写入节点的 `generateInstruction`（注意：若 `generateInstruction` 已包含完整主体内容，可断开 `subject -> styleCard*` 的 `in-text` 连线，避免上游 `play.script` 文本在提示词末尾重复拼接）。
+       1. **常规单阶段手绘生成**（节点 `styleCardA` / `styleCardB` / `styleCardC`）：适合 `#1`–`#18` 任意画风，将组装好的完整配方写入节点的 `generateInstruction`（注意：若 `generateInstruction` 已包含完整主体内容，可断开 `subject -> styleCard*` 的 `in-text` 连线，避免上游 `text.plain` 文本在提示词末尾重复拼接）。
        2. **主视觉锚点锁定与 `#3.1` 三阶段涂抹修正链**（节点 `anchorRef` → `lockedBase` → `scribblePass1` → `scribblePass2`）：
           - `#3.1` 官方锚点 URL：`https://gentle-starburst-99bd99.netlify.app/hand-drawn/assets/style-3.1/anchor-family.png`
           - `#19` 官方锚点 URL：`https://gentle-starburst-99bd99.netlify.app/hand-drawn/assets/style-19/anchor-roundhead-redline.png`

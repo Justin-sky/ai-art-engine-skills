@@ -65,7 +65,7 @@
 - 内图由 `buildUiSplitInnerGraph(screens, locale)` 生成，宿主接口由 `buildUiSplitHostInterface(screens)` 生成。
 - **每屏两个输出边界**：`out-<slot>`（带字精修图，`slot` 从 1 开始）与 `out-<slot>-clean`（空字底图）；每屏一个输入边界 `in-<slot>`（类型 `text`，`multiple: false`）。
 - **每屏两个图像生成节点**：`图片·<title>` 与 `底图·<title>`，参数为
-  `generateAspectRatio: '9:16'`、`styleImagesUseGlobal: true`、`styleReferenceSubject: 'ui'`、
+  `generateAspectRatio: '9:16'`、`generateTransparentBg: true`（默认开启透明背景，除非明确需要非透明背景）、`styleImagesUseGlobal: true`、`styleReferenceSubject: 'ui'`、
   `generateSystemPrompt: resolveUiImageSystemPrompt(...)`。
 - 连线：`in-<slot>` →（`out` → `in-text`）`图片·<title>` →（`out` → `in`）`out-<slot>`；
   同时 `图片·<title>` →（`out` → `in-image`）`底图·<title>` →（`out` → `in`）`out-<slot>-clean`。
