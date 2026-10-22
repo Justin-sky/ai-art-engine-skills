@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "id": "ui-layer-split",
+  "title": "UI 精准拆层",
+  "titleEn": "Precise UI Layer Split",
+  "summary": "UI 截图 / 设计稿 → 精准拆层补底 → 嵌套分组与可编辑文字 PSD",
+  "category": "game",
+  "tags": [
+    "UI拆层",
+    "PSD导出",
+    "游戏UI",
+    "切图",
+    "精准抠图"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "image.layerSplit",
+      "note.text"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "UI 精准拆层",
+    "nodes": [
+      {
+        "key": "uiImage",
+        "typeId": "asset.image",
+        "title": "UI 界面源图",
+        "params": {
+          "generateAspectRatio": "16:9",
+          "generateInstruction": "国风暗金仙侠手游「法宝装备界面」UI，包含顶部灵石与元宝货币栏、左侧剑仙立绘与六个装备槽位、右侧法宝属性面板、底部金色「祭炼升阶」主按钮。画面清晰工整，控件边界分明。"
+        }
+      },
+      {
+        "key": "layerSplit",
+        "typeId": "image.layerSplit",
+        "title": "UI 精准拆层 → PSD",
+        "params": {
+          "imageLayerSplit": {
+            "splitMode": "precise",
+            "prompt": "",
+            "resolution": "2K",
+            "selectedId": "",
+            "canvasWidth": 0,
+            "canvasHeight": 0,
+            "layers": [],
+            "sourceFingerprint": ""
+          }
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "使用说明",
+        "params": {
+          "text": "使用流程：1) 在「UI 界面源图」导入已有 UI 截图/设计稿，或直接运行生成一张新 UI 界面 → 2) 运行「UI 精准拆层 → PSD」（默认开启 precise 精准拆层：本地 OCR 提取文字像素框 + 多模态视觉大模型解析控件树与放大复检 + 逐级剥层补全被挡底板 + 软 Alpha 抠图）→ 3) 节点自动输出分层 .psd 文件（含控件树嵌套分组、Photoshop 可编辑文字层与干净底板），双击节点可进入拆层编辑器预览、3D 爆炸检视或对单层继续拆分。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "uiImage",
+        "to": "layerSplit",
+        "fromPort": "out",
+        "toPort": "in"
+      }
+    ]
+  }
+}

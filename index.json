@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-20T12:52:27.596Z",
+  "generatedAt": "2026-10-22T10:12:43.900Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -534,10 +534,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 6819
+            "sizeBytes": 6959
           }
         ],
-        "sizeBytes": 13155
+        "sizeBytes": 13295
       }
     },
     {
@@ -1013,6 +1013,55 @@
           }
         ],
         "sizeBytes": 7696
+      }
+    },
+    {
+      "id": "ui-layer-split",
+      "title": "UI 精准拆层",
+      "titleEn": "Precise UI Layer Split",
+      "summary": "UI 截图 / 设计稿 → 精准拆层补底 → 嵌套分组与可编辑文字 PSD",
+      "category": "game",
+      "tags": [
+        "UI拆层",
+        "PSD导出",
+        "游戏UI",
+        "切图",
+        "精准抠图"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "image.layerSplit",
+          "note.text"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 3,
+      "edgeCount": 1,
+      "sizeBytes": 2488,
+      "skill": {
+        "name": "wf-ui-layer-split",
+        "description": "一键把 UI 截图 / 设计稿精准拆成专业美工级 PSD 分层（本地 OCR + 多模态大模型 + 逐级剥层补底）。用户要求拆分 UI 图层、切图、把界面图拆成 PSD、把游戏 UI / App 界面分层、提取按钮图标面板等界面元素时加载本技能。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/pipeline.md",
+            "sizeBytes": 4936
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 5567
+          }
+        ],
+        "sizeBytes": 10503
       }
     },
     {
