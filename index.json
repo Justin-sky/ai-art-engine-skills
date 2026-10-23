@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-23T03:29:58.390Z",
+  "generatedAt": "2026-10-23T08:46:09.798Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -852,14 +852,14 @@
         "files": [
           {
             "path": "references/stages.md",
-            "sizeBytes": 10419
+            "sizeBytes": 11036
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 9233
+            "sizeBytes": 10883
           }
         ],
-        "sizeBytes": 19652
+        "sizeBytes": 21919
       }
     },
     {
