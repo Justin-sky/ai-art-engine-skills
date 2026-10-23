@@ -1,64 +1,88 @@
 ---
 name: wf-short-drama
-description: 用「影视全流程」工作流通过合一的「影视工作台」（film.workbench）节点把一段剧本或故事梗概自动拆成结构化分镜（镜头数随剧情）、经导演审核自动修订不通过镜头、按出场角色与场景生成设定图，再批量拍摄关键帧（含同场次连续性锁画风与视觉质检自动重拍）与镜头视频。当用户要做一集短剧/漫剧/影视成片、需要角色场景一致性与增量闭环重拍时加载本技能；若只需单镜手动精修请改用 wf-short-drama9。
+description: 用「影视全流程」工作流完成从「创建剧本（asset.screenplay）→ 剧本分集（text.select）→ 分集短剧工作台（film.workbench，跨集共享角色场景设定库 Series Bible）→ 成片时间线（output.timeline）」的完整多集短剧/漫剧/影视制作闭环。当用户要从故事大纲或剧本出发制作短剧、漫剧、分集影视成片，需要创建剧本、按集拆分、跨集角色场景一致性、分镜审核拍摄与成片时间线合成时加载本技能；若只需单镜手动拆出精修可配合 wf-short-drama9。
 workflow: short-drama
-workflow-version: 1.1.0
+workflow-version: 2.0.0
 ---
 
-# 影视全流程 · 影视工作台闭环（short-drama，3 节点 / 1 连线）
+# 影视全流程 · 创建剧本 → 剧本分集 → 分集短剧工作台 → 成片时间线（short-drama，9 节点 / 9 连线）
 
-> **id 说明**：`short-drama` 是历史安装身份（对应内置预设 `shortDrama`），目前已全面升级为四合一的 `film.workbench`（影视工作台）节点，在单个大屏工作台内完成「①分镜拆解 → ②导演审核 → ③角色场景设定 → ④批量拍摄」全链路闭环。
+> **全链路架构**：本工作流完整覆盖影视与短剧工业化生产的四大核心阶段 —— **① 创建剧本（`asset.screenplay`）** → **② 剧本分集（`text.select`）** → **③ 分集短剧工作台（`film.workbench`）** → **④ 成片时间线（`output.timeline`）**，支持多集连载角色与场景设定库（Series Bible）跨集自动继承与一键成片合成。
 
-## 这条工作流产出什么
+## 拓扑总览与产出物
 
 ```
-剧本 (text.plain) ──out→in──→ 影视工作台 (film.workbench) ←──in-cast── 全剧圣经/上集设定库 (可选)
-                                 ├─ out (storyboard：结构化分镜文档)
-                                 ├─ out-cast (filmCast：角色与场景设定库，可跨集连入下一集 in-cast)
-                                 ├─ out-sheets (images：角色/地点设定图)
-                                 ├─ out-images (images：各镜关键帧图片组)
-                                 ├─ out-videos (videos：各镜成片视频组)
-                                 └─ out-text (text：可读分镜表 / 审核报告)
+故事大纲与世界观 (text.plain: outline)
+  │ out → in
+  ▼
+创建剧本 · 剧本工作台 (asset.screenplay: screenplay)
+  │ out-all (texts：自动按「第1集 / 第2集」切分各集剧本，并每集附带共享【人物小传】)
+  ├───────────────────────────────┐
+  ▼ in                            ▼ in
+剧本分集 · 第 1 集               剧本分集 · 第 2 集
+(text.select: ep1_script)        (text.select: ep2_script)
+[selectedTextId = "ep:1"]        [selectedTextId = "ep:2"]
+  │ out → in                      │ out → in
+  ▼                               ▼
+第 1 集 · 短剧工作台             第 2 集 · 短剧工作台
+(film.workbench: ep1_workbench)  (film.workbench: ep2_workbench)
+  │  ├─ ① 分镜拆解 (storyboard)   ▲  ├─ ① 分镜拆解 (自动继承第1集常驻角色/场景标准名)
+  │  ├─ ② 导演审核 (自动修订)     │  ├─ ② 导演审核 (自动修订)
+  │  ├─ ③ 角色场景设定 ──out-cast─┴──in-cast─ ③ 角色场景设定 (复用第1集设定图，仅画新实体/换装)
+  │  └─ ④ 批量拍摄 (关键帧+视频)     └─ ④ 批量拍摄 (关键帧+视频)
+  │ out-videos                    │ out-videos
+  └──────────────┬────────────────┘
+                 ▼ in-videos                      全剧悬疑氛围配乐 (asset.music: bgm)
+         短剧成片时间线 (output.timeline: timeline) ◄──in-music── out
+                 │
+                 └─ out (video：多集镜头自动拼接 + 转场 + 配乐混音导出的最终 MP4 成片)
 ```
 
-1. **① 分镜拆解（`storyboard`）**：将剧本拆解为含场次、镜头列表（镜头数随剧情自动决定，支持预设单镜时长 `4s/8s/10s/15s`）与角色/场景/道具实体表的结构化分镜。
-2. **② 导演审核与自动修订**：对照原剧本逐镜审查，不通过的镜头自动重写并复审（默认最多 2 轮），锁定镜头永不改写。
-3. **③ 角色与场景设定图（`out-cast` + `out-sheets`）**：为分镜实体表中的每个角色与地点生成设定图，支持单角色/单场景独立生成或重绘，描述不变自动复用缓存。
-4. **④ 批量关键帧与镜头视频（`out-images` / `out-videos`）**：按每镜出场名单自动以 `@1`/`@2` 编号注入角色/地点设定图生成关键帧（开启同场次连续性时自动注入上一镜关键帧）→ 视觉质检不合格自动重拍 → 以关键帧为首帧图生视频（自动将本镜时长透传给视频模型，支持单镜独立拍摄/补拍视频）。
+### 四大阶段核心产出
 
-## 核心特性
-
-- **合一工作台，零同步断层**：分镜拆解、导演审核、角色场景设定与批量拍摄共享同一个 `film.workbench` 节点的状态，双击节点进入全屏工作台即可在 4 个阶段页签间无缝切换，既可分阶段单独运行，也可点「⚡ 一键全流程」串联跑完。
-- **百集短剧全剧圣经（Series Bible）跨集共享与换装继承**：将全剧总设定工作台或上一集 `film.workbench` 的 `out-cast` 连入本集 `in-cast` 端口后，分镜拆解自动注入常驻角色/场景标准名，设定阶段直接复用已有设定图不重画；若角色换装/换造型（命名为 `角色名#造型` 或 `角色名·造型`，如 `林夏#晚礼服`），设定阶段自动将主角色 `林夏` 设定图作为 `@1` 参考图传入，锁死五官骨相仅切换服饰。
-- **场次连续性链并发拍摄（`filmRenderConcurrency`）**：按场次连续性链并发生成关键帧（默认 3 路场次并发，同一场次内严格顺序承接上一镜关键帧），视频生成进入独立并发池后台运行，大幅提速长剧批量出片。
-- **可视化绑定与 `@n` 编号对齐**：镜头卡片直接展示绑定角色与场景设定图缩略图及 `@1`/`@2` 参考图编号，与发往生图模型的 `referenceImageUrls` 顺序严格一致。
-- **增量指纹缓存 + 镜头/设定锁定 + 单卡独立运行**：修改某一镜提示词或某一个角色描述后，可直接点击该卡片上的「▶ 生成 / ↻ 重跑」单独重跑该项，也可整阶段增量运行（未改动项秒级跳过）。
+1. **阶段一 · 创建剧本（`asset.screenplay`）**：
+   - 接收上游 `text.plain` 的故事大纲或世界观，按标准影视格式创作包含 `剧本名：...`、`【人物小传】` 以及显式分集标题（`第1集：...`、`第2集：...`）的完整多集剧本。
+   - 双击节点可进入全屏**剧本工作台**（支持结构化场次编辑与 **3D 剧本运镜预演**）。
+   - 节点运行后自动识别正文中的 `第1集`、`第2集` 标记切分为多集剧本条目，并将顶部的 `【人物小传】` 自动拼接到每一集剧本开头，从 `out-all`（`texts` 端口）输出分集数组。
+2. **阶段二 · 剧本分集（`text.select`）**：
+   - `ep1_script`（`selectedTextId: "ep:1"`）与 `ep2_script`（`selectedTextId: "ep:2"`）接入 `screenplay` 的 `out-all` 端口，各自精准提取第 1 集与第 2 集剧本（即使上游剧本重新生成，按 `"ep:1"` / `"ep:2"` 仍稳定命中最新一轮的对应集数）。
+   - 需要扩展到第 3 集、第 N 集时，只需新增 `text.select`（设 `selectedTextId: "ep:3"`）并接入对应的 `film.workbench` 节点。
+3. **阶段三 · 分集的短剧工作台（`film.workbench`）**：
+   - 每一集配备独立的 `film.workbench`（`ep1_workbench`、`ep2_workbench`），双击即可进入该集专属的全屏四合一工作台，依次完成 **① 分镜拆解 → ② 导演审核自动修订 → ③ 角色与场景设定图 → ④ 批量关键帧与视频拍摄（含视觉质检重拍）**。
+   - **跨集全剧圣经（Series Bible）串联**：`ep1_workbench` 的 `out-cast` 连入 `ep2_workbench` 的 `in-cast` 端口。第 2 集拆解分镜时自动沿用第 1 集的主角与常驻场景标准名称，生成设定图时直接复用第 1 集已生成的角色/场景设定图，只为第 2 集新登场的场景或换装造型（如 `林夏#夜行装`）生成新设定图。
+4. **阶段四 · 成片时间线（`output.timeline`）**：
+   - `timeline` 节点通过 `in-videos` 按集序接收 `ep1_workbench` 与 `ep2_workbench` 的 `out-videos` 镜头视频序列，并通过 `in-music` 接收 `bgm`（`asset.music`）生成的全剧氛围配乐。
+   - 运行后自动按「第 1 集全部镜头 → 第 2 集全部镜头」顺序排列视觉轨道、添加平滑转场、混音背景配乐并渲染导出最终 MP4 成片；双击 `timeline` 节点可进入多轨时间线精剪台微调。
 
 ## 怎么操作（MCP 路径）
 
-1. `workflow_list_installed` 确认 id；`workflow_use_installed({ id: "short-drama", name?, generateAspectRatio?, textModel?, imageModel?, videoModel? })` 落盘为工程资产，得到 `assetId`（竖屏短剧默认 `9:16`，横屏影视可传 `16:9`；传入的 `textModel` / `imageModel` / `videoModel` 会自动写入 `film.workbench` 的拆解审核文本模型、设定图与关键帧生图模型、图生视频模型）。
-2. `graph_read({ assetId, includeParams: true })` 读取节点列表，按标题或 `typeId` 定位：
-   - `text.plain`（标题「剧本」）
-   - `film.workbench`（标题「影视工作台」）
-3. `graph_edit` 写入剧本与拍摄参数：
-   - 必填：把 `text.plain` 的 `params.text` 替换为完整剧本。
-   - 按需设置 `film.workbench` 的 `filmAspectRatio`（`"9:16"` / `"16:9"`）、`filmTargetShots`（`0` = 自动，或指定镜头数）、`filmShotDurationSec`（`0` = 随剧情自动，或 `4` / `8` / `10` / `15` 秒对齐视频模型时长档位）、`filmStyle`（视觉风格）、`filmRenderConcurrency`（`1`~`8`，默认 `3`）。
-   - **运行范围控制（`filmWorkbenchRunMode`）**：
-     - 留空或设为 `"all"`：一次运行串联跑完「拆解 → 审核 → 设定 → 拍摄」全流程；
-     - 设为 `"breakdown"` / `"review"` / `"cast"` / `"render"`：只运行指定阶段（适合先拆解审核确认分镜、再生成设定图、最后批量拍摄）。
-   - **先看关键帧还是直出视频**：`film.workbench` 在本预设中默认 `filmRenderMode: "video"`（拍关键帧 + 图生视频）。若用户想先确认分镜画面再出视频，先把 `filmRenderMode` 设为 `"keyframe"`，跑完确认后再改回 `"video"` 增量补拍视频（关键帧会直接命中缓存，不会重画）。
-4. `task_run({ assetId })` → `mcpTaskId`；用 `task_status({ mcpTaskId })` 轮询至完成，汇报设定图、关键帧与各镜视频路径。
+1. **安装或复用工作流创建画布资产**：
+   - 调用 `workflow_list_installed` 确认已安装 `short-drama`；
+   - 调用 `workflow_use_installed({ id: "short-drama", name?, generateAspectRatio?, textModel?, imageModel?, videoModel? })` 创建画布资产并获取 `assetId`（竖屏短剧默认 `"9:16"`，横屏影视可传 `"16:9"`；传入的 `textModel` 会同时注入 `asset.screenplay` 与各集 `film.workbench`，`imageModel` 与 `videoModel` 会注入各集 `film.workbench`）。
+2. **读取节点并写入故事大纲或剧本**：
+   - `graph_read({ assetId, includeParams: true })` 查看节点列表（`outline`、`screenplay`、`ep1_script`、`ep2_script`、`ep1_workbench`、`ep2_workbench`、`bgm`、`timeline`）。
+   - **方式 A（从大纲自动写多集剧本）**：用 `graph_edit` 修改 `outline`（`text.plain`）的 `params.text` 为用户的故事大纲与角色设定，并在 `screenplay`（`asset.screenplay`）的 `params.generateInstruction` 中补充集数与风格要求，以及修改 `bgm`（`asset.music`）的配乐提示词。
+   - **方式 B（用户已提供完整多集剧本）**：直接用 `graph_edit` 把含 `【人物小传】` 与 `第1集：...`、`第2集：...` 的完整剧本写入 `screenplay` 的 `params.text`。
+3. **运行全流程或分阶段运行**：
+   - **一键驱动全流程**：调用 `task_run({ assetId, nodeIds: ["timeline"] })`，引擎会按拓扑依赖顺序自动执行 `outline → screenplay → ep1_script / ep2_script → ep1_workbench → ep2_workbench + bgm → timeline`，最后在 `timeline` 产出完整 MP4 成片。
+   - **分步可控执行（推荐长剧精修）**：
+     1. 先跑剧本与分集：`task_run({ assetId, nodeIds: ["screenplay", "ep1_script", "ep2_script"] })`，确认各集剧本内容；
+     2. 跑第 1 集短剧工作台：`task_run({ assetId, nodeIds: ["ep1_workbench"] })`（可先设 `filmRenderMode: "keyframe"` 确认第 1 集设定图与关键帧，再改 `"video"` 出视频）；
+     3. 跑第 2 集短剧工作台：`task_run({ assetId, nodeIds: ["ep2_workbench"] })`（自动复用第 1 集 `out-cast` 角色场景设定）；
+     4. 合成最终成片：`task_run({ assetId, nodeIds: ["bgm", "timeline"] })`。
+4. **轮询状态与交付**：
+   - 使用 `task_status({ mcpTaskId })` 轮询至任务完成，向用户汇报创建的分集剧本、角色场景设定图、各集分镜视频以及 `timeline` 导出的最终成片路径。
 
-## 闭环迭代与局部返工
+## 扩展更多集数与单镜精修
 
-- **改某一镜并只重拍这一镜**：
-  1. `graph_read({ assetId, includeParams: true })` 读取 `film.workbench` 节点的 `params.filmStoryboard`（JSON 字符串，schema 为 `aiart.film-storyboard@1`）。
-  2. 修改目标镜头的 `imagePrompt` / `videoPrompt` / `action` / `dialogue` / `characters` / `location`，并将该镜头的 `locked` 设为 `true`。
-  3. 用 `graph_edit` 写回 `filmStoryboard`，并可设置 `filmWorkbenchRunMode: "render"` 与 `filmRenderOnlyShotId: "<镜头id>"`（或留空跑增量），再执行运行 —— 指纹未变的镜头全部秒级跳过，只重拍目标镜头。
-- **只重画某一个角色/场景设定图**：设置 `film.workbench` 的 `filmWorkbenchRunMode: "cast"` 与 `filmCastOnlyId: "<实体id>"` 后运行。
-- **只拍指定镜头区间**：设置 `film.workbench` 的 `params.filmShotRange`（如 `"1-4,7"`），适合长剧本先试拍前几镜。
-- **单镜深度精修**：若某一镜需要手调特定模型或接额外精修节点，可从 `film.workbench` 的 `out` 与 `out-cast` 引出一个 `film.shot`（镜头）节点，接 `asset.image` / `asset.video` 单独打磨（或直接使用 `wf-short-drama9` 工作流）。
+- **扩展第 3 集 / 第 N 集**：
+  1. `node_upsert` 新增 `ep3_script`（`typeId: "text.select"`, `params: { selectedTextId: "ep:3" }`）与 `ep3_workbench`（`typeId: "film.workbench"`）；
+  2. `edge_connect` 连接：`screenplay (out-all) → ep3_script (in)`、`ep3_script (out) → ep3_workbench (in)`、`ep2_workbench (out-cast) → ep3_workbench (in-cast)`、`ep3_workbench (out-videos) → timeline (in-videos)`。
+- **改某一镜并只重拍该镜**：
+  1. `graph_read({ assetId, includeParams: true })` 读取对应集 `film.workbench` 的 `params.filmStoryboard`（schema `aiart.film-storyboard@1`）；
+  2. 修改目标镜头的提示词/台词并将 `locked` 设为 `true`，用 `graph_edit` 写回，同时可设 `filmWorkbenchRunMode: "render"` 与 `filmRenderOnlyShotId: "<镜头id>"` 单独重拍该镜，随后重跑 `timeline` 更新成片。
+- **单镜拆出深度精修**：从任一集 `film.workbench` 的 `out` 与 `out-cast` 引出 `film.shot` 节点，接 `asset.image` / `asset.video` 单独打磨特定高光镜头。
 
 ## 参数与端口速查
 
-详细的节点端口、参数名与 `aiart.film-storyboard@1` 数据结构见 `references/stages.md`。
+完整的 9 节点拓扑、端口定义、分集选择器语法与 `film.workbench` / `output.timeline` 参数速查见 `references/stages.md`。

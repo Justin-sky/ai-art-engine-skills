@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-22T10:12:43.900Z",
+  "generatedAt": "2026-10-23T03:29:58.390Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -812,17 +812,17 @@
     {
       "id": "short-drama",
       "title": "影视全流程",
-      "titleEn": "Film pipeline",
-      "summary": "剧本→分镜拆解→导演审核自动修订→角色场景设定→批量拍摄（质检重拍+图生视频）",
+      "titleEn": "Full Short-Drama Pipeline",
+      "summary": "创建剧本→剧本分集→分集短剧工作台（跨集角色场景共享+分镜审核拍摄）→成片时间线合成",
       "category": "film",
       "tags": [
-        "短剧漫剧",
-        "分镜拆解",
-        "导演审核",
-        "角色场景设定",
-        "质检重拍"
+        "影视全流程",
+        "创建剧本",
+        "剧本分集",
+        "短剧工作台",
+        "成片时间线"
       ],
-      "version": "1.1.0",
+      "version": "2.0.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -831,31 +831,35 @@
       "cover": "cover.png",
       "requires": {
         "nodeTypes": [
+          "asset.music",
+          "asset.screenplay",
           "film.workbench",
           "note.text",
-          "text.plain"
+          "output.timeline",
+          "text.plain",
+          "text.select"
         ],
         "appMinVersion": "7.5.0"
       },
-      "nodeCount": 3,
-      "edgeCount": 1,
-      "sizeBytes": 2240,
+      "nodeCount": 9,
+      "edgeCount": 9,
+      "sizeBytes": 8216,
       "skill": {
         "name": "wf-short-drama",
-        "description": "用「影视全流程」工作流通过合一的「影视工作台」（film.workbench）节点把一段剧本或故事梗概自动拆成结构化分镜（镜头数随剧情）、经导演审核自动修订不通过镜头、按出场角色与场景生成设定图，再批量拍摄关键帧（含同场次连续性锁画风与视觉质检自动重拍）与镜头视频。当用户要做一集短剧/漫剧/影视成片、需要角色场景一致性与增量闭环重拍时加载本技能；若只需单镜手动精修请改用 wf-short-drama9。",
+        "description": "用「影视全流程」工作流完成从「创建剧本（asset.screenplay）→ 剧本分集（text.select）→ 分集短剧工作台（film.workbench，跨集共享角色场景设定库 Series Bible）→ 成片时间线（output.timeline）」的完整多集短剧/漫剧/影视制作闭环。当用户要从故事大纲或剧本出发制作短剧、漫剧、分集影视成片，需要创建剧本、按集拆分、跨集角色场景一致性、分镜审核拍摄与成片时间线合成时加载本技能；若只需单镜手动拆出精修可配合 wf-short-drama9。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/stages.md",
-            "sizeBytes": 5819
+            "sizeBytes": 10419
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 7698
+            "sizeBytes": 9233
           }
         ],
-        "sizeBytes": 13517
+        "sizeBytes": 19652
       }
     },
     {

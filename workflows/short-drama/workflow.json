@@ -2,17 +2,17 @@
   "schemaVersion": 1,
   "id": "short-drama",
   "title": "影视全流程",
-  "titleEn": "Film pipeline",
-  "summary": "剧本→分镜拆解→导演审核自动修订→角色场景设定→批量拍摄（质检重拍+图生视频）",
+  "titleEn": "Full Short-Drama Pipeline",
+  "summary": "创建剧本→剧本分集→分集短剧工作台（跨集角色场景共享+分镜审核拍摄）→成片时间线合成",
   "category": "film",
   "tags": [
-    "短剧漫剧",
-    "分镜拆解",
-    "导演审核",
-    "角色场景设定",
-    "质检重拍"
+    "影视全流程",
+    "创建剧本",
+    "剧本分集",
+    "短剧工作台",
+    "成片时间线"
   ],
-  "version": "1.1.0",
+  "version": "2.0.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -21,52 +21,163 @@
   "cover": "cover.png",
   "requires": {
     "nodeTypes": [
+      "asset.music",
+      "asset.screenplay",
       "film.workbench",
       "note.text",
-      "text.plain"
+      "output.timeline",
+      "text.plain",
+      "text.select"
     ],
     "appMinVersion": "7.5.0"
   },
   "plan": {
-    "title": "影视全流程（Agent 闭环）",
+    "title": "影视全流程（创建剧本 → 剧本分集 → 分集短剧工作台 → 成片时间线）",
     "nodes": [
       {
-        "key": "script",
+        "key": "outline",
         "typeId": "text.plain",
-        "title": "剧本",
+        "title": "故事大纲与世界观",
         "params": {
-          "text": "（在此填写剧本 / 故事梗概；也可以先用「剧本生成」节点产出后接入分镜拆解）"
+          "text": "《雨夜回响》（2集悬疑短剧大纲）\n核心设定：暴雨夜的旧城钟表店，青年古董钟表修复师林夏收到一枚停在零点的银质裂纹怀表，委托人沈舟称怀表内藏着三年前钟楼失踪案的关键证据。\n第1集《停摆的怀表》：沈舟冒雨登门委托修复怀表，林夏在放大镜下拆解机芯，发现夹层中的微缩胶片暗码，窗外黑影掠过。\n第2集《钟楼暗码》：两人冒雨潜入废弃钟楼顶层，将胶片刻度对准青铜母钟，在午夜钟声敲响之际开启暗格，取出封存的真相档案。"
         }
       },
       {
-        "key": "workbench",
+        "key": "screenplay",
+        "typeId": "asset.screenplay",
+        "title": "创建剧本 · 剧本工作台",
+        "params": {
+          "generateInstruction": "根据上游故事大纲与世界观，创作一部 2 集连载短剧剧本。第一行写「剧本名：...」，空一行写「【人物小传】」列出主要角色的年龄、外貌特征与标志性穿搭；随后严格按「第1集：<分集标题>」「第2集：<分集标题>」分段编写各集场次（第X场 【内/外景 · 地点 - 日/夜】）、△动作描写与「角色名：台词」。",
+          "text": "剧本名：雨夜回响\n\n【人物小传】\n林夏：24岁，女，清冷干练的古董钟表修复师，扎低马尾，穿深棕色工装围裙内搭白衬衫，佩戴黄铜单眼放大镜。\n沈舟：27岁，男，沉稳冷峻的调查记者，穿黑色长款风衣，肩头微湿，腕戴旧式银壳机械表。\n\n第1集：停摆的怀表\n第1场 【内景 · 古董钟表店 - 夜】\n△ 暴雨拍打木质橱窗，满墙古董挂钟滴答作响。昏黄工作台灯下，林夏用精密镊子拨开一枚银质裂纹怀表的后盖。\n沈舟：这枚怀表在三年前的零点停下，里面藏着我父亲失踪前留下的最后线索。\n△ 林夏旋下机芯齿轮，夹层中滑出一枚刻有钟楼刻度的微缩胶片；此时门口风铃骤响，一道黑影在雨幕外一闪而过。\n林夏：这不是普通的机芯故障，有人专门把胶片封进了发条盒。\n\n第2集：钟楼暗码\n第1场 【内景 · 废弃钟楼顶层 - 夜】\n△ 闪电照亮巨大的镂空青铜钟盘，雨水顺着铁梁滴落。林夏举起微缩胶片对准月光与钟盘刻度，沈舟持手电筒警惕守护在旋转铁梯口。\n林夏：胶片上的齿痕对应十二点零五分的母钟暗格，就是那里！\n△ 沈舟伸手按下青铜钟盘内侧的暗扣，石壁缓缓开启露出封存的录音磁带与档案袋，远处午夜钟声轰然敲响。\n沈舟：三年了，真相终于重见天日。"
+        }
+      },
+      {
+        "key": "ep1_script",
+        "typeId": "text.select",
+        "title": "剧本分集 · 第 1 集",
+        "params": {
+          "selectedTextId": "ep:1"
+        }
+      },
+      {
+        "key": "ep2_script",
+        "typeId": "text.select",
+        "title": "剧本分集 · 第 2 集",
+        "params": {
+          "selectedTextId": "ep:2"
+        }
+      },
+      {
+        "key": "ep1_workbench",
         "typeId": "film.workbench",
-        "title": "影视工作台",
+        "title": "第 1 集 · 短剧工作台",
         "params": {
           "filmAspectRatio": "9:16",
           "filmTargetShots": 0,
+          "filmShotDurationSec": 0,
           "filmReviewMaxRounds": 2,
           "filmCastKinds": "character,location",
           "filmRenderMode": "video",
+          "filmRenderConcurrency": 3,
+          "filmRenderContinuity": true,
           "filmRenderQc": true,
           "filmRenderMaxRetries": 1
         }
       },
       {
+        "key": "ep2_workbench",
+        "typeId": "film.workbench",
+        "title": "第 2 集 · 短剧工作台",
+        "params": {
+          "filmAspectRatio": "9:16",
+          "filmTargetShots": 0,
+          "filmShotDurationSec": 0,
+          "filmReviewMaxRounds": 2,
+          "filmCastKinds": "character,location",
+          "filmRenderMode": "video",
+          "filmRenderConcurrency": 3,
+          "filmRenderContinuity": true,
+          "filmRenderQc": true,
+          "filmRenderMaxRetries": 1
+        }
+      },
+      {
+        "key": "bgm",
+        "typeId": "asset.music",
+        "title": "全剧悬疑氛围配乐",
+        "params": {
+          "generateInstruction": "悬疑电影感短剧纯音乐配乐，低沉大提琴与雨夜怀表齿轮滴答声交织，情绪层层推进，无歌词",
+          "generateMusicInstrumental": true
+        }
+      },
+      {
+        "key": "timeline",
+        "typeId": "output.timeline",
+        "title": "短剧成片时间线"
+      },
+      {
         "key": "note",
         "typeId": "note.text",
-        "title": "流水线说明",
+        "title": "影视全流程说明",
         "params": {
-          "text": "流程：剧本 → 影视工作台（双击进入工作台，顶部切换 ①分镜拆解 / ②导演审核 / ③角色场景设定 / ④批量拍摄，既可分阶段单独运行，也可一键全流程运行）。\n\n迭代：在同一工作台里改任一镜头、锁镜或单卡重跑，所有阶段实时共享同一份分镜与设定数据。\n\n精修：需要单独打磨某一镜时，从影视工作台接一个「镜头」节点，再接图片 / 视频生成节点手动调参。"
+          "text": "完整四阶段影视全流程：\n1. 创建剧本：在「故事大纲与世界观」填写梗概，运行「创建剧本 · 剧本工作台」（双击可进入剧本工作台及 3D 剧本运镜预演），自动生成带【人物小传】与「第1集 / 第2集」标记的多集剧本并按集切分输出。\n2. 剧本分集：「剧本分集 · 第 1 集」与「剧本分集 · 第 2 集」分别按 ep:1、ep:2 提取对应集数剧本（自动携带共享【人物小传】）。若要扩充第 3 集，只需再复制一组「剧本分集（ep:3）→ 短剧工作台」。\n3. 分集短剧工作台：每集拥有独立的「短剧工作台」（双击进入 ①分镜拆解 → ②导演审核 → ③角色场景设定 → ④批量拍摄）。第 1 集工作台的 out-cast 已连入第 2 集工作台的 in-cast，跨集自动复用主角与常驻场景设定图（Series Bible）。\n4. 成片时间线：「短剧成片时间线」按集序汇聚各集短剧工作台产出的镜头视频与「全剧悬疑氛围配乐」，一键自动合成导出最终 MP4 成片（双击可进入时间线精剪台）。"
         }
       }
     ],
     "edges": [
       {
-        "from": "script",
-        "to": "workbench",
+        "from": "outline",
+        "to": "screenplay",
         "fromPort": "out",
         "toPort": "in"
+      },
+      {
+        "from": "screenplay",
+        "to": "ep1_script",
+        "fromPort": "out-all",
+        "toPort": "in"
+      },
+      {
+        "from": "screenplay",
+        "to": "ep2_script",
+        "fromPort": "out-all",
+        "toPort": "in"
+      },
+      {
+        "from": "ep1_script",
+        "to": "ep1_workbench",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "ep2_script",
+        "to": "ep2_workbench",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "ep1_workbench",
+        "to": "ep2_workbench",
+        "fromPort": "out-cast",
+        "toPort": "in-cast"
+      },
+      {
+        "from": "ep1_workbench",
+        "to": "timeline",
+        "fromPort": "out-videos",
+        "toPort": "in-videos"
+      },
+      {
+        "from": "ep2_workbench",
+        "to": "timeline",
+        "fromPort": "out-videos",
+        "toPort": "in-videos"
+      },
+      {
+        "from": "bgm",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-music"
       }
     ]
   }
