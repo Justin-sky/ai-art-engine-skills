@@ -101,7 +101,11 @@
 - `filmRenderContinuity`：同场次相邻镜头连续性参考（默认 `true`）
 - `filmRenderQc`：是否开启关键帧视觉质检（默认 `true`）
 - `filmRenderMaxRetries`：质检不通过自动重拍次数（默认 `1`）
-- `filmTextModel` / `generateModel` / `filmVideoModel` / `filmQcModel`：各子阶段使用的模型
+- **模型字段（切勿混用）**：
+  - `filmTextModel` / `filmTextProviderInstanceId`（别名 `textModel`）：① 分镜拆解与 ② 导演审核使用的**文本大模型**（如 `deepseek/deepseek-v4-pro`）
+  - `generateModel` / `generateProviderInstanceId`（别名 `imageModel`）：③ 角色场景设定图与 ④ 镜头关键帧使用的**图片生成模型**（⚠️ 切勿将文本模型填在此字段！）
+  - `filmVideoModel` / `filmVideoProviderInstanceId`（别名 `videoModel`）：④ 批量拍摄图生视频使用的**视频生成模型**（如 `veo3.1-fast`）
+  - `filmQcModel` / `filmQcProviderInstanceId`（别名 `qcModel`）：④ 关键帧视觉质检使用的多模态文本模型
 
 ---
 

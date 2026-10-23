@@ -61,22 +61,28 @@ workflow-version: 2.0.0
    - 调用 `workflow_use_installed({ id: "short-drama", name?, generateAspectRatio?, textModel?, imageModel?, videoModel? })` 创建画布资产并获取 `assetId`（竖屏短剧默认 `"9:16"`，横屏影视可传 `"16:9"`；传入的 `textModel` 会同时注入 `asset.screenplay` 与各集 `film.workbench`，`imageModel` 与 `videoModel` 会注入各集 `film.workbench`）。
 2. **读取节点并写入故事大纲或剧本**：
    - `graph_read({ assetId, includeParams: true })` 查看节点列表（`outline`、`screenplay`、`ep1_script`、`ep2_script`、`ep1_workbench`、`ep2_workbench`、`bgm`、`timeline`）。
-   - **方式 A（从大纲自动写多集剧本）**：用 `graph_edit` 修改 `outline`（`text.plain`）的 `params.text` 为用户的故事大纲与角色设定，并在 `screenplay`（`asset.screenplay`）的 `params.generateInstruction` 中补充集数与风格要求，以及修改 `bgm`（`asset.music`）的配乐提示词。
+   - **方式 A（从大纲自动写多集剧本）**：用 `graph_edit` 修改 `outline`（`text.plain`）的 `params.text` 为用户的故事大纲与角色设定，**同时将 `screenplay` 的预设示例 `params.text` 清空为 `""`**，在 `screenplay`（`asset.screenplay`）的 `params.generateInstruction` 中补充集数与风格要求，并修改 `bgm`（`asset.music`）的配乐提示词。
    - **方式 B（用户已提供完整多集剧本）**：直接用 `graph_edit` 把含 `【人物小传】` 与 `第1集：...`、`第2集：...` 的完整剧本写入 `screenplay` 的 `params.text`。
-3. **运行全流程或分阶段运行**：
-   - **一键驱动全流程**：调用 `task_run({ assetId, nodeIds: ["timeline"] })`，引擎会按拓扑依赖顺序自动执行 `outline → screenplay → ep1_script / ep2_script → ep1_workbench → ep2_workbench + bgm → timeline`，最后在 `timeline` 产出完整 MP4 成片。
-   - **分步可控执行（推荐长剧精修）**：
-     1. 先跑剧本与分集：`task_run({ assetId, nodeIds: ["screenplay", "ep1_script", "ep2_script"] })`，确认各集剧本内容；
-     2. 跑第 1 集短剧工作台：`task_run({ assetId, nodeIds: ["ep1_workbench"] })`（可先设 `filmRenderMode: "keyframe"` 确认第 1 集设定图与关键帧，再改 `"video"` 出视频）；
-     3. 跑第 2 集短剧工作台：`task_run({ assetId, nodeIds: ["ep2_workbench"] })`（自动复用第 1 集 `out-cast` 角色场景设定）；
-     4. 合成最终成片：`task_run({ assetId, nodeIds: ["bgm", "timeline"] })`。
+   - **⚠️ 模型参数区分（切勿混淆）**：
+     - `asset.screenplay` 的文本大模型字段是 `generateModel`（及 `generateProviderInstanceId`）；
+     - `film.workbench` 是多模态复合节点：**文本大模型**必须填在 `filmTextModel`（或别名 `textModel`），**图片生成模型**填在 `generateModel`（或别名 `imageModel`），**视频生成模型**填在 `filmVideoModel`（或别名 `videoModel`）。**严禁把 `deepseek` 等文本模型填进 `film.workbench` 的 `generateModel`！**
+3. **分阶段递进运行（推荐标准范式，避免单节点全量跑视频超时中断）**：
+   - **阶段 3.1（剧本与分集）**：调用 `task_run({ assetId, nodeIds: ["screenplay", "ep1_script", "ep2_script"] })`（若有第 3 集则含 `"ep3_script"`），几秒内产出并确认各集剧本文本。
+   - **阶段 3.2（全集分镜拆解 `breakdown`）**：用 `graph_edit` 将各集 `film.workbench` 设为 `filmWorkbenchRunMode: "breakdown"`，调用 `task_run` 运行各集工作台（可并发或串联）。此阶段仅调用文本大模型，每集约 20~40 秒即可落盘结构化分镜表 `filmStoryboard`，用户在画布中可立即查看所有分镜。
+   - **阶段 3.3（可选导演审核 `review` 与角色场景设定图 `cast`）**：
+     - 若需 AI 导演审片修订，设 `filmWorkbenchRunMode: "review"` 运行；
+     - 随后设 `filmWorkbenchRunMode: "cast"`，**按集序依次运行** `ep1_workbench` → `ep2_workbench`（→ `ep3_workbench`），让第 1 集产出的主角/常驻场景设定图通过 `out-cast → in-cast` 自动传递给后续集数复用。
+   - **阶段 3.4（批量拍摄 `render` 与成片合成 `timeline`）**：
+     - 将各集 `film.workbench` 设为 `filmWorkbenchRunMode: "render"`（若只需快速预览画面可设 `filmRenderMode: "keyframe"`；若需生成动态视频则设 `filmRenderMode: "video"`），逐集运行 `task_run` 并在每集完成后向用户汇报进度；
+     - 最后调用 `task_run({ assetId, nodeIds: ["bgm", "timeline"] })` 合成导出最终 MP4 成片。
+   - *注：仅当镜头数极少（如每集 2~3 镜）或用户明确要求无人值守长跑时，才直接用 `filmWorkbenchRunMode: "all"` 一次性跑完单集四阶段。*
 4. **轮询状态与交付**：
-   - 使用 `task_status({ mcpTaskId })` 轮询至任务完成，向用户汇报创建的分集剧本、角色场景设定图、各集分镜视频以及 `timeline` 导出的最终成片路径。
+   - 使用 `task_status({ mcpTaskId })` 轮询至当前阶段任务完成，向用户汇报已落盘的分集剧本、分镜表、角色场景设定图、各集分镜关键帧/视频以及 `timeline` 导出的最终成片路径。
 
 ## 扩展更多集数与单镜精修
 
 - **扩展第 3 集 / 第 N 集**：
-  1. `node_upsert` 新增 `ep3_script`（`typeId: "text.select"`, `params: { selectedTextId: "ep:3" }`）与 `ep3_workbench`（`typeId: "film.workbench"`）；
+  1. `node_upsert` 新增 `ep3_script`（`typeId: "text.select"`, `params: { selectedTextId: "ep:3" }`）与 `ep3_workbench`（`typeId: "film.workbench"`, 标题须包含 `"第 3 集"` 如 `"第 3 集 · 短剧工作台"` 以便时间线按集序排列，并同步配置 `filmAspectRatio`、`filmCastKinds: "character,location"`、`filmTextModel`、`generateModel`、`filmVideoModel`）；
   2. `edge_connect` 连接：`screenplay (out-all) → ep3_script (in)`、`ep3_script (out) → ep3_workbench (in)`、`ep2_workbench (out-cast) → ep3_workbench (in-cast)`、`ep3_workbench (out-videos) → timeline (in-videos)`。
 - **改某一镜并只重拍该镜**：
   1. `graph_read({ assetId, includeParams: true })` 读取对应集 `film.workbench` 的 `params.filmStoryboard`（schema `aiart.film-storyboard@1`）；
