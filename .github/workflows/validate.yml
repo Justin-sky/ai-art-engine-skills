@@ -33,16 +33,10 @@ jobs:
         with:
           node-version: '20'
 
-      - name: 校验工作流目录（PR 不要求手改 index.json，避免多人 PR 合并冲突）
-        if: github.event_name == 'pull_request'
+      - name: 校验工作流目录与索引派生一致性（PR 与 main 共用，避免与 build-index 异步写回竞态）
         run: |
           node scripts/validate.mjs --workflows-only
           node scripts/build-index.mjs
-          node scripts/validate.mjs
-
-      - name: 校验工作流格式与索引一致性（main 分支门禁）
-        if: github.event_name != 'pull_request'
-        run: |
           node scripts/validate.mjs
           node scripts/build-index.mjs --check
 
