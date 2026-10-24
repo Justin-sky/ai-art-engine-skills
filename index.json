@@ -1,11 +1,68 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-23T08:46:09.798Z",
+  "generatedAt": "2026-10-24T05:17:47.449Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
   },
   "workflows": [
+    {
+      "id": "ancient-scroll-revive",
+      "title": "古画一镜入画",
+      "titleEn": "Ancient Scroll Live Revival",
+      "summary": "中外名画自适应移镜→灵活中近景推镜→视频直出人物说话+独立旁白错峰解说→多轨成片时间线",
+      "category": "film",
+      "tags": [
+        "古画复活",
+        "世界名画",
+        "灵活中近景",
+        "视频直出对白",
+        "画面解说旁白",
+        "清明上河图",
+        "一镜入画"
+      ],
+      "version": "1.4.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "asset.music",
+          "asset.sfx",
+          "asset.video",
+          "asset.voice",
+          "image.process",
+          "image.toPrompt",
+          "note.text",
+          "output.timeline"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 22,
+      "edgeCount": 37,
+      "sizeBytes": 24036,
+      "skill": {
+        "name": "wf-ancient-scroll-revive",
+        "description": "用「古画一镜入画」工作流将《清明上河图》《千里江山图》等中式传世古画或《雅典学院》《夜巡》《煎饼磨坊的舞会》等西方传世名画转化为「名画水平移动镜头 → 灵活中近景对位推镜 → 视频模型直出人物说话聊天原声 + 独立旁白轨道错峰解说画面」的央视/卢浮宫级短片：自动判别国画手卷（自右向左散点透视 + 东方文博朱印框）或西洋名画（焦点透视构图 + 西洋鎏金馆藏框），由多模态模型灵活框定最佳 16:9 选区并提炼场景名、人物对白与艺术史解说词（image.process + image.toPrompt），每幕还原为 8K 实拍画面，将人物说话台词直接传给视频模型（generateAudio: true）生成口型同步的现场交谈原声，配合独立旁白轨道（asset.voice）错峰解说、多轨音效（asset.sfx）与自适应器乐配乐（asset.music），在多轨成片时间线（output.timeline）一键合成。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 4545
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 8267
+          }
+        ],
+        "sizeBytes": 12812
+      }
+    },
     {
       "id": "anim2d-gif",
       "title": "2D 帧动画",

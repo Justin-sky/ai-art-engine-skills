@@ -1,0 +1,484 @@
+{
+  "schemaVersion": 1,
+  "id": "ancient-scroll-revive",
+  "title": "古画一镜入画",
+  "titleEn": "Ancient Scroll Live Revival",
+  "summary": "中外名画自适应移镜→灵活中近景推镜→视频直出人物说话+独立旁白错峰解说→多轨成片时间线",
+  "category": "film",
+  "tags": [
+    "古画复活",
+    "世界名画",
+    "灵活中近景",
+    "视频直出对白",
+    "画面解说旁白",
+    "清明上河图",
+    "一镜入画"
+  ],
+  "version": "1.4.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "asset.music",
+      "asset.sfx",
+      "asset.video",
+      "asset.voice",
+      "image.process",
+      "image.toPrompt",
+      "note.text",
+      "output.timeline"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "古画一镜入画 · 横移长卷灵活中近景与原声对白+旁白解说",
+    "nodes": [
+      {
+        "key": "scroll_src",
+        "typeId": "asset.image",
+        "title": "古画全卷母版 · 清明上河图",
+        "params": {
+          "generateInstruction": "中国传世名画《清明上河图》（张择端界画长卷风格）超宽幅全景：暖黄陈旧绢本水墨设色质感，遵循中国手卷自右向左叙事构图——画面右侧为汴京城郊柳岸、石拱小桥与驮队脚夫行旅交谈；画面中央为汴河虹桥横跨水面、木制漕船放下桅杆逆流争渡、船夫撑篙呼喊与桥上百姓凭栏呼应；画面左侧为繁华孙羊正店三层彩楼欢门、店小二迎客与茶坊酒肆文人雅集。工笔人物神态栩栩如生，纯画面无文字水印",
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "act1_crop",
+        "typeId": "image.process",
+        "title": "第1幕·古画取景（右段·城郊柳岸）",
+        "params": {
+          "imageProcessTool": "crop",
+          "generateInstruction": "多模态灵活取景（第1幕·名画首幕选区）：自动识别中式古画（取右段起首 x∈[0.58,0.98]）或西洋名画（取前景/左翼群像铺垫区），根据画面实际人物疏密与空间透视关系，灵活调整最佳 16:9 中景/中近景取景框（兼顾主体人物完整神态动作与周围环境意境，不死板固定选区大小），并提炼典雅场景名",
+          "imageCrop": {
+            "cropX": 0.68,
+            "cropY": 0.12,
+            "cropW": 0.28,
+            "cropH": 0.72,
+            "aspectId": "16:9"
+          }
+        }
+      },
+      {
+        "key": "act2_crop",
+        "typeId": "image.process",
+        "title": "第2幕·古画取景（中段·虹桥争渡）",
+        "params": {
+          "imageProcessTool": "crop",
+          "generateInstruction": "多模态灵活取景（第2幕·名画核心主焦点选区）：相机平移至画作核心戏剧高潮区（中式手卷取中段 x∈[0.28,0.70]，西洋名画取黄金分割/线性透视灭点主角色群像），根据实际人物聚散灵活调整最佳 16:9 中景/中近景取景框，并提炼典雅场景名",
+          "imageCrop": {
+            "cropX": 0.35,
+            "cropY": 0.10,
+            "cropW": 0.30,
+            "cropH": 0.76,
+            "aspectId": "16:9"
+          }
+        }
+      },
+      {
+        "key": "act3_crop",
+        "typeId": "image.process",
+        "title": "第3幕·古画取景（左段·繁华酒楼）",
+        "params": {
+          "imageProcessTool": "crop",
+          "generateInstruction": "多模态灵活取景（第3幕·名画收束选区）：相机继续平移至第3幕选区（中式手卷取左段 x∈[0.0,0.40]，西洋名画取右翼/远景纵深呼应群像），根据建筑空间与人物互动关系灵活调整最佳 16:9 中景/中近景取景框，并提炼典雅场景名",
+          "imageCrop": {
+            "cropX": 0.04,
+            "cropY": 0.12,
+            "cropW": 0.28,
+            "cropH": 0.74,
+            "aspectId": "16:9"
+          }
+        }
+      },
+      {
+        "key": "act1_recognize",
+        "typeId": "image.toPrompt",
+        "title": "第1幕·多模态识图与对白/解说策划",
+        "params": {
+          "text": "【第1幕 · 汴郊柳岸】\n画面与人物说话对白（供视频模型直出）：中近景聚焦石桥头赶驴脚夫与同行旅人，脚夫挥鞭赶驴张口大声说道：“得儿——驾！弟兄们加把劲，趁着城门刚开，咱们赶早把这批木炭送到东京城里去！”身旁同行旅人转头微笑开口回应：“老哥莫急！你看这汴河柳林春风拂面，走这一趟可真是舒坦！”\n画面解说旁白（供旁白轨配音）：画卷右首起笔北宋汴京城郊，张择端以工笔勾勒早春柳岸，驮队行旅踏着晨雾说笑过桥，拉开大宋都城拂晓复苏的序幕。",
+          "generateInstruction": "请以影视导演与故宫文博研究员视角识别这幅古画切片，严格按以下格式输出：\n第一行：【第1幕 · 四字古风场景名】（例如：【第1幕 · 汴郊柳岸】）\n第二行（灵活中近景构图与人物说话台词，直接喂给视频模型生成人物说话原声）：根据画面内容灵活确定最完美的景别（中景或中近景），描述人物具体动作，并写出画面中人物开口说的白话口语台词（如赶驴脚夫喊话与同行旅人聊天回应）\n第三行（画面解说旁白词）：用 40~60 字撰写专业精炼的画面与历史文博解说词，供独立旁白轨道配音与字幕使用"
+        }
+      },
+      {
+        "key": "act2_recognize",
+        "typeId": "image.toPrompt",
+        "title": "第2幕·多模态识图与对白/解说策划",
+        "params": {
+          "text": "【第2幕 · 虹桥争渡】\n画面与人物说话对白（供视频模型直出）：灵活中近景聚焦汴河虹桥下紧急降桅的漕船与桥头百姓，船头舵工转身挥手张口大声呼喊：“快落桅杆！桥洞水急，前头撑篙的弟兄死死顶住水头，千万别撞上虹桥木拱！”桥上凭栏百姓探身抛下缆绳大喊回应：“船上的伙计当心呐！我们已经把缆绳抛下来了，快接住绳头往岸边拉！”\n画面解说旁白（供旁白轨配音）：全卷高潮聚焦汴河虹桥，无柱叠梁木拱桥横跨湍急水面，满载江南钱粮的漕船紧急降桅穿桥，船夫与桥上百姓呼喊协力，堪称宋代界画与漕运文明的巅峰。",
+          "generateInstruction": "请以影视导演与故宫文博研究员视角识别这幅古画切片，严格按以下格式输出：\n第一行：【第2幕 · 四字古风场景名】（例如：【第2幕 · 虹桥争渡】）\n第二行（灵活中近景构图与人物说话台词，直接喂给视频模型生成人物说话原声）：根据画面人物密集度灵活确定最完美的中景/中近景构图，描述船夫与桥上百姓的协作动作，并写出船头舵工呼喊指挥与桥上百姓抛绳回应的具体口语对白\n第三行（画面解说旁白词）：用 40~60 字撰写专业精炼的画面与历史文博解说词，供独立旁白轨道配音与字幕使用"
+        }
+      },
+      {
+        "key": "act3_recognize",
+        "typeId": "image.toPrompt",
+        "title": "第3幕·多模态识图与对白/解说策划",
+        "params": {
+          "text": "【第3幕 · 孙羊正店】\n画面与人物说话对白（供视频模型直出）：中近景聚焦孙羊正店门前与二楼雅座，店小二肩搭白巾、满脸堆笑拱手张口热情招呼：“客官里面请嘞！刚开坛的孙羊正店上等美酒，二楼雅座正好凭栏赏景！”雅座内的宋代文人举起酒盏相视谈笑说道：“掌柜的好酒！来，兄台，咱们满饮此杯，今夜灯火不绝，真乃大宋盛世良宵！”\n画面解说旁白（供旁白轨配音）：北宋彻底打破唐代坊市宵禁，汴京街市与正店酒楼昼夜繁华，孙羊正店三层彩楼欢门迎风招展，小二迎客、文人雅聚，定格《东京梦华录》里的盛世烟火。",
+          "generateInstruction": "请以影视导演与故宫文博研究员视角识别这幅古画切片，严格按以下格式输出：\n第一行：【第3幕 · 四字古风场景名】（例如：【第3幕 · 孙羊正店】）\n第二行（灵活中近景构图与人物说话台词，直接喂给视频模型生成人物说话原声）：根据画面楼阁与街市人物关系灵活确定最佳中景/中近景构图，写出店小二热情迎客吆喝与雅座文人举杯谈笑的具体口语台词\n第三行（画面解说旁白词）：用 40~60 字撰写专业精炼的画面与历史文博解说词，供独立旁白轨道配音与字幕使用"
+        }
+      },
+      {
+        "key": "act1_real",
+        "typeId": "asset.image",
+        "title": "第1幕·北宋实景还原（灵活中近景）",
+        "params": {
+          "generateInstruction": "严格依据参考图 @1 的古画构图与识图结果，根据画面人物与石桥柳岸的空间关系灵活采用最自然的电影中景/中近景构图，将画中赶驴脚夫、同行旅人与毛驴驮队 1:1 原位还原为 8K 真实摄影画面。彻底去除水墨绢本痕迹，既清晰呈现人物真实的面部五官、温和谈笑的眼神口型与粗麻衣料肌理，又完整保留青石拱桥、早春垂柳与清晨薄雾体积光的层次感，ARRI 电影镜头实拍画质，纯画面无文字",
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "act2_real",
+        "typeId": "asset.image",
+        "title": "第2幕·北宋实景还原（灵活中近景）",
+        "params": {
+          "generateInstruction": "严格依据参考图 @1 的古画构图与识图结果，根据虹桥建筑与船只人群的密集构图灵活采用最佳电影中景/中近景机位，将画中船头舵工、撑篙船夫与虹桥凭栏百姓 1:1 原位还原为 8K 真实摄影画面。彻底去除水墨绢本感，既能看清船夫张口呐喊的鲜活面部神态、紧绷肌肉与桥上百姓挥手抛绳的互动姿态，又完整展现宋代巨木拱桥结构与湍急汴河浪花，午后阳光反射层次分明，纯画面无文字",
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "act3_real",
+        "typeId": "asset.image",
+        "title": "第3幕·北宋实景还原（灵活中近景）",
+        "params": {
+          "generateInstruction": "严格依据参考图 @1 的古画构图与识图结果，根据酒楼彩楼飞檐与街市人物分布灵活采用最佳电影中景/中近景机位，将孙羊正店门前迎客小二、往来商旅与雅座举杯文人 1:1 原位还原为 8K 真实摄影画面。彻底去除水墨线条，清晰展现人物生动自然的笑容、张口交谈神态、宋代襕衫与丝绸酒旗肌理，同时烘托三层彩楼欢门灯笼初上与街市蒸笼热气的盛世烟火，纯画面无文字",
+          "generateAspectRatio": "16:9"
+        }
+      },
+      {
+        "key": "act1_video",
+        "typeId": "asset.video",
+        "title": "第1幕·人物说话与活动复活（含原声对白）",
+        "params": {
+          "generateInstruction": "相机平滑推进进入画面最完美的灵活中近景机位（Cinematic Push-In to Optimal Medium/Medium-Close Shot with Native Character Dialogue Audio）：画面中的人物与毛驴全部鲜活运动起来，并由视频模型直接生成画中人物开口说话交谈的真实原声——赶驴脚夫一边挥动缰绳迈步过桥，一边转头张口大声说道：“得儿——驾！弟兄们加把劲，趁着城门刚开，咱们赶早把这批木炭送到东京城里去！”身旁同行旅人微笑点头开口回应：“老哥莫急！你看这汴河柳林春风拂面，走这一趟可真是舒坦！”口型开合、面部表情与说话声音高度同步，伴随清脆驴蹄踏桥声与柳林晨风声，无文字无水印",
+          "generateDuration": 8,
+          "generateAspectRatio": "16:9",
+          "generateAudio": true,
+          "generateFrameMode": "first"
+        }
+      },
+      {
+        "key": "act2_video",
+        "typeId": "asset.video",
+        "title": "第2幕·人物说话与活动复活（含原声对白）",
+        "params": {
+          "generateInstruction": "相机平滑推进至虹桥与漕船之间最完美的灵活中近景机位（Cinematic Push-In with Native Character Shouting & Dialogue Audio）：画中人物全部剧烈鲜活运动起来，并由视频模型直接生成符合当时急流争渡情境的人物呼喊说话原声——船头舵工转身挥手张口大声呼喊：“快落桅杆！桥洞水急，前头撑篙的弟兄死死顶住水头，千万别撞上虹桥木拱！”身旁船夫齐声喊着号子合力撑篙；虹桥栏杆旁的百姓探身挥手抛下缆绳大喊回应：“船上的伙计当心呐！快接住绳头往岸边拉！”人物呼喊口型、焦急神态与原声对白、急流拍船水花声完全同步，无文字无水印",
+          "generateDuration": 8,
+          "generateAspectRatio": "16:9",
+          "generateAudio": true,
+          "generateFrameMode": "first"
+        }
+      },
+      {
+        "key": "act3_video",
+        "typeId": "asset.video",
+        "title": "第3幕·人物说话与活动复活（含原声对白）",
+        "params": {
+          "generateInstruction": "相机平滑推进步入孙羊正店门前最完美的灵活中近景机位（Cinematic Push-In with Native Tavern Conversation Audio）：整条宋代古街与酒楼人物全部鲜活活动起来，并由视频模型直接生成热闹自然的市井人物说话聊天原声——酒楼门前店小二肩搭白巾、满脸堆笑拱手张口热情吆喝：“客官里面请嘞！刚开坛的孙羊正店上等美酒，二楼雅座正好凭栏赏景！”雅座内的宋代文人举起酒盏相视而笑、张口谈笑说道：“掌柜的好酒！来，兄台，咱们满饮此杯，共赏大宋盛世良宵！”口型开合、举杯动作与谈笑声、酒盏碰撞声自然融合，无文字无水印",
+          "generateDuration": 8,
+          "generateAspectRatio": "16:9",
+          "generateAudio": true,
+          "generateFrameMode": "first"
+        }
+      },
+      {
+        "key": "act1_voice",
+        "typeId": "asset.voice",
+        "title": "第1幕·画面解说旁白",
+        "params": {
+          "generateInstruction": "画卷右首起笔北宋汴京城郊，张择端以工笔勾勒早春柳岸。驮队行旅踏着晨雾说笑过桥，拉开大宋都城拂晓复苏的序幕。"
+        }
+      },
+      {
+        "key": "act2_voice",
+        "typeId": "asset.voice",
+        "title": "第2幕·画面解说旁白",
+        "params": {
+          "generateInstruction": "全卷高潮聚焦汴河虹桥，无柱叠梁木拱桥横跨湍急水面。满载江南钱粮的漕船紧急降桅穿桥，船夫与桥上百姓呼喊协力，堪称宋代界画与漕运文明的巅峰。"
+        }
+      },
+      {
+        "key": "act3_voice",
+        "typeId": "asset.voice",
+        "title": "第3幕·画面解说旁白",
+        "params": {
+          "generateInstruction": "北宋彻底打破唐代坊市宵禁，汴京街市与正店酒楼昼夜繁华。孙羊正店三层彩楼欢门迎风招展，小二迎客、文人雅聚，定格《东京梦华录》里的盛世烟火。"
+        }
+      },
+      {
+        "key": "act1_sfx",
+        "typeId": "asset.sfx",
+        "title": "第1幕·移镜入画与柳岸环境声",
+        "params": {
+          "generateInstruction": "Smooth horizontal camera pan whoosh and crisp viewfinder shutter click, transitioning into ancient Chinese morning stone bridge ambience: donkey hooves stepping on stone, leather harness jingling, gentle willow breeze and flowing stream"
+        }
+      },
+      {
+        "key": "act2_sfx",
+        "typeId": "asset.sfx",
+        "title": "第2幕·移镜入画与虹桥环境声",
+        "params": {
+          "generateInstruction": "Smooth camera pan and shutter snap zoom-in whoosh, entering bustling Song Dynasty river bridge ambience: heavy wooden mast creaking, bamboo poles splashing into rushing river current, lively dock atmosphere"
+        }
+      },
+      {
+        "key": "act3_sfx",
+        "typeId": "asset.sfx",
+        "title": "第3幕·移镜入画与酒楼环境声",
+        "params": {
+          "generateInstruction": "Smooth camera pan and shutter click zoom-in whoosh, entering lively Song Dynasty tavern street at dusk: clinking porcelain wine cups, sizzling street food stalls, horse carriages on flagstones, warm festive market atmosphere"
+        }
+      },
+      {
+        "key": "bgm",
+        "typeId": "asset.music",
+        "title": "北宋雅乐环境配乐",
+        "params": {
+          "generateInstruction": "国风文博纪录片级宋代器乐纯音乐（与《只此青绿》《国家宝藏》同款古雅空灵气质）：清越古琴泛音与竹笛悠扬领奏，琵琶轻拢慢捻配合轻柔中国大鼓与编钟点缀，曲风从清幽郊野缓缓推向汴京盛世繁华，纯器乐无吟唱",
+          "generateMusicInstrumental": true
+        }
+      },
+      {
+        "key": "timeline",
+        "typeId": "output.timeline",
+        "title": "古画一镜入画成片时间线"
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "古画/世界名画一镜入画 · 央视/卢浮宫级双模自适应指南",
+        "params": {
+          "text": "【古画/世界名画一镜入画 v1.4 · 中外名画双模自适应 + 灵活中近景 + 错峰旁白与原声对白】\n1. 中外名画双模自适应（央视《美术里的中国》 / BBC《文明》双美学）：\n   - 若输入中式古画手卷（如《清明上河图》《千里江山图》），自动采用「东方文博朱印框（scroll-seal-frame，宋锦双线回纹 + 朱砂御览闲章）」+ 宣纸洒金暖调 + 自右向左手卷横移（smoothleft）；\n   - 若输入西洋传世名画（如《雅典学院》《夜巡》《煎饼磨坊的舞会》），自动切换为「西洋鎏金馆藏框（museum-gilded-frame，巴洛克鎏金花角 + 卢浮宫式紫红铜牌）」+ 油彩胶片色调 + 焦点透视运镜（smoothright）。\n2. 超宽幅长卷比例感知 + Match-Cut 1:1 坐标对位推镜：自动探测源图物理宽高比约束 16:9 取景窗，前奏（0~2.8s）平滑推进至 1.38x 中近景后，通过 0.6s 墨韵/油彩消融叠化（dissolve）无缝切入持续推镜（kenBurnsIn）的写实视频，彻底消除比例跳切。\n3. 错峰旁白解说 + 视频直出人物说话原声 + 智能闪避：0.15s~4.35s 由沉稳旁白率先切入解说画面背景（此时视频原声与环境音自动柔和闪避至 42%，BGM 压至 25%）；4.4s~10.2s 旁白停歇，100% 释放视频模型直出的画中人物开口交谈原声，单轨字幕按「场景铭牌 → 艺术史解说字幕 → 人物开口对白字幕」时序接力呈现。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "scroll_src",
+        "to": "act1_crop",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "scroll_src",
+        "to": "act2_crop",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "scroll_src",
+        "to": "act3_crop",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "act1_crop",
+        "to": "act1_recognize",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "act2_crop",
+        "to": "act2_recognize",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "act3_crop",
+        "to": "act3_recognize",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "act1_crop",
+        "to": "act1_real",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "act1_recognize",
+        "to": "act1_real",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act2_crop",
+        "to": "act2_real",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "act2_recognize",
+        "to": "act2_real",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act3_crop",
+        "to": "act3_real",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "act3_recognize",
+        "to": "act3_real",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act1_real",
+        "to": "act1_video",
+        "fromPort": "out",
+        "toPort": "in-first-frame"
+      },
+      {
+        "from": "act1_recognize",
+        "to": "act1_video",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act2_real",
+        "to": "act2_video",
+        "fromPort": "out",
+        "toPort": "in-first-frame"
+      },
+      {
+        "from": "act2_recognize",
+        "to": "act2_video",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act3_real",
+        "to": "act3_video",
+        "fromPort": "out",
+        "toPort": "in-first-frame"
+      },
+      {
+        "from": "act3_recognize",
+        "to": "act3_video",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act1_recognize",
+        "to": "act1_sfx",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act2_recognize",
+        "to": "act2_sfx",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act3_recognize",
+        "to": "act3_sfx",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act1_crop",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "act2_crop",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "act3_crop",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "act1_video",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "act2_video",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "act3_video",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "act1_voice",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "act2_voice",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "act3_voice",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "act1_sfx",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "act2_sfx",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "act3_sfx",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "act1_recognize",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act2_recognize",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "act3_recognize",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "bgm",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-music"
+      }
+    ]
+  }
+}
