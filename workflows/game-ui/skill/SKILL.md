@@ -2,7 +2,8 @@
 name: wf-game-ui
 description: 用「游戏UI界面」工作流把一段游戏系统需求变成系统策划案 + 逐屏 UI 界面图（每屏双轨：带字版 + 空字底图）。当用户要做游戏界面/UI 素材、背包/任务/公会的界面设计、或要把策划案拆成一屏屏 UI 图时加载本技能。
 workflow: game-ui
-workflow-version: 1.0.0
+workflow-version: 1.1.0
+allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, asset_list, asset_import, task_run, task_status
 ---
 
 # 游戏UI界面（game-ui）
@@ -74,3 +75,8 @@ workflow-version: 1.0.0
 ## 参数去哪查
 
 端口、参数、内图契约与常见错误见 `references/ports.md`。
+
+## 动态算子伸缩与跨技能混搭（Seed & Dynamic Composition）
+
+- **节点 ID 直通原则**：调用 `workflow_use_installed({ id: "game-ui", mode: "seed" })` 物化后，画布节点 `id` 即为 `gameSystem`（`asset.gameSystem`）、`uiSplit`（`ui.split`）、`uiGen`（`ui.gen`）、`uiLayerSplit`（`image.layerSplit`）、`note`。
+- **与 `game-icons` 联动**：可调用 `workflow_use_installed({ id: "game-icons", assetId, mode: "merge" })` 在同一画布内同步产出配套背包/技能图标透明 PNG 包。

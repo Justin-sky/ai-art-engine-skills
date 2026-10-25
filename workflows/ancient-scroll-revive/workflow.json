@@ -14,7 +14,7 @@
     "清明上河图",
     "一镜入画"
   ],
-  "version": "1.4.0",
+  "version": "1.5.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -72,8 +72,8 @@
           "generateInstruction": "多模态灵活取景（第2幕·名画核心主焦点选区）：相机平移至画作核心戏剧高潮区（中式手卷取中段 x∈[0.28,0.70]，西洋名画取黄金分割/线性透视灭点主角色群像），根据实际人物聚散灵活调整最佳 16:9 中景/中近景取景框，并提炼典雅场景名",
           "imageCrop": {
             "cropX": 0.35,
-            "cropY": 0.10,
-            "cropW": 0.30,
+            "cropY": 0.1,
+            "cropW": 0.3,
             "cropH": 0.76,
             "aspectId": "16:9"
           }

@@ -2,15 +2,15 @@
 name: wf-ancient-scroll-revive
 description: 用「古画一镜入画」工作流将《清明上河图》《千里江山图》等中式传世古画或《雅典学院》《夜巡》《煎饼磨坊的舞会》等西方传世名画转化为「名画水平移动镜头 → 灵活中近景对位推镜 → 视频模型直出人物说话聊天原声 + 独立旁白轨道错峰解说画面」的央视/卢浮宫级短片：自动判别国画手卷（自右向左散点透视 + 东方文博朱印框）或西洋名画（焦点透视构图 + 西洋鎏金馆藏框），由多模态模型灵活框定最佳 16:9 选区并提炼场景名、人物对白与艺术史解说词（image.process + image.toPrompt），每幕还原为 8K 实拍画面，将人物说话台词直接传给视频模型（generateAudio: true）生成口型同步的现场交谈原声，配合独立旁白轨道（asset.voice）错峰解说、多轨音效（asset.sfx）与自适应器乐配乐（asset.music），在多轨成片时间线（output.timeline）一键合成。
 workflow: ancient-scroll-revive
-workflow-version: 1.4.0
+workflow-version: 1.5.0
 argument-hint: "[中式古画或世界名画名称，如 清明上河图/千里江山图/雅典学院/夜巡/煎饼磨坊的舞会] [画幅比例 16:9]"
 when-to-use: 用户想要把一幅中国传世古画（如《清明上河图》等长卷）或外国传世名画（如《雅典学院》《夜巡》等油画/壁画）做成「相机在画作中水平移动镜头、根据画面内容灵活取景并推进进入中近景、将人物对白直接告诉视频模型生成人物开口说话聊天的原声、同时加上独立旁白轨道错峰解说画面」的一镜入画视频时使用。
-allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, graph_edit, task_run, task_status
+allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, timeline_read, timeline_edit, timeline_export, asset_list, asset_import, task_run, task_status
 ---
 
-# 古画/世界名画一镜入画 · 中外双模自适应与原声对白+错峰旁白 SOP（ancient-scroll-revive v1.4）
+# 古画/世界名画一镜入画 · 中外双模自适应与原声对白+错峰旁白 SOP（ancient-scroll-revive v1.5）
 
-## 拓扑架构与交付物
+## 默认种子拓扑与交付物（Seed Skeleton，22 节点 / 37 连线）
 
 ```
 古画全卷母版 (asset.image: scroll_src)
@@ -19,16 +19,18 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
   │             │                   ├─out→in-text───→ 第1幕·北宋实景还原（灵活中近景）(asset.image: act1_real)
   │             │                   ├─out→in-text───→ 第1幕·人物说话与活动复活（含原声对白）(asset.video: act1_video)
   │             │                   ├─out→in-text───→ 第1幕·移镜入画与柳岸环境声 (asset.sfx: act1_sfx)
-  │             │                   └─out→in-text───→ 古画一镜入画成片时间线 (output.timeline)
-  │             ├─out→in-image──────────────────────→ 古画一镜入画成片时间线 (output.timeline)
+  │             │                   └─out→in-text───→ 古画一镜入画成片时间线 (output.timeline: timeline)
+  │             ├─out→in-image──────────────────────→ 古画一镜入画成片时间线 (output.timeline: timeline)
   │             └─out→in-image──→ 第1幕·北宋实景还原（灵活中近景）(asset.image: act1_real)
   │                                 └─out→in-first-frame──→ 第1幕·人物说话与活动复活（含原声对白）(asset.video: act1_video) ──out→in─┐
   ├─out→in──→ 第2幕·古画取景 → 第2幕·多模态识图 → 第2幕·北宋实景还原 → 第2幕·人物说话与活动复活 ──────────────────────out→in─┤
   └─out→in──→ 第3幕·古画取景 → 第3幕·多模态识图 → 第3幕·北宋实景还原 → 第3幕·人物说话与活动复活 ──────────────────────out→in─┤
 第1~3幕·画面解说旁白 (asset.voice: act1_voice..act3_voice) ────────────────────────────────────────────────────────out→in-voice─┤
 第1~3幕·移镜入画与环境音效 (asset.sfx: act1_sfx..act3_sfx) ────────────────────────────────────────────────────────out→in-voice─┤
-北宋雅乐环境配乐 (asset.music: bgm) ───────────────────────────────────────────────────────────────────────────────out→in-music─┴─→ 成片时间线 (output.timeline)
+北宋雅乐环境配乐 (asset.music: bgm) ───────────────────────────────────────────────────────────────────────────────out→in-music─┴─→ 成片时间线 (output.timeline: timeline)
 ```
+
+> **节点 ID 直通原则**：调用 `workflow_use_installed({ id: "ancient-scroll-revive", mode: "seed" })` 物化后，画布节点 `id` 与 `workflow.json` 的 `key` 完全一致（`scroll_src`、`act1_crop`~`act3_crop`、`act1_recognize`~`act3_recognize`、`act1_real`~`act3_real`、`act1_video`~`act3_video`、`act1_voice`~`act3_voice`、`act1_sfx`~`act3_sfx`、`bgm`、`timeline`、`note`）。
 
 ## 五步核心法则（中外名画双模自适应 + 灵活中近景 + 错峰旁白与视频原声对白）
 
@@ -47,12 +49,18 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, grap
    - **错峰旁白与智能闪避（`voice` + `video` + `sfx` + `music`）**：`0.15s – 4.35s` 旁白率先切入解说画面（此时视频原声与环境音自动柔和闪避至 `42%`，BGM 压至 `25%`）；`4.4s – 10.2s` 旁白停歇，`100%` 释放视频模型直出的画中人物开口交谈原声；
    - **时序接力字幕（`subtitle` 轨 `lane 0`）**：`0.15s – 2.05s` 场景铭牌 → `2.10s – 5.25s` 艺术史解说字幕 → `5.35s – 幕尾` 画内人物开口对白字幕。
 
+## 动态幕数伸缩与跨技能混搭（Seed & Dynamic Composition）
+
+- **按画幅体量动态增减幕数（1~N 幕自由伸缩）**：
+  - 若用户只想快速复活名画中的 **1 个局部特写场景**（如《蒙娜丽莎》或《韩熙载夜宴图·听乐》单段），可用 `graph_edit` 的 `node_delete` 裁剪 `act2_*` 与 `act3_*` 分支，仅保留 `act1_*`，生成速度提升 3 倍；
+  - 若用户要制作《千里江山图》《富春山居图》4~6 幕超长文博纪录片，可用 `node_upsert` 复制新增 `act4_crop` → `act4_recognize` → `act4_real` → `act4_video` + `act4_voice` + `act4_sfx` 并按序连入 `timeline`。
+- **叠加 `video.lipSync` 精准唇形精修**：当画中单人正面特写需要朗诵整段诗词（如苏轼/李白吟诗）时，可在 `actN_video` 后接入 `video.lipSync` 绑定吟诵配音。
+
 ## 标准执行步骤（MCP 路径）
 
-1. `workflow_use_installed({ id: "ancient-scroll-revive", name: "<画作名>·一镜入画", generateAspectRatio: "16:9" })`。
-2. `graph_read({ assetId, includeParams: true })` 获取各节点 ID。
-3. 若用户已提供古画图片，将其绑定至 `scroll_src`；若根据用户指定的其它名画创作，用 `graph_edit` 覆写 `scroll_src`、视频对白指令与旁白解说词。
-4. `task_run({ assetId })` 一键跑通全图，自动合成「水平移镜 → 灵活中近景 → 视频直出人物说话 + 旁白轨画面解说」完整成片。
+1. `workflow_use_installed({ id: "ancient-scroll-revive", mode: "seed" })` 落盘种子拓扑。
+2. 若用户已提供古画图片，用 `asset_import` 导入或绑定至 `scroll_src`；若为其它中外名画，用 `graph_edit` 覆写 `scroll_src`、各幕取景/还原提示词、视频对白指令与 `act1_voice`~`act3_voice` 纯旁白解说词（并按需增减幕数）。
+3. `task_run({ assetId })` 一键跑通全图，自动合成「水平移镜 → 灵活中近景 → 视频直出人物说话 + 旁白轨画面解说」完整成片。
 
 ## 端口与参数速查
 

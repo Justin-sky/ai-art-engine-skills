@@ -2,7 +2,8 @@
 name: wf-short-drama9
 description: 用「影视精修·单镜头」工作流在「影视工作台」（film.workbench）完成结构化分镜与角色场景设定之后，通过「镜头」（film.shot）节点按序号取出指定镜头的关键帧提示词（含 @1/@2 参考图编号）、动态提示词与出场设定图，直接驱动图片生成与视频生成节点做单镜精修。当用户要逐镜精细调参、或复制多路「镜头 → 关键帧 → 镜头视频」并行打磨重点镜头时加载本技能；若要整集一键批量出片请改用 wf-short-drama。
 workflow: short-drama9
-workflow-version: 1.1.0
+workflow-version: 1.2.0
+allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, timeline_read, timeline_edit, timeline_export, asset_list, asset_import, task_run, task_status
 ---
 
 # 影视精修·单镜头工作台（short-drama9，6 节点 / 7 连线）
@@ -35,8 +36,8 @@ workflow-version: 1.1.0
 
 ## 怎么操作（MCP 路径）
 
-1. `workflow_use_installed({ id: "short-drama9", name?, generateAspectRatio?, textModel?, imageModel?, videoModel? })` 落盘为工程资产，得到 `assetId`（预设默认横屏 `16:9`，竖屏短剧可传 `9:16`；传入的 `textModel` / `imageModel` / `videoModel` 会自动写入 `film.workbench` 与下游 `asset.image` / `asset.video` 节点）。
-2. `graph_read({ assetId, includeParams: true })` 获取各节点真实 `nodeId`。
+1. `workflow_use_installed({ id: "short-drama9", mode: "seed" })` 在画布落盘种子骨架，节点 `id` 与 `key` 一致（`script`、`workbench`、`shot`、`keyframe`、`clip`、`note`）。
+2. 如需核对现有参数可调用 `graph_read({ assetId, includeParams: true })`。
 3. `graph_edit` 将剧本写入 `text.plain` 的 `params.text`，并可按需设置：
    - `film.workbench` 的 `filmAspectRatio`、`filmTargetShots`、`filmShotDurationSec`、`filmStyle`；
    - `film.shot` 的 `params.filmShotRef`：填镜头序号（从 `"1"` 起）或镜头 id；

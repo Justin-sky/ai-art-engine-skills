@@ -2,7 +2,8 @@
 name: wf-hand-drawn-styles
 description: 用「21种手绘插画画风」技能与工作流按原样配方生成21种手绘插画（xkcd火柴人、蜡笔童涂、吉卜力、亲子投稿蜡笔卡3.1、小豆人信息图、MS Paint烂涂鸦、圆珠笔涂鸦、蜡笔实拍、水墨写意、复古像素、淡彩速写、复古动画概念稿、暖光童画、北欧纸雕、北欧绘本水粉、大鼻软偶、聚光水粉立绘、墨线绘本、暖色扁平绘本、圆头红线19、暖黄墨线20）。当用户提到手绘画风、绘本插画或编号1-20/3.1时加载。
 workflow: hand-drawn-styles
-workflow-version: 1.0.0
+workflow-version: 1.1.0
+allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, asset_list, asset_import, task_run, task_status
 ---
 
 # 21种手绘插画画风（hand-drawn-styles）
@@ -56,7 +57,7 @@ workflow-version: 1.0.0
 3. **在 AI Art Engine 中交付或运行工作流**：
    - **仅需提示词**：直接将填好占位符的原样配方放入代码块返回给用户。
    - **在画布落地运行**：
-     - 可直接调用 `workflow_use_installed({ id: "hand-drawn-styles" })` 实例化本工作流，或直接在当前画布上的 `asset.image` 节点上写入 `params.generateInstruction`。
+     - 可直接调用 `workflow_use_installed({ id: "hand-drawn-styles", mode: "seed" })` 实例化本工作流（画布节点 `id` 即为 `subject`、`styleCardA`~`styleCardC`、`anchorRef`、`lockedBase`、`scribblePass1`、`scribblePass2`、`note`），或直接在当前画布上的 `asset.image` 节点上写入 `params.generateInstruction`。
      - 工作流预置了两条分支：
        1. **常规单阶段手绘生成**（节点 `styleCardA` / `styleCardB` / `styleCardC`）：适合 `#1`–`#18` 任意画风，将组装好的完整配方写入节点的 `generateInstruction`（注意：若 `generateInstruction` 已包含完整主体内容，可断开 `subject -> styleCard*` 的 `in-text` 连线，避免上游 `text.plain` 文本在提示词末尾重复拼接）。
        2. **主视觉锚点锁定与 `#3.1` 三阶段涂抹修正链**（节点 `anchorRef` → `lockedBase` → `scribblePass1` → `scribblePass2`）：
@@ -64,3 +65,10 @@ workflow-version: 1.0.0
           - `#19` 官方锚点 URL：`https://gentle-starburst-99bd99.netlify.app/hand-drawn/assets/style-19/anchor-roundhead-redline.png`
           - `#20` 官方锚点 URL：`https://gentle-starburst-99bd99.netlify.app/hand-drawn/assets/style-20/anchor-warm-yellow-ink-story.png`
           - 跑 `#3.1`（`family-crayon-card-v3`）时，先将锚点图写入 `anchorRef`，运行 `lockedBase` 产出初稿后，依次运行 `scribblePass1`（第一轮打散统一斜线）与 `scribblePass2`（第二轮放大粗钝笔触与 35–55% 大片漏白），以 `scribblePass2` 的输出作为最终成品。
+
+## 动态分支裁剪与跨技能混搭（Seed & Dynamic Composition）
+
+- **按目标画风精准裁剪节点（必读）**：
+  - 当用户只指定了 `#1`–`#18` 中的 **1 种画风**时，落盘后可用 `graph_edit` 的 `node_delete` 删掉未用到的 `styleCardB`、`styleCardC` 以及 `anchorRef` / `lockedBase` / `scribblePass1` / `scribblePass2`，仅保留 `subject` → `styleCardA` 运行，避免无谓消耗多次生图配额；
+  - 当用户指定 `#19` 或 `#20`（单阶段锚点锁定画风）时，保留 `anchorRef` → `lockedBase`，删掉 `styleCardA~C` 及 `scribblePass1~2`（`scribblePass1~2` 仅用于 `#3.1` 蜡笔三阶段修正链）。
+- **与有声绘本/科普短片混搭**：可将本技能调校好的手绘配方直接注入 `storybook-narrate` 的 `styleAnchor` 或 `science-explainer` 的插画节点，打造独具匠心的手绘动画短片。

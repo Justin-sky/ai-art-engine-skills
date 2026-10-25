@@ -13,7 +13,7 @@
     "配音BGM",
     "成片时间线"
   ],
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -105,7 +105,7 @@
         "typeId": "asset.voice",
         "title": "钩子痛点口播",
         "params": {
-          "generateInstruction": "语速紧凑、情绪夸张抓耳的游戏主播男声口播：「开局总是卡关被 Boss 秒？那是你没解锁这套隐藏神装流派！」"
+          "generateInstruction": "开局总是卡关被Boss秒？那是你没解锁这套隐藏神装流派！"
         }
       },
       {
@@ -113,7 +113,7 @@
         "typeId": "asset.voice",
         "title": "爽点与福利转化口播",
         "params": {
-          "generateInstruction": "高燃激昂的福利转化口播：「上线直接领免费百连抽，全屏暴击一刀满级，点击下方立即开玩！」"
+          "generateInstruction": "上线直接领免费百连抽，全屏暴击一刀满级，点击下方立即开玩！"
         }
       },
       {
@@ -259,6 +259,12 @@
         "to": "timeline",
         "fromPort": "out",
         "toPort": "in-music"
+      },
+      {
+        "from": "script",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-text"
       }
     ]
   }

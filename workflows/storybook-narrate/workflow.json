@@ -12,7 +12,7 @@
     "旁白配音",
     "成片时间线"
   ],
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -83,7 +83,7 @@
         "typeId": "asset.voice",
         "title": "第 1 页 · 绘本朗读配音",
         "params": {
-          "generateInstruction": "温柔亲切、富有童趣与感染力的睡前故事讲述音色，语速舒缓，朗读第 1 页故事文本"
+          "generateInstruction": "在云朵尽头的糖果森林里，住着一只耳朵会发光的小狐狸阿布，它最喜欢收集夜晚掉下来的星星碎片。"
         }
       },
       {
@@ -91,7 +91,7 @@
         "typeId": "asset.voice",
         "title": "第 2 页 · 绘本朗读配音",
         "params": {
-          "generateInstruction": "同款温柔亲切的绘本故事讲述音色，带着惊奇与呵护的语气，朗读第 2 页故事文本"
+          "generateInstruction": "这天夜里，一颗迷路的小流星落在了蒲公英草地上，阿布小心翼翼地捧起它，用温暖的尾巴替它拂去露水。"
         }
       },
       {
@@ -99,7 +99,7 @@
         "typeId": "asset.voice",
         "title": "第 3 页 · 绘本朗读配音",
         "params": {
-          "generateInstruction": "同款温柔治愈的绘本故事讲述音色，声音轻柔舒缓如摇篮曲，朗读第 3 页故事文本"
+          "generateInstruction": "小流星重新焕发出金色的光芒，化作漫天柔和的星雨，陪伴阿布进入了甜甜的梦乡。"
         }
       },
       {
@@ -247,6 +247,18 @@
         "to": "timeline",
         "fromPort": "out",
         "toPort": "in-music"
+      },
+      {
+        "from": "sfx",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-voice"
+      },
+      {
+        "from": "script",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-text"
       }
     ]
   }

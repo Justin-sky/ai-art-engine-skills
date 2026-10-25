@@ -2,7 +2,8 @@
 name: wf-short-drama
 description: 用「影视全流程」工作流完成从「创建剧本（asset.screenplay）→ 剧本分集（text.select）→ 分集短剧工作台（film.workbench，跨集共享角色场景设定库 Series Bible）→ 成片时间线（output.timeline）」的完整多集短剧/漫剧/影视制作闭环。当用户要从故事大纲或剧本出发制作短剧、漫剧、分集影视成片，需要创建剧本、按集拆分、跨集角色场景一致性、分镜审核拍摄与成片时间线合成时加载本技能；若只需单镜手动拆出精修可配合 wf-short-drama9。
 workflow: short-drama
-workflow-version: 2.0.0
+workflow-version: 2.1.0
+allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, timeline_read, timeline_edit, timeline_export, asset_list, asset_import, task_run, task_status
 ---
 
 # 影视全流程 · 创建剧本 → 剧本分集 → 分集短剧工作台 → 成片时间线（short-drama，9 节点 / 9 连线）
@@ -58,7 +59,7 @@ workflow-version: 2.0.0
 
 1. **安装或复用工作流创建画布资产**：
    - 调用 `workflow_list_installed` 确认已安装 `short-drama`；
-   - 调用 `workflow_use_installed({ id: "short-drama", name?, generateAspectRatio?, textModel?, imageModel?, videoModel? })` 创建画布资产并获取 `assetId`（竖屏短剧默认 `"9:16"`，横屏影视可传 `"16:9"`；传入的 `textModel` 会同时注入 `asset.screenplay` 与各集 `film.workbench`，`imageModel` 与 `videoModel` 会注入各集 `film.workbench`）。
+   - 调用 `workflow_use_installed({ id: "short-drama", mode: "seed" })` 在当前画布加载种子拓扑（节点 `id` 与 `key` 一致：`outline`、`screenplay`、`ep1_script`、`ep2_script`、`ep1_workbench`、`ep2_workbench`、`bgm`、`timeline`、`note`），随后通过 `graph_edit` 配置画幅比例（竖屏短剧 `"9:16"` / 横屏影视 `"16:9"`）与模型参数。
 2. **读取节点并写入故事大纲或剧本**：
    - `graph_read({ assetId, includeParams: true })` 查看节点列表（`outline`、`screenplay`、`ep1_script`、`ep2_script`、`ep1_workbench`、`ep2_workbench`、`bgm`、`timeline`）。
    - **方式 A（从大纲自动写多集剧本）**：用 `graph_edit` 修改 `outline`（`text.plain`）的 `params.text` 为用户的故事大纲与角色设定，**同时将 `screenplay` 的预设示例 `params.text` 清空为 `""`**，在 `screenplay`（`asset.screenplay`）的 `params.generateInstruction` 中补充集数与风格要求，并修改 `bgm`（`asset.music`）的配乐提示词。
@@ -92,3 +93,8 @@ workflow-version: 2.0.0
 ## 参数与端口速查
 
 完整的 9 节点拓扑、端口定义、分集选择器语法与 `film.workbench` / `output.timeline` 参数速查见 `references/stages.md`。
+
+## 单集精简与时间线后期精修（Seed & Dynamic Composition）
+
+- **单集短剧快速出片（Prune to 1 Episode）**：若用户只需要制作 **单集短剧**（无需分两集），请用 `graph_edit` 的 `node_delete` 删掉 `ep2_script` 与 `ep2_workbench`，只运行 `ep1_script` → `ep1_workbench` → `timeline`，耗时与成本立减一半。
+- **后期时间线精剪（`timeline_edit`）**：在 `timeline` 合成后，可调用 `timeline_edit` 为关键转折点添加音效（`sfxItems`）、调整角色配音音高/音色特效（`pitchSemitones` / `voiceEffect`）或自定义转场。

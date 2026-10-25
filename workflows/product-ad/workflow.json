@@ -12,7 +12,7 @@
     "三镜带货",
     "成片时间线"
   ],
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -39,7 +39,7 @@
         "typeId": "text.plain",
         "title": "品牌卖点与脚本",
         "params": {
-          "text": "（填写产品名称、核心材质/科技卖点、目标人群使用场景与品牌口播金句）"
+          "text": "【第1幕·痛点与破局】晨间都市快节奏，传统护肤繁琐低效，肌肤渴望深层呼吸。\n【第2幕·微距黑科技】微囊超导玻尿酸精华触肤即融，亿万级活性水分子穿透肌底，焕发通透冷白光泽。\n【第3幕·高定收官】AURA 极光微囊精华液——一滴唤醒原生光芒。"
         }
       },
       {
@@ -94,7 +94,7 @@
         "typeId": "asset.voice",
         "title": "品牌质感旁白配音",
         "params": {
-          "generateInstruction": "极具质感与亲和力的商业广告旁白音色，语调从容自信，清晰传达产品核心科技卖点与品牌主张"
+          "generateInstruction": "在快节奏的都市清晨，让肌肤重获深层呼吸。AURA极光微囊精华，亿万级活性分子触肤即融，一滴唤醒原生光芒。"
         }
       },
       {
@@ -216,6 +216,12 @@
         "to": "timeline",
         "fromPort": "out",
         "toPort": "in-music"
+      },
+      {
+        "from": "copy",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-text"
       }
     ]
   }

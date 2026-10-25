@@ -2,10 +2,10 @@
 name: wf-ui-layer-split
 description: '一键把 UI 截图 / 设计稿精准拆成专业美工级 PSD 分层（本地 OCR + 多模态大模型 + 逐级剥层补底）。用户要求拆分 UI 图层、切图、把界面图拆成 PSD、把游戏 UI / App 界面分层、提取按钮图标面板等界面元素时加载本技能。'
 workflow: ui-layer-split
-workflow-version: 1.0.0
+workflow-version: 1.1.0
 argument-hint: '[图片资产名或路径] [可选：拆分重点 / 界面说明]'
 when_to_use: '用户要求拆分 UI 图层、切图、把界面图拆成 PSD、把游戏 UI / App 界面分层、提取按钮图标面板等界面元素时使用。Use when the user wants to slice / decompose a UI image into layers or a PSD.'
-allowed-tools: mcp__studio__models_list, mcp__studio__asset_list, mcp__studio__asset_import, mcp__studio__graph_node_types, mcp__studio__graph_read, mcp__studio__graph_edit, mcp__studio__task_run, mcp__studio__task_status, mcp__studio__ask_user
+allowed-tools: workflow_list_installed, workflow_use_installed, models_list, asset_list, asset_import, graph_node_types, graph_read, graph_edit, task_run, task_status, ask_user
 ---
 
 # UI 精准拆层（ui-layer-split）
@@ -59,3 +59,7 @@ allowed-tools: mcp__studio__models_list, mcp__studio__asset_list, mcp__studio__a
 一次拆分 ≈ 1 次 VLM 版面解析 + 最多 3 次放大复检 + 最多 3 次图片编辑（每个遮挡层级一次，通常 2–3 次）。设 `splitMode = "auto"` 时若没有视觉模型会自动回退到传统引擎。
 
 更多原理与排错见 [references/pipeline.md](references/pipeline.md)。
+
+## 种子工作流直通与混搭（Seed & Dynamic Composition）
+
+- 除手动用 `graph_edit` 建点外，也可直接调用 `workflow_use_installed({ id: "ui-layer-split", mode: "seed" })` 一键落盘 `uiImage`（`asset.image`）→ `layerSplit`（`image.layerSplit`）种子拓扑。

@@ -1,55 +1,57 @@
 ---
 name: wf-science-explainer
-description: 用「科普动画全流程」工作流把一篇科普文章或知识点一键转化为含风格锚点、SVG 矢量原理图解动画、三幕电影级科普视频、逐镜专业配音、轻快 BGM 与自动字幕的完整科普成片（output.timeline）。当用户说「根据文章生成科普视频」「做一条科普动画/知识解说短片」时优先加载本技能。
+description: 用「科普动画」工作流把硬核科学/医学/工程/商业原理解析转化为双路动态矢量图解 + 高清科普插画 + 逐镜旁白成片：科普脚本（script）→ 核心概念 SVG 动态图解（svgGen1 → svgAnim1:out-gif）+ 微观机制 SVG 动态图解（svgGen2 → svgAnim2:out-gif）+ 高清科普插画（illust3）+ 三段逐镜科普配音（voice1~voice3）+ 探索感背景音乐（bgm）→ 科普成片时间线（timeline: output.timeline）。
 workflow: science-explainer
-workflow-version: 1.0.0
-argument-hint: "[科普文章/知识点主题] [画幅比例 16:9 或 9:16]"
-when-to-use: 用户希望把一段科普文章、百科知识、科学原理或技术概念转化为带配音、字幕、矢量原理图解与多镜头画面的完整科普视频时使用。
-allowed-tools: workflow_list_installed, workflow_use_installed, graph_read, graph_edit, task_run, task_status
+workflow-version: 1.1.0
+argument-hint: "[科普主题/核心科学原理/目标受众]"
+when-to-use: 用户想要制作科普动画短片、硬核科学原理解析视频（类似 Kurzgesagt / 回形针 / 3Blue1Brown 风格）、带 SVG 动态机制图解的知识科普成片时使用。
+allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, timeline_read, timeline_edit, timeline_export, render_svg, task_run, task_status
 ---
 
-# 科普动画全流程 · 工业级多轨成片 SOP（science-explainer）
+# 科普动画 · 双路 SVG 动态图解与多轨合成 SOP（science-explainer v1.1）
 
-## 拓扑架构与交付物
+## 默认种子拓扑与交付物（Seed Skeleton，12 节点 / 17 连线）
 
 ```
-科普脚本与字幕 (text.plain)
-  ├─out→in-text──→ 科普视觉风格锚点 (asset.image)
-  │                  ├─out→in-image──→ 镜头1·现象引入关键帧 (asset.image) ──out→in-image──→ 镜头1·现象引入视频 (asset.video) ──out→in-clips─┐
-  │                  ├─out→in-image──→ 镜头2·核心机制关键帧 (asset.image) ──out→in-image──→ 镜头2·核心机制视频 (asset.video) ──out→in-clips─┤
-  │                  └─out→in-image──→ 镜头3·生活应用关键帧 (asset.image) ──out→in-image──→ 镜头3·生活应用视频 (asset.video) ──out→in-clips─┤
-  ├─out→in───────→ SVG 原理图解生成 (svg.gen) ──out→in──→ SVG 原理动效合成 (svg.anim) ───────────────────────────────out-video→in-clips─┤
-  ├─out→in-text──→ 镜头1·引入配音 (asset.voice) ──────────────────────────────────────────────────────────────────────out→in-voice─────┤
-  ├─out→in-text──→ 镜头2·原理解析配音 (asset.voice) ──────────────────────────────────────────────────────────────────out→in-voice─────┤
-  ├─out→in-text──→ 镜头3·总结配音 (asset.voice) ──────────────────────────────────────────────────────────────────────out→in-voice─────┤
-  ├─out→in-text──→ 科普轻音乐 BGM (asset.music) ──────────────────────────────────────────────────────────────────────out→in-music─────┤
-  └─out→in-subtitles──────────────────────────────────────────────────────────────────────────────────────────────────────────────────→ 成片时间线 (output.timeline)
+科普文章与分镜旁白稿 (text.plain: script)
+  ├─out→in───────→ 第1镜·核心概念动态矢量图 (svg.gen: svgGen1) ──out→in──→ 第1镜·动效烘焙 (svg.anim: svgAnim1) ──out-gif→in-image─┐
+  ├─out→in───────→ 第2镜·微观机制动态图解 (svg.gen: svgGen2) ───out→in──→ 第2镜·动效烘焙 (svg.anim: svgAnim2) ──out-gif→in-image─┤
+  ├─out→in-text──→ 第3镜·高清科普插画 (asset.image: illust3) ────────────────────────────────────────────────────out→in-image─────┤
+  ├─out→in-text──→ 第1镜·科普旁白配音 (asset.voice: voice1) ─────────────────────────────────────────────────────out→in-voice─────┤
+  ├─out→in-text──→ 第2镜·科普旁白配音 (asset.voice: voice2) ─────────────────────────────────────────────────────out→in-voice─────┤
+  ├─out→in-text──→ 第3镜·科普旁白配音 (asset.voice: voice3) ─────────────────────────────────────────────────────out→in-voice─────┤
+  ├─out→in-text──→ 探索感科普背景音乐 (asset.music: bgm) ────────────────────────────────────────────────────────out→in-music─────┤
+  └─out→in-text───────────────────────────────────────────────────────────────────────────────────────────────────────────────────→ 科普成片时间线 (output.timeline: timeline)
 ```
 
-## 导演分镜与提示词工程规范（Agent 改写脚本与提示词必读）
+> **节点 ID 直通原则**：调用 `workflow_use_installed({ id: "science-explainer", mode: "seed" })` 物化后，画布上的节点 `id` 与 `workflow.json` 的 `key` 完全一致（`script`、`svgGen1`、`svgAnim1`、`svgGen2`、`svgAnim2`、`illust3`、`voice1`、`voice2`、`voice3`、`bgm`、`timeline`、`note`），可直接传入 `graph_edit`。
 
-当用户给出一篇科普文章或一句话主题时，Agent 必须通过 `graph_edit` 将文章转化为结构化导演方案，严禁保留模板占位符直接开跑：
+## 科普视觉与配音核心规范
 
-| 阶段节点 | 角色定位 | 提示词与参数覆写公式 |
-|---|---|---|
-| `script` (`text.plain`) | 全局叙事与字幕源 | 将文章提炼为 **3 段式口播字幕稿**（每句以句号/感叹号/问号或换行分隔，以便 `output.timeline` 自动切分字幕时间轴）：① 现象悬念引入 → ② 核心微观机制拆解 → ③ 现实生活启发。 |
-| `styleAnchor` (`asset.image`) | 视觉母版锁（锁色板与画风） | 公式：`Kurzgesagt / 现代扁平科学插画设定表 + 主题核心视觉符号 + 统一明快撞色色板（深空蓝底 + 青绿/暖橙高亮） + 干净无文字无水印`。其 `out` 已连入 3 个分镜图的 `in-image`，强制三幕画面色调与图形语言 100% 统一。 |
-| `svgDiagram` (`svg.gen`) → `svgAnim` (`svg.anim`) | 矢量机制图解动效 | 在 `svgDiagram` 的 `generateInstruction` 中写明核心因果/流程结构图（如「ATP 能量循环四步箭头图」「温室效应红外反射示意图」），由 `svg.anim` 自动生成平滑描边与脉冲补间并输出 MP4 视频流汇入时间线。 |
-| `shot1Img`~`shot3Img` (`asset.image`) | 三幕叙事关键帧 | 严格遵循「1镜微距/悬念特写 → 2镜机制剖面展示 → 3镜宏观生活场景」景别递进，全部显式声明 `严格沿用参考图色板与扁平矢量材质，画面干净无文字`。 |
-| `shot1Vid`~`shot3Vid` (`asset.video`) | 三幕图生视频 | 写明具体镜头运动（如 `缓慢推进 dolly-in`、`微观粒子沿轨迹流动`、`平稳拉远揭示全景`），且设置 `generateAudio: false` 避免视频底噪干扰人声配音。 |
-| `voice1`~`voice3` (`asset.voice`) | 逐镜同步配音 | **重要规则**：`asset.voice` 的 `generateInstruction` 是直接送入 TTS 朗读的台词正文！必须将第 1、2、3 幕对应的口播词分别写入 `voice1`、`voice2`、`voice3` 的 `generateInstruction`，**只写纯朗读台词，严禁写入"请用温和语气朗读"等导演指令**（否则 TTS 会把指令念出来）。 |
+1. **三幕递进式科普叙事（先定因果逻辑再填节点）**：
+   - **第 1 镜（宏观现象/悬念引入，`svgGen1 → svgAnim1` + `voice1`）**：从日常直觉或反常识现象切入，用清晰的几何扁平动态图展示宏观概念；
+   - **第 2 镜（微观/底层机制拆解，`svgGen2 → svgAnim2` + `voice2`）**：深入分子/算法/物理能量传递层，利用 SVG SMIL `<animate>` / `<animateTransform>` 展示粒子流动、齿轮咬合、信号传导与中文标注箭头；
+   - **第 3 镜（具象应用与总结升华，`illust3` + `voice3`）**：用高审美科普插画（或扩展为 3D 微观摄影视频）收束全片，点明科学原理对现实世界的意义。
+2. **SVG 动效烘焙端口规范（`svg.gen → svg.anim`）**：
+   - `svgGen1` / `svgGen2` 提示词须要求：**深色科研背景（`#0F172A`）、高对比霓虹科研配色（青/琥珀/品红）、中文标签排版整洁、内嵌原生 `<animate>` / `<animateTransform>` 循环动效**；
+   - `svgAnim1` / `svgAnim2` 将动态 SVG 烘焙为 GIF 动图，通过 **`out-gif` 端口**连入 `timeline:in-image`。
+3. **旁白配音防呆铁律（`voice1`~`voice3`）**：
+   - `voice1`、`voice2`、`voice3` 的 `params.generateInstruction` **必须只写该镜要被 TTS 朗读的纯旁白句子**，严禁写「生动抓耳的科普音色，朗读第1镜旁白：」等前缀说明！
 
-## 标准执行步骤（MCP 自动化路径）
+## 动态算子伸缩与跨技能自由混搭（Seed & Dynamic Composition）
 
-1. **落盘工作流**：调用 `workflow_use_installed({ id: "science-explainer", name: "<科普主题>·科普视频", generateAspectRatio: "16:9" })`（竖屏科普传 `"9:16"`）。
-2. **读取节点 ID**：调用 `graph_read({ assetId, includeParams: true })` 获取图上所有节点的真实 `id`。
-3. **一次性注入定制内容**：调用 `graph_edit` 批量更新：
-   - `script` 的 `params.text`（完整三段式字幕文稿）；
-   - `styleAnchor`、`svgDiagram`、`shot1Img`、`shot2Img`、`shot3Img`、`shot1Vid`、`shot2Vid`、`shot3Vid` 的 `params.generateInstruction`；
-   - `voice1`、`voice2`、`voice3` 的 `params.generateInstruction`（三段纯口播台词，与 `script` 字幕逐段对应）；
-   - 若用户只需要三幕写实/插画视频而不想要额外的 SVG 图解片头，可断开 `svgAnim` 到 `timeline` 的连线，避免空白占位。
-4. **启动全图合成**：调用 `task_run({ assetId })` 拿到 `mcpTaskId`，用 `task_status({ mcpTaskId })` 跟进直至 `output.timeline` 完成多轨音画对位与字幕压制。
-5. **双击进时间线微调**：提醒用户可双击画布右侧的「成片时间线」节点（`output.timeline`）进入多轨非编视图，实时预览画面、拖动剪辑块或调整字幕样式后一键导出 MP4 成片。
+- **将第 3 镜升级为 3D 微观动态视频（`illust3 → vid3`）**：
+  若用户想要震撼的微观流体/宇宙星体动态镜头，可用 `graph_edit` 新增 `vid3`（`typeId: "asset.video"`, `params: { generateAudio: false }`），连接 `illust3:out → vid3:in-image` 与 `vid3:out → timeline:in`。
+- **扩展为 4~6 镜深度科普长片**：
+  按需复制 `svgGenN → svgAnimN` 或 `illustN → vidN` + `voiceN` 分支，依次连入 `timeline` 的 `in-image` / `in` 与 `in-voice`。
+- **混搭数字人主讲（`course-narrate` 融合）**：
+  使用 `workflow_use_installed({ id: "course-narrate", assetId, mode: "merge" })` 或新增 `video.lipSync`，实现「数字人学者出镜讲解 + 全屏 SVG 动态原理图切镜」的纪录片效果。
+
+## 标准执行步骤（MCP 路径）
+
+1. `workflow_use_installed({ id: "science-explainer", mode: "seed" })` 落盘种子拓扑。
+2. `graph_edit` 将三段分镜旁白稿写入 `script 的 params.`，将纯朗读旁白分别写入 `voice1`~`voice3` 的 `params.generateInstruction`，并定制 `svgGen1`、`svgGen2`、`illust3`、`bgm` 的具体科学主题提示词。
+3. `task_run({ assetId })` 一键跑通全图并合成 `timeline` 科普成片；需要精细调整字幕与音画对位时可调用 `timeline_edit`。
 
 ## 端口与参数速查
 

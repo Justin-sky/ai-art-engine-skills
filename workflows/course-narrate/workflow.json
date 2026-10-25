@@ -12,7 +12,7 @@
     "课程视频",
     "成片时间线"
   ],
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -69,7 +69,7 @@
         "typeId": "asset.voice",
         "title": "讲师口播配音",
         "params": {
-          "generateInstruction": "沉稳、清晰、富有启发性的金牌讲师口播音色，逻辑重音分明，按讲稿自然朗读"
+          "generateInstruction": "为什么百分之九十的人学了很多方法，依然做不好时间管理？真正决定效率的不是日程表，而是认知负荷的双通道分配模型。记住这三个微习惯，每天立刻省出两小时深度工作时间。"
         }
       },
       {
@@ -222,6 +222,12 @@
         "to": "timeline",
         "fromPort": "out",
         "toPort": "in-music"
+      },
+      {
+        "from": "script",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-text"
       }
     ]
   }

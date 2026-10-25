@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T09:38:04.380Z",
+  "generatedAt": "2026-10-25T10:18:09.886Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -21,7 +21,7 @@
         "清明上河图",
         "一镜入画"
       ],
-      "version": "1.4.0",
+      "version": "1.5.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -44,7 +44,7 @@
       },
       "nodeCount": 22,
       "edgeCount": 37,
-      "sizeBytes": 24270,
+      "sizeBytes": 24268,
       "skill": {
         "name": "wf-ancient-scroll-revive",
         "description": "用「古画一镜入画」工作流将《清明上河图》《千里江山图》等中式传世古画或《雅典学院》《夜巡》《煎饼磨坊的舞会》等西方传世名画转化为「名画水平移动镜头 → 灵活中近景对位推镜 → 视频模型直出人物说话聊天原声 + 独立旁白轨道错峰解说画面」的央视/卢浮宫级短片：自动判别国画手卷（自右向左散点透视 + 东方文博朱印框）或西洋名画（焦点透视构图 + 西洋鎏金馆藏框），由多模态模型灵活框定最佳 16:9 选区并提炼场景名、人物对白与艺术史解说词（image.process + image.toPrompt），每幕还原为 8K 实拍画面，将人物说话台词直接传给视频模型（generateAudio: true）生成口型同步的现场交谈原声，配合独立旁白轨道（asset.voice）错峰解说、多轨音效（asset.sfx）与自适应器乐配乐（asset.music），在多轨成片时间线（output.timeline）一键合成。",
@@ -57,10 +57,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 9282
+            "sizeBytes": 10709
           }
         ],
-        "sizeBytes": 13827
+        "sizeBytes": 15254
       }
     },
     {
@@ -76,7 +76,7 @@
         "动作循环",
         "锚点锁比例"
       ],
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -97,20 +97,20 @@
       "sizeBytes": 4008,
       "skill": {
         "name": "wf-anim2d-gif",
-        "description": "用「2D 动画套装」工作流从一段角色设定出发，先生成 2D 游戏角色基准锚点图（in-image 锁定头身比、色板与描边风格），再一次性并发产出「待机呼吸循环（Idle）」「奔跑移动循环（Run）」「近战/技能攻击（Attack）」三套标准 3×3 序列帧雪碧图与去底透明 GIF（anim.2d）。",
+        "description": "用「2D 帧动画」工作流生成游戏级 2D 角色序列帧雪碧图（Sprite Sheet）与去底循环透明 GIF：角色基准立绘（charRef）→ 可控序列图生成（frameGen: frame.animGen，支持 ai-sheet / video-sheet / video-restyle / frames-sheet 四种模式）→ 2D 帧动画切格抠底稳像（anim: anim.2d），并可按需动态扩展待机/奔跑/攻击多动作并行管线。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 1791
+            "sizeBytes": 3295
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 3183
+            "sizeBytes": 5184
           }
         ],
-        "sizeBytes": 4974
+        "sizeBytes": 8479
       }
     },
     {
@@ -127,7 +127,7 @@
         "动态展示",
         "二次元与写实"
       ],
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -147,20 +147,20 @@
       "sizeBytes": 5086,
       "skill": {
         "name": "wf-character-sheet",
-        "description": "用「角色设定」工作流从一段人设描述出发，先生成正面全身基准立绘作为唯一视觉锚点（通过 in-image 锁定五官骨相、发色与服装结构），再并发衍生正侧背标准三视图、六宫格微表情包、高张力战斗/招牌动作立绘以及 360° 环绕动态展示视频。",
+        "description": "用「角色设定」工作流从角色设定圣经（bio）出发，先生成正面全身基准立绘（front）作为唯一视觉锚点（通过 in-image 锁死五官骨相、发色与服装结构），再并发衍生侧面正交立绘（side）、背面立绘与披挂拆解（back）、四格面部表情表（expr）与标志性战斗动态立绘（action），并支持动态扩展 360° 环绕视频或 3D 模型生成。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 2064
+            "sizeBytes": 3568
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 3105
+            "sizeBytes": 5295
           }
         ],
-        "sizeBytes": 5169
+        "sizeBytes": 8863
       }
     },
     {
@@ -176,7 +176,7 @@
         "对白气泡",
         "多页连载"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -197,7 +197,7 @@
       "sizeBytes": 18395,
       "skill": {
         "name": "wf-comic-publish",
-        "description": "用「漫画出版」工作流把一段剧本自动变成一集多页漫画（剧本 → 角色与画风定妆锚点 → 多页分镜图 ×10 → 3 张漫画页自动排版、斜切破格、速度线/集中线与台词气泡/音效字合成 PNG）。当用户要做一集漫画、多页连载条漫/日漫、或输入一段剧本自动生成带台词气泡的漫画成片时加载本技能。",
+        "description": "用「漫画出版」工作流把一段剧本自动变成一集多页漫画（script → charAnchor 角色与画风定妆锚点 → 多页分镜图 p1_1..p3_3 → page1..page3 漫画页自动排版、斜切破格、速度线/集中线与台词气泡/音效字合成 PNG），并支持自由增删页数/格数或接入时间线制作有声动态漫。当用户要做一集漫画、多页连载条漫/日漫、四格漫画或输入剧本自动生成带气泡的漫画成片时加载本技能。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
@@ -207,10 +207,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 9807
+            "sizeBytes": 7879
           }
         ],
-        "sizeBytes": 16910
+        "sizeBytes": 14982
       }
     },
     {
@@ -225,7 +225,7 @@
         "重制规划",
         "视频重制"
       ],
-      "version": "1.3.0",
+      "version": "1.4.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -243,7 +243,7 @@
       },
       "nodeCount": 4,
       "edgeCount": 2,
-      "sizeBytes": 2892,
+      "sizeBytes": 3018,
       "skill": {
         "name": "wf-commerce-semantic-variants",
         "description": "用「带货视频拆解与重制」工作流把口播/卖货实拍视频逆向拆解成结构化时间线，按镜头 / 台词 / 实体做针对性修改，再经重制规划、视频重制合成出新成片（未改的镜头直通原片，改过的镜头重新生成，改过的台词重新配音）。当用户要复刻带货视频、改某几镜、换人换商品、改台词重配音时加载本技能。",
@@ -256,10 +256,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 5073
+            "sizeBytes": 5913
           }
         ],
-        "sizeBytes": 6218
+        "sizeBytes": 7058
       },
       "semanticPacks": {
         "files": [
@@ -292,7 +292,7 @@
         "课程视频",
         "成片时间线"
       ],
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -315,24 +315,24 @@
         "appMinVersion": "7.1.0"
       },
       "nodeCount": 11,
-      "edgeCount": 15,
-      "sizeBytes": 7066,
+      "edgeCount": 16,
+      "sizeBytes": 7325,
       "skill": {
         "name": "wf-course-narrate",
-        "description": "用「知识口播」工作流制作专业数字人课程与知识博主视频：课程讲稿→讲师半身定妆照（in-image）→讲师自然手势参考视频+讲师口播配音（asset.voice）→口型同步成片（video.lipSync），并同步生成 SVG 核心知识框架动效（svg.gen→svg.anim）、课程背景轻音乐（asset.music）汇入成片时间线（output.timeline）。",
+        "description": "用「知识口播」工作流制作专业数字人课程与知识博主视频：课程结构化讲稿（script）→ 主讲人定妆照（portrait）→ 主讲人出镜底片（talking）+ 讲师口播配音（voice）→ 数字人口型同步（lipSync: video.lipSync），并同步生成核心知识点 SVG 动态板书（svgGen → svgAnim:out-gif）、课程案例 B-Roll 插图（broll）、课堂轻音乐（bgm）与字幕汇入成片时间线（timeline: output.timeline）。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 2539
+            "sizeBytes": 4075
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 4223
+            "sizeBytes": 6571
           }
         ],
-        "sizeBytes": 6762
+        "sizeBytes": 10646
       }
     },
     {
@@ -348,7 +348,7 @@
         "分镜预演",
         "图生视频"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -381,10 +381,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 7699
+            "sizeBytes": 8162
           }
         ],
-        "sizeBytes": 14567
+        "sizeBytes": 15030
       }
     },
     {
@@ -400,7 +400,7 @@
         "转化短视频",
         "成片时间线"
       ],
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -423,7 +423,7 @@
       "sizeBytes": 5014,
       "skill": {
         "name": "wf-ecom-ad-deep",
-        "description": "用「电商带货全案」工作流一次交付「A/B 投放平面矩阵 + 智能分层 PSD + 三镜带货成片」：商品卖点脚本→白底标准主图锚点（in-image 锁商品外观）→同时衍生 3 路不同受众场景 KV、可编辑图层分离（image.layerSplit），以及「痛点暴击 → 沉浸功能实测 → 促销转化尾帧」三镜视频+金牌带货口播+卡点BGM→成片时间线（output.timeline）。",
+        "description": "用「电商带货」工作流一次交付「白底棚拍主图锚点 + 场景/微距详情页套图 + A/B 投放变体矩阵 + 智能分层 PSD + 主图种草短视频」：电商卖点策略（copy）→ 商品棚拍主图锚点（hero，in-image 锁死商品外观）→ 痛点种草场景图（scene）+ 核心工艺微距图（closeup）+ A/B 投放变体矩阵（adVariants: image.adVariants）+ 主图 PSD 图层分离（split: image.layerSplit）+ 主图种草短视频（promoVideo: asset.video），并支持动态挂载多镜带货时间线（output.timeline）。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
@@ -433,14 +433,14 @@
           },
           {
             "path": "references/ports.md",
-            "sizeBytes": 2172
+            "sizeBytes": 3676
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 4426
+            "sizeBytes": 5375
           }
         ],
-        "sizeBytes": 13701
+        "sizeBytes": 16154
       }
     },
     {
@@ -455,7 +455,7 @@
         "风格锚点",
         "批量套装"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -487,10 +487,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 10407
+            "sizeBytes": 11644
           }
         ],
-        "sizeBytes": 18988
+        "sizeBytes": 20225
       }
     },
     {
@@ -507,7 +507,7 @@
         "配音BGM",
         "成片时间线"
       ],
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -527,24 +527,24 @@
         "appMinVersion": "7.1.0"
       },
       "nodeCount": 12,
-      "edgeCount": 20,
-      "sizeBytes": 8140,
+      "edgeCount": 21,
+      "sizeBytes": 8151,
       "skill": {
         "name": "wf-game-ua-video",
-        "description": "用「游戏买量」工作流把游戏卖点转化为工业级三镜竖屏买量成片：卖点脚本→游戏主视觉/主角锚点（in-image 锁画风）→黄金前3秒痛点钩子+中段核心玩法高潮+尾帧福利转化三镜关键帧与图生视频+激昂买量口播（asset.voice）+卡点战歌 BGM（asset.music）→成片时间线（output.timeline）自动合成。",
+        "description": "用「游戏买量」工作流把游戏卖点转化为工业级多镜竖屏买量成片：买量脚本（script）→ 角色与画风锚点（keyart，in-image 锁画风）→ 黄金3秒危机钩子（hookImg → hookVid）+ 核心爽点觉醒实机（coreImg → coreVid）+ 福利转化尾帧（ctaVid）+ 双段激情口播（voice1, voice2）+ 高燃卡点 BGM（bgm）→ 买量成片时间线（timeline: output.timeline）。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 2731
+            "sizeBytes": 4267
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 4689
+            "sizeBytes": 7090
           }
         ],
-        "sizeBytes": 7420
+        "sizeBytes": 11357
       }
     },
     {
@@ -559,7 +559,7 @@
         "风格锁定",
         "多界面套件"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -591,10 +591,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 6959
+            "sizeBytes": 7648
           }
         ],
-        "sizeBytes": 13295
+        "sizeBytes": 13984
       }
     },
     {
@@ -609,7 +609,7 @@
         "PBR网格",
         "3D导演台"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -642,10 +642,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 8899
+            "sizeBytes": 9883
           }
         ],
-        "sizeBytes": 14527
+        "sizeBytes": 15511
       }
     },
     {
@@ -714,7 +714,7 @@
         "水墨",
         "像素"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "threerocks / AIArtEngine",
         "url": "https://github.com/threerocks/hand-drawn-styles"
@@ -752,10 +752,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 7704
+            "sizeBytes": 8904
           }
         ],
-        "sizeBytes": 101812
+        "sizeBytes": 103012
       }
     },
     {
@@ -771,7 +771,7 @@
         "卡点短片",
         "成片时间线"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -790,24 +790,24 @@
         "appMinVersion": "7.1.0"
       },
       "nodeCount": 11,
-      "edgeCount": 18,
-      "sizeBytes": 7659,
+      "edgeCount": 19,
+      "sizeBytes": 7783,
       "skill": {
         "name": "wf-music-mv",
-        "description": "用「音乐 MV 短片」工作流从一段歌词/情绪企划出发，同步生成 AI 原创音乐（asset.music）、锁定主角与光影美学锚点（in-image），并拍摄主歌叙事、副歌爆发、尾奏意境三幕电影级视频，最终在成片时间线（output.timeline）自动完成音画合成与歌词字幕对位。",
+        "description": "用「音乐 MV 短片」工作流从一段歌词与歌曲意境脚本（script）出发，同步生成 AI 原创主题音乐（bgm: asset.music）、锁定主角与光影色调锚点（charAnchor: asset.image），并拍摄主歌叙事（shot1 → vid1）、副歌高潮（shot2 → vid2）、尾奏余韵（shot3 → vid3）三幕电影级视频，最终在 MV 成片时间线（timeline: output.timeline）完成多轨音画合成与歌词字幕对位。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 2632
+            "sizeBytes": 4168
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 4406
+            "sizeBytes": 6032
           }
         ],
-        "sizeBytes": 7038
+        "sizeBytes": 10200
       }
     },
     {
@@ -823,7 +823,7 @@
         "三镜带货",
         "成片时间线"
       ],
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -843,24 +843,24 @@
         "appMinVersion": "7.1.0"
       },
       "nodeCount": 10,
-      "edgeCount": 16,
-      "sizeBytes": 6600,
+      "edgeCount": 17,
+      "sizeBytes": 6980,
       "skill": {
         "name": "wf-product-ad",
-        "description": "用「产品广告」工作流打造商业级品牌 TVC 短片：从产品 Brief 出发，先生成高定商业棚拍主视觉作为工业造型与材质锚点（in-image），再展开「生活痛点/氛围引入 → 微距工艺卖点特写 → 理想生活场景收尾」三镜关键帧与图生视频，配合质感广告旁白（asset.voice）、品牌调性配乐（asset.music）在成片时间线（output.timeline）自动合成。",
+        "description": "用「产品广告」工作流打造商业级品牌 TVC 短片：从品牌卖点与脚本（copy）出发，先生成高定商业棚拍主视觉（hero）作为工业造型与材质锚点（in-image），再展开真实生活使用场景（scene → videoScene）、产品流光亮相视频（videoHero）与微距工艺卖点特写（detail），配合质感品牌旁白（voice）、商业氛围配乐（bgm）在广告成片时间线（timeline: output.timeline）自动合成。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 2479
+            "sizeBytes": 4013
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 4284
+            "sizeBytes": 6157
           }
         ],
-        "sizeBytes": 6763
+        "sizeBytes": 10170
       }
     },
     {
@@ -876,7 +876,7 @@
         "字幕时间线",
         "零门槛成片"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -897,24 +897,24 @@
         "appMinVersion": "7.1.0"
       },
       "nodeCount": 12,
-      "edgeCount": 16,
-      "sizeBytes": 8551,
+      "edgeCount": 17,
+      "sizeBytes": 8432,
       "skill": {
         "name": "wf-science-explainer",
-        "description": "用「科普动画全流程」工作流把一篇科普文章或知识点一键转化为含风格锚点、SVG 矢量原理图解动画、三幕电影级科普视频、逐镜专业配音、轻快 BGM 与自动字幕的完整科普成片（output.timeline）。当用户说「根据文章生成科普视频」「做一条科普动画/知识解说短片」时优先加载本技能。",
+        "description": "用「科普动画」工作流把硬核科学/医学/工程/商业原理解析转化为双路动态矢量图解 + 高清科普插画 + 逐镜旁白成片：科普脚本（script）→ 核心概念 SVG 动态图解（svgGen1 → svgAnim1:out-gif）+ 微观机制 SVG 动态图解（svgGen2 → svgAnim2:out-gif）+ 高清科普插画（illust3）+ 三段逐镜科普配音（voice1~voice3）+ 探索感背景音乐（bgm）→ 科普成片时间线（timeline: output.timeline）。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 2725
+            "sizeBytes": 4261
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 7264
+            "sizeBytes": 6691
           }
         ],
-        "sizeBytes": 9989
+        "sizeBytes": 10952
       }
     },
     {
@@ -930,7 +930,7 @@
         "短剧工作台",
         "成片时间线"
       ],
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -964,10 +964,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 10883
+            "sizeBytes": 11700
           }
         ],
-        "sizeBytes": 21919
+        "sizeBytes": 22736
       }
     },
     {
@@ -982,7 +982,7 @@
         "单镜精修",
         "角色连续性"
       ],
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -1015,10 +1015,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 4297
+            "sizeBytes": 4341
           }
         ],
-        "sizeBytes": 7216
+        "sizeBytes": 7260
       }
     },
     {
@@ -1034,7 +1034,7 @@
         "逐镜配音",
         "成片时间线"
       ],
-      "version": "2.0.0",
+      "version": "2.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -1054,24 +1054,24 @@
         "appMinVersion": "7.1.0"
       },
       "nodeCount": 14,
-      "edgeCount": 24,
-      "sizeBytes": 9278,
+      "edgeCount": 25,
+      "sizeBytes": 9359,
       "skill": {
         "name": "wf-storyboard-video",
-        "description": "用「分镜出片」工作流将分镜脚本转化为视觉连续的三镜电影短片：先生成角色与场景画风主锚点（in-image 锁死全片角色外观与色调），再依次生成远景环境建立、中景动作推进、特写情绪高潮三镜关键帧与图生视频，配合逐镜旁白配音（asset.voice）、电影感配乐（asset.music）在成片时间线（output.timeline）自动合成。",
+        "description": "用「分镜出片」工作流把导演分镜脚本转化为角色与画风高度统一的电影级多镜头短片：导演分镜与旁白脚本（shots）→ 主角与光影定妆锚点（charRef，通过 in-image 锁定全片角色一致性）→ 远景定场/中景推进/特写高潮三镜分镜图（board1~board3）→ 三镜图生视频（clip1~clip3）+ 逐镜旁白配音（voice1~voice3）+ 电影氛围配乐（bgm）→ 分镜成片时间线（timeline: output.timeline）。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 2955
+            "sizeBytes": 4490
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 4823
+            "sizeBytes": 7245
           }
         ],
-        "sizeBytes": 7778
+        "sizeBytes": 11735
       }
     },
     {
@@ -1087,7 +1087,7 @@
         "旁白配音",
         "成片时间线"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -1107,24 +1107,24 @@
         "appMinVersion": "7.1.0"
       },
       "nodeCount": 12,
-      "edgeCount": 19,
-      "sizeBytes": 8059,
+      "edgeCount": 21,
+      "sizeBytes": 8365,
       "skill": {
         "name": "wf-storybook-narrate",
-        "description": "用「有声绘本故事」工作流把一段童话、寓言或睡前故事转化为角色画风高度统一的儿童绘本动画短片：主角水彩设定锚点锁死三幕插画形象，配合微动效图生视频、三段亲切故事配音（asset.voice）、八音盒背景音乐（asset.music）与成片时间线（output.timeline）自动合成。",
+        "description": "用「有声绘本故事」工作流把童话、寓言或睡前故事转化为角色画风高度统一的治愈系有声绘本短片：绘本故事文本（script）→ 绘本主角与水彩画风锚点（styleAnchor，in-image 锁死全书角色与笔触）→ 三页跨页绘本插画（page1~page3）+ 逐页温柔故事朗读配音（voice1~voice3）+ 森林星光环境音效（sfx）+ 八音盒摇篮曲伴奏（bgm）→ 有声绘本成片时间线（timeline: output.timeline），并支持动态扩展页数或插入微动效图生视频。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 2775
+            "sizeBytes": 4341
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 4921
+            "sizeBytes": 6015
           }
         ],
-        "sizeBytes": 7696
+        "sizeBytes": 10356
       }
     },
     {
@@ -1140,7 +1140,7 @@
         "切图",
         "精准抠图"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -1170,10 +1170,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 5567
+            "sizeBytes": 5788
           }
         ],
-        "sizeBytes": 10503
+        "sizeBytes": 10724
       }
     },
     {
@@ -1188,7 +1188,7 @@
         "GLB网格导出",
         "3D导演台"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -1222,10 +1222,10 @@
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 3502
+            "sizeBytes": 4339
           }
         ],
-        "sizeBytes": 6390
+        "sizeBytes": 7227
       }
     }
   ]

@@ -2,7 +2,8 @@
 name: wf-world-model
 description: 用「世界模型」工作流把一张参考图或一段场景设定变成可继续编排的 3D 世界产物（Marble 空间世界 → 导出网格/泼溅 → 导演台）。当用户要做空间世界、沉浸式场景、或想从图片得到一个可进入的 3D 环境时加载本技能。
 workflow: world-model
-workflow-version: 1.0.0
+workflow-version: 1.1.0
+allowed-tools: workflow_list_installed, workflow_use_installed, models_list, graph_node_types, graph_read, graph_edit, asset_list, asset_import, task_run, task_status
 ---
 
 # 世界模型（world-model）
@@ -70,3 +71,8 @@ spatialWorld.export:out → asset.motion:in-model
 3. 生成后先让用户看导演台里的结果，再决定要不要接 `model.*` 继续加工。
 
 更细的节点参数与端口见 `references/ports.md`。
+
+## 种子工作流直通与算子混搭（Seed & Dynamic Composition）
+
+- **节点 ID 直通原则**：调用 `workflow_use_installed({ id: "world-model", mode: "seed" })` 物化后，画布节点 `id` 即为 `brief`（`text.plain`）、`world`（`asset.spatialWorld`）、`export`（`spatialWorld.export`）、`motion`（`asset.motion`）、`select`（`image.select`）、`video`（`asset.video`）、`note`。
+- **角色入驻世界（与 `game3d-asset` 混搭）**：可新增 `charModel`（`asset.model3d`）同时连入 `motion:in-model`（该端口支持挂多条 `model` 边），把生成的 3D 角色放进导出的 3D 世界舞台中一起摆机位预演。

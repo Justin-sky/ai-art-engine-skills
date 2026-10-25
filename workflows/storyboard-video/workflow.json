@@ -12,7 +12,7 @@
     "逐镜配音",
     "成片时间线"
   ],
-  "version": "2.0.0",
+  "version": "2.1.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -113,7 +113,7 @@
         "typeId": "asset.voice",
         "title": "镜头 1 旁白配音",
         "params": {
-          "generateInstruction": "低沉有故事感的电影旁白音色，朗读镜头 1 台词，语速沉稳克制"
+          "generateInstruction": "这座城市从不缺少秘密，只缺少掀开帷幕的人。"
         }
       },
       {
@@ -121,7 +121,7 @@
         "typeId": "asset.voice",
         "title": "镜头 2 旁白配音",
         "params": {
-          "generateInstruction": "同款电影旁白音色，情绪递进，朗读镜头 2 台词"
+          "generateInstruction": "当第十二声钟响落下，所有的线索都指向了同一个名字。"
         }
       },
       {
@@ -129,7 +129,7 @@
         "typeId": "asset.voice",
         "title": "镜头 3 高潮旁白",
         "params": {
-          "generateInstruction": "同款电影旁白音色，收尾掷地有声，朗读镜头 3 台词"
+          "generateInstruction": "而这一次，真相无处可逃。"
         }
       },
       {
@@ -299,6 +299,12 @@
         "to": "timeline",
         "fromPort": "out",
         "toPort": "in-music"
+      },
+      {
+        "from": "shots",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-text"
       }
     ]
   }

@@ -6,8 +6,13 @@
   "titleEn": "Commerce video breakdown & remake",
   "summary": "拆解口播卖货视频，规划改拍提示词方案，再重制合成新成片",
   "category": "ad",
-  "tags": ["视频拆解", "带货", "重制规划", "视频重制"],
-  "version": "1.3.0",
+  "tags": [
+    "视频拆解",
+    "带货",
+    "重制规划",
+    "视频重制"
+  ],
+  "version": "1.4.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -15,7 +20,12 @@
   "license": "CC-BY-4.0",
   "cover": "cover.png",
   "requires": {
-    "nodeTypes": ["note.text", "semantic.analyze", "semantic.compile", "semantic.rebuild"],
+    "nodeTypes": [
+      "note.text",
+      "semantic.analyze",
+      "semantic.compile",
+      "semantic.rebuild"
+    ],
     "appMinVersion": "7.4.0"
   },
   "semanticPacks": [
@@ -61,8 +71,18 @@
       }
     ],
     "edges": [
-      { "from": "analyze", "to": "compile", "fromPort": "out", "toPort": "in" },
-      { "from": "compile", "to": "rebuild", "fromPort": "out", "toPort": "in" }
+      {
+        "from": "analyze",
+        "to": "compile",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "compile",
+        "to": "rebuild",
+        "fromPort": "out",
+        "toPort": "in"
+      }
     ]
   }
 }

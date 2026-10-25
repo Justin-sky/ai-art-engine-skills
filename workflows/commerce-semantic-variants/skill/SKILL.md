@@ -2,7 +2,8 @@
 name: wf-commerce-semantic-variants
 description: 用「带货视频拆解与重制」工作流把口播/卖货实拍视频逆向拆解成结构化时间线，按镜头 / 台词 / 实体做针对性修改，再经重制规划、视频重制合成出新成片（未改的镜头直通原片，改过的镜头重新生成，改过的台词重新配音）。当用户要复刻带货视频、改某几镜、换人换商品、改台词重配音时加载本技能。
 workflow: commerce-semantic-variants
-workflow-version: 1.3.0
+workflow-version: 1.4.0
+allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, semantic_analyze_video, semantic_timeline_read, asset_list, asset_import, task_run, task_status
 ---
 
 # 带货视频拆解与重制（commerce-semantic-variants）
@@ -72,3 +73,8 @@ workflow-version: 1.3.0
 4. 跑「视频重制」出成片。**先用 `semanticExecute=false` 看清单（生成几镜、直通几镜、配音几句）再开**；
    零修改时不会调用视频模型。
 5. 人格与规则来自本包 JSON；不要在市场包里塞可执行节点代码。
+
+## 动态算子伸缩与跨技能混搭（Seed & Dynamic Composition）
+
+- **节点 ID 直通原则**：调用 `workflow_use_installed({ id: "commerce-semantic-variants", mode: "seed" })` 物化后，画布节点 `id` 即为 `analyze`（`semantic.analyze`）、`compile`（`semantic.compile`）、`rebuild`（`semantic.rebuild`）、`note`。
+- **叠加时间线二次包装**：若需对 `rebuild` 输出的重制成片（`out-video`）追加花字弹窗、BGM 混音或音效卡点，可用 `graph_edit` 新增 `timeline`（`output.timeline`）并将 `rebuild:out-video → timeline:in` 连接，随后调用 `timeline_edit` 精修。

@@ -2,7 +2,8 @@
 name: wf-game-icons
 description: 用「游戏图标包」工作流按名单批量产出游戏图标：三类名单各出一张 3×3 整版表 → 逐格裁切 → 键控透明打包成统一画布 PNG + 清单。当用户要一套技能/道具/状态图标、要透明底图标打包交付、或要按名单命名导出图标时加载本技能。
 workflow: game-icons
-workflow-version: 1.0.0
+workflow-version: 1.1.0
+allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, graph_icon_refine, asset_list, asset_import, task_run, task_status
 ---
 
 # 游戏图标包（game-icons）
@@ -144,3 +145,9 @@ workflow-version: 1.0.0
 4. 名单改了就重跑对应整版 + 打包，两件都要做。
 
 端口、参数表与错误对照见 `references/grid-and-pack.md`。
+
+## 动态轨道裁剪与扩展（Seed & Dynamic Composition）
+
+- **节点 ID 直通原则**：调用 `workflow_use_installed({ id: "game-icons", mode: "seed" })` 物化后，画布节点 `id` 与 `workflow.json` 的 `key` 完全一致（`scriptTheme`、`skillNames` / `skillSheet` / `skillSplit` / `skillPack`、`itemNames` / `itemSheet` / `itemSplit` / `itemPack`、`statusNames` / `statusSheet` / `statusSplit` / `statusPack`）。
+- **按需裁剪轨道（省钱省时）**：如果用户只需要 **1 类图标**（例如只要 8 枚技能图标），请用 `graph_edit` 的 `node_delete` 删掉不需要的 `item*` 与 `status*` 轨道节点，只跑 `skill*` 一条轨道，直接节省 2/3 的生图调用与等待时间！
+- **扩展第 4 类图标（如装备/坐骑/符文）**：若用户需要更多类别或单类超过 9 枚，用 `node_upsert` 新增一组 `equipNames`（`text.plain`）→ `equipSheet`（`asset.image`）→ `equipSplit`（`image.process`）+ `equipPack`（`image.iconPack`，设 `mediaOutputDir: "Assets/IconPacks/equip"`）。

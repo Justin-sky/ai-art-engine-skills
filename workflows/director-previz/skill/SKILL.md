@@ -2,7 +2,8 @@
 name: wf-director-previz
 description: 用「3D导演台预演」工作流先在 3D 导演台里搭景、摆机位、截站位图锁构图，再据此生成预演成片。当用户要做镜头预演、previz、构图推演、或想在出片前把景别与站位定死时加载本技能。
 workflow: director-previz
-workflow-version: 1.0.0
+workflow-version: 1.1.0
+allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, asset_list, asset_import, task_run, task_status
 ---
 
 # 3D 导演台预演（director-previz）
@@ -33,7 +34,7 @@ workflow-version: 1.0.0
 2. **全景氛围参考**由 `asset.image` 节点（「全景氛围参考」）生成，`generateInstruction` 已写好"360 全景氛围图，透视与光线方向明确"。
    - 用户已有全景图？直接在项目里引用它接到 `in-panorama`，不必再生成一张。
    - ⚠️ **全景必须是 2:1 等距柱状投影（equirectangular）**。导演台是把这张图贴到一个球内壁当背景，不做任何投影校正：非 2:1 的图会被拉伸变形，上下极点也会拧。所以给全景节点加 `generateAspectRatio: "2:1"`，或套用应用生成面板里那个「720 全景」指令预设（它明确要求 2:1、2048×1024 或 4096×2048）。
-   - ⚠️ **不要用 `workflow_use_installed` 的 `generateAspectRatio` 统一宽高比**：那个参数会**覆盖**计划里所有 `asset.image` / `asset.video` 节点的比例，包括全景图节点 —— 传了 `16:9` 之类就会把全景图做成非 2:1，导演台背景随即变形。正确做法是先落图，再单独 `graph_edit` 给需要竖版/横版的节点（`asset.video` 预演成片）设比例。
+   - ⚠️ **先用 `workflow_use_installed({ id: "director-previz", mode: "seed" })` 落盘种子拓扑**（节点 `id` 即为 `brief`、`pano`、`motion`、`select`、`video`、`note`），再用 `graph_edit` 单独给 `video`（预演成片）设目标宽高比（如 `16:9` 或 `9:16`），切勿改动 `pano` 的 `2:1` 等距柱状全景比例。
 3. **导演台不需要 3D 模型**：`asset.motion` 的 `in-model` 口可以空着，模板里也没连。用户没有模型是正常情况。
 4. 想让全景图**永远不要因上游重跑而被换掉**？目前上游一变就重载背景，没有"锁背景"开关 —— 要固定就先把上游图跑好再进导演台。
 
@@ -70,3 +71,7 @@ workflow-version: 1.0.0
 2. 全景图务必按 2:1 生成或用现成的等距柱状全景图，否则导演台里的背景会歪。
 3. 落图后先只跑「全景氛围参考」，把导演台交给用户搭景摆机位 —— **这一步 agent 代替不了**，不要假装跑一遍 `task_run` 就等于预演完成。
 4. 用户截好站位图后再跑「选站位图」→「预演成片」。视频是远程任务，用 `task_status` 轮询。
+
+## 动态算子伸缩与多机位扩展（Seed & Dynamic Composition）
+
+- **多机位并行出片**：用户在 `motion`（3D 导演台）截取多张不同机位的站位图后，可用 `graph_edit` 的 `node_upsert` 复制多组 `select2`（`image.select`）→ `video2`（`asset.video`），再汇入新增的 `timeline`（`output.timeline`）合成多机位预演短片。

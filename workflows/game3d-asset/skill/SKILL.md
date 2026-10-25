@@ -2,7 +2,8 @@
 name: wf-game3d-asset
 description: 用「游戏3D资产」工作流把一段资产设定做成 3D 模型预演：文生 3D 模型 → 进 3D 导演台摆机位 → 截站位图 → 出资产展示视频。当用户要游戏角色 / 道具的 3D 资产、旋转展示、或要进导演台预演时加载本技能。
 workflow: game3d-asset
-workflow-version: 1.0.0
+workflow-version: 1.1.0
+allowed-tools: workflow_list_installed, workflow_use_installed, models_list, graph_node_types, graph_read, graph_edit, generate_video, asset_list, asset_import, task_run, task_status
 ---
 
 # 游戏3D资产（game3d-asset）
@@ -133,3 +134,9 @@ workflow-version: 1.0.0
 
 节点端口、参数与默认值见 `references/ports.md`。
 不确定的端口 id 用 `graph_node_types` 查实（含端口与默认参数），不要靠猜。
+
+## 动态算子伸缩与 3D 管线扩展（Seed & Dynamic Composition）
+
+- **节点 ID 直通原则**：调用 `workflow_use_installed({ id: "game3d-asset", mode: "seed" })` 物化后，画布节点 `id` 即为 `script`、`modelMain`、`modelProp`、`motion`、`select`、`video`、`note`。
+- **裁剪不用节点**：若用户只需要单个主模型 GLB（不需要配套道具模型 `modelProp`），直接用 `{ op: "node_delete", nodeId: "modelProp" }` 删除，避免多跑一次昂贵的 3D 模型生成任务。
+- **串联绑骨蒙皮与动作节点**：在 `modelMain:out` 后可用 `graph_edit` 动态挂载 `model.rigSkin`（自动绑骨蒙皮）→ `model.animation`（骨骼动画），或先用 `character-sheet` 生成三视图锚点再连入 `modelMain:in-image` 进行图生 3D。
