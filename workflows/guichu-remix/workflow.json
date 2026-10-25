@@ -3,17 +3,17 @@
   "id": "guichu-remix",
   "title": "鬼畜魔性卡点剪辑",
   "titleEn": "Guichu Beat Remix & YTPMV",
-  "summary": "任意电影/小品金句拆解→押韵念诗与电音BGM→鬼畜微切片复读+灵魂出窍分屏伴舞→魔性卡点时间线",
+  "summary": "任意电影/小品金句拆解→半音变调爬音+电音BGM→鬼畜微切片复读+灵魂出窍伴舞→魔性卡点时间线",
   "category": "film",
   "tags": [
     "鬼畜剪辑",
     "魔性卡点",
+    "人力VOCALOID变调",
     "念诗之王",
     "让子弹飞",
-    "改革春风吹满地",
-    "成片时间线"
+    "改革春风吹满地"
   ],
-  "version": "1.1.0",
+  "version": "1.4.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -22,214 +22,25 @@
   "cover": "cover.png",
   "requires": {
     "nodeTypes": [
-      "asset.image",
       "asset.music",
       "asset.sfx",
       "asset.video",
-      "asset.voice",
-      "image.process",
-      "image.toPrompt",
-      "note.text",
       "output.timeline"
     ],
     "appMinVersion": "7.1.0"
   },
   "plan": {
-    "title": "鬼畜魔性卡点剪辑 · 念诗之王押韵重组与 126BPM 电音高频复读成片",
+    "title": "鬼畜魔性卡点剪辑 · 可扩展最小种子拓扑（原片/AI素材 + 126BPM电音 + 重拍打击采样 → 成片时间线）",
     "nodes": [
       {
-        "key": "meme_src",
-        "typeId": "asset.image",
-        "title": "鬼畜名场面母版 · 鹅城三巨头交锋全景",
-        "params": {
-          "generateInstruction": "民国荒诞黑色幽默电影《让子弹飞》名场面三联戏剧构图（16:9 超清电影剧照）：画面右侧为头戴礼帽、眼神凌厉竖起一根手指质问的霸气土匪县长（张麻子风格）；画面中央为身穿白色绸衫、手持单筒望远镜露出嚣张狂笑的鹅城恶霸老爷（黄四郎风格）；画面左侧为戴着圆框眼镜、抱头瞪眼张口惊呼的狡黠师爷（汤师爷风格）。浓烈戏剧明暗对比光影，人物面部表情张力拉满，35mm 电影胶片质感，纯画面无文字水印",
-          "generateAspectRatio": "16:9"
-        }
-      },
-      {
-        "key": "act1_crop",
-        "typeId": "image.process",
-        "title": "第1幕·名场面取景（Verse·念诗之王押韵铺垫）",
-        "params": {
-          "imageProcessTool": "crop",
-          "generateInstruction": "多模态鬼畜取景（第1幕·主歌念诗铺垫特写）：自动锁定画面右侧竖起手指、神情威严质问的主角中近景特写，突出极具节奏感的眼神、手势与口型张力，供主歌四四拍押韵顺口溜卡点使用",
-          "imageCrop": {
-            "cropX": 0.62,
-            "cropY": 0.08,
-            "cropW": 0.34,
-            "cropH": 0.80,
-            "aspectId": "16:9"
-          }
-        }
-      },
-      {
-        "key": "act2_crop",
-        "typeId": "image.process",
-        "title": "第2幕·名场面取景（Build-up·翻译翻译高频复读）",
-        "params": {
-          "imageProcessTool": "crop",
-          "generateInstruction": "多模态鬼畜取景（第2幕·预副歌高频鬼畜复读特写）：自动锁定画面中央举起单筒望远镜嚣张大笑与师爷震惊摇头的双人戏剧反打选区，供 1/8 拍至 1/16 拍正反微循环抽帧与左右镜像翻转卡点使用",
-          "imageCrop": {
-            "cropX": 0.30,
-            "cropY": 0.06,
-            "cropW": 0.36,
-            "cropH": 0.84,
-            "aspectId": "16:9"
-          }
-        }
-      },
-      {
-        "key": "act3_crop",
-        "typeId": "image.process",
-        "title": "第3幕·名场面取景（Drop·敢杀我的马副歌爆发）",
-        "params": {
-          "imageProcessTool": "crop",
-          "generateInstruction": "多模态鬼畜取景（第3幕·副歌 Drop 咆哮高潮选区）：自动锁定拍案而起、拔刀举枪对峙的高能爆发选区，供副歌灵魂出窍残影冲击、故障色差频闪与左右护法画中画伴舞合成使用",
-          "imageCrop": {
-            "cropX": 0.04,
-            "cropY": 0.08,
-            "cropW": 0.34,
-            "cropH": 0.82,
-            "aspectId": "16:9"
-          }
-        }
-      },
-      {
-        "key": "act1_recognize",
-        "typeId": "image.toPrompt",
-        "title": "第1幕·鬼畜押韵台词与微循环卡点策划",
-        "params": {
-          "text": "【第1幕 · 念诗之王】\n画面与人物说话对白（供视频模型直出）：中近景聚焦霸气县长竖起手指连拍桌面，踏着 126 BPM 强拍节奏字正腔圆地朗声念道：“走几步！走几步！走出个一日千里，走出一个虎虎生风！大风起兮云飞扬，安得猛士兮走四方！”\n画面解说旁白（供旁白轨配音）：来者不善，善者不来！枪在手，跟我走，杀四郎，抢碉楼！改革春风吹满地，鹅城人民真争气！",
-          "generateInstruction": "请以 B 站亿级鬼畜调音师（疯猴pme / 哦呼w / UP-Sings 流派）视角分析这幅切片，严格按以下格式输出：\n第一行：【第1幕 · 四字鬼畜章节名】（例如：【第1幕 · 念诗之王】）\n第二行（主画面夸张微动作与踩点台词，直接喂给视频模型生成带节奏原声）：描述人物随 126 BPM 四四拍鼓点摇头、竖指、拍桌的机械律动动作，并写出押韵洗脑的台词正文\n第三行（踩点 Rap 念诗配音词）：用押尾韵（如 ang / i / u 韵）的四字或七字短句写出魔性顺口溜，供独立人声轨与逐词弹跳大字幕使用"
-        }
-      },
-      {
-        "key": "act2_recognize",
-        "typeId": "image.toPrompt",
-        "title": "第2幕·高频鬼畜复读与正反抽帧策划",
-        "params": {
-          "text": "【第2幕 · 什么叫惊喜】\n画面与人物说话对白（供视频模型直出）：快速推拉特写聚焦恶霸举起单筒望远镜左右扭头狂笑，紧接着师爷擦汗摇头连声惊呼：“翻译翻译，什么叫惊喜？什么叫惊喜？我让你翻译给我听，什么叫惊喜！”\n画面解说旁白（供旁白轨配音）：公平！公平！还是他娘的公平！惊喜就是三天之后，给你一百八十万两银子出城剿匪，耗子都给猫当伴娘！",
-          "generateInstruction": "请以 B 站亿级鬼畜调音师视角分析这幅切片，严格按以下格式输出：\n第一行：【第2幕 · 四字鬼畜章节名】（例如：【第2幕 · 什么叫惊喜】）\n第二行（预副歌 Build-up 连续复读动作与质问台词，喂给视频模型生成原声）：描述人物高频点头、举镜反打、瞪眼质问的夸张微表情，写出连环追问复读台词\n第三行（电音复读 Hook 配音词）：写出含高频重复词组（如「公平，公平，还是公平」「什么叫惊喜」）的踩点人声词"
-        }
-      },
-      {
-        "key": "act3_recognize",
-        "typeId": "image.toPrompt",
-        "title": "第3幕·副歌咆哮爆发与分屏伴舞策划",
-        "params": {
-          "text": "【第3幕 · 敢杀我的马】\n画面与人物说话对白（供视频模型直出）：急推震屏特写聚焦主角猛拍案几、怒目圆睁仰天咆哮：“敢杀我的马？！敢杀我的马？！麻匪任何时候都要剿，不剿不行，你不剿我替你剿！”\n画面解说旁白（供旁白轨配音）：敢杀我的马！敢杀我的马！大风起兮云飞扬，齐德隆，齐东强，齐德隆的咚得隆咚锵！",
-          "generateInstruction": "请以 B 站亿级鬼畜调音师视角分析这幅切片，严格按以下格式输出：\n第一行：【第3幕 · 四字鬼畜章节名】（例如：【第3幕 · 敢杀我的马】）\n第二行（副歌 Drop 咆哮高潮动作与怒吼台词，喂给视频模型生成原声）：描述人物拍桌怒吼、拔刀举枪的炸裂戏剧张力与咆哮金句\n第三行（副歌洗脑咆哮 Hook 配音词）：写出最具穿透力的洗脑副歌口号与节奏象声词"
-        }
-      },
-      {
-        "key": "act1_real",
-        "typeId": "asset.image",
-        "title": "第1幕·高反差鬼畜表情精修帧",
-        "params": {
-          "generateInstruction": "严格依据参考图 @1 的人物造型与识图结果，生成 8K 电影级中近景戏剧特写：头戴礼帽的霸气县长竖起一根食指直指镜头，眉头微挑、眼神犀利充满冷幽默张力，复古民国衙门暖金与冷青高反差灯光，面部胡须与粗布礼帽质感清晰锐利，纯画面无文字",
-          "generateAspectRatio": "16:9"
-        }
-      },
-      {
-        "key": "act2_real",
-        "typeId": "asset.image",
-        "title": "第2幕·高反差鬼畜表情精修帧",
-        "params": {
-          "generateInstruction": "严格依据参考图 @1 的人物造型与识图结果，生成 8K 电影级喜剧张力近景特写：身穿白绸衫的恶霸老爷单眼举起黄铜单筒望远镜咧嘴狂笑，身旁戴圆框眼镜的师爷满头大汗张口惊呼，极具鬼畜表情包戏剧冲击力，纯画面无文字",
-          "generateAspectRatio": "16:9"
-        }
-      },
-      {
-        "key": "act3_real",
-        "typeId": "asset.image",
-        "title": "第3幕·高反差鬼畜表情精修帧",
-        "params": {
-          "generateInstruction": "严格依据参考图 @1 的人物造型与识图结果，生成 8K 电影级爆发高潮特写：主角猛烈拍案而起、青筋暴起仰天怒吼，桌案茶碗震飞、飞溅水花定格在空中，浓烈黑金与赤红戏剧逆光，视觉冲击力拉满，纯画面无文字",
-          "generateAspectRatio": "16:9"
-        }
-      },
-      {
-        "key": "act1_video",
+        "key": "src-video",
         "typeId": "asset.video",
-        "title": "第1幕·魔性押韵念诗卡点视频（含原声）",
+        "title": "鬼畜原片/名场面素材源",
         "params": {
-          "generateInstruction": "以首帧写实剧照起幅：镜头随 126 BPM 强拍鼓点做富有律动的快速推拉（Punch-In Zoom），主角一边富有节奏感地竖起手指左右点动、一边歪头张口铿锵有力地说道：“走几步！走几步！走出个一日千里，走出一个虎虎生风！大风起兮云飞扬，安得猛士兮走四方！”人物口型、手指点拍动作与说话原声精准卡在节拍上，无文字无水印",
+          "generateInstruction": "高能戏剧冲突名场面特写：人物眼神犀利、竖起手指拍案质问，面部表情夸张鲜活，口型清晰同步，16:9 电影画幅，含清晰同期人声对白",
           "generateDuration": 6,
           "generateAspectRatio": "16:9",
-          "generateAudio": true,
-          "generateFrameMode": "first"
-        }
-      },
-      {
-        "key": "act2_video",
-        "typeId": "asset.video",
-        "title": "第2幕·高频质问鬼畜微循环视频（含原声）",
-        "params": {
-          "generateInstruction": "以首帧写实剧照起幅：极具喜剧鬼畜张力的快速急推与微幅震屏运镜，恶霸老爷举着单筒望远镜随节拍左右晃头大笑，身旁师爷瞪大双眼、双手比划连珠炮似地张口喊道：“翻译翻译，什么叫惊喜？什么叫惊喜？我让你翻译给我听，什么叫惊喜！”表情夸张鲜活，口型与高能质问原声高度同步，无文字无水印",
-          "generateDuration": 6,
-          "generateAspectRatio": "16:9",
-          "generateAudio": true,
-          "generateFrameMode": "first"
-        }
-      },
-      {
-        "key": "act3_video",
-        "typeId": "asset.video",
-        "title": "第3幕·副歌咆哮爆发高潮视频（含原声）",
-        "params": {
-          "generateInstruction": "以首帧写实剧照起幅：重低音 Drop 爆发式急推震屏特写，主角双掌重重拍在木桌上震飞茶盏，眼神如电、张口爆发震耳欲聋的咆哮原声：“敢杀我的马？！敢杀我的马？！麻匪任何时候都要剿，你不剿我替你剿！”伴随沉重拍桌巨响与飞溅茶水慢镜冲击，戏剧张力炸裂，无文字无水印",
-          "generateDuration": 6,
-          "generateAspectRatio": "16:9",
-          "generateAudio": true,
-          "generateFrameMode": "first"
-        }
-      },
-      {
-        "key": "act1_voice",
-        "typeId": "asset.voice",
-        "title": "第1幕·念诗之王押韵踩点人声",
-        "params": {
-          "generateInstruction": "来者不善，善者不来！枪在手，跟我走，杀四郎，抢碉楼！改革春风吹满地，鹅城人民真争气！"
-        }
-      },
-      {
-        "key": "act2_voice",
-        "typeId": "asset.voice",
-        "title": "第2幕·翻译惊喜高频复读人声",
-        "params": {
-          "generateInstruction": "公平！公平！还是他娘的公平！翻译翻译，什么叫惊喜？耗子都给猫当伴娘，真是太疯狂！"
-        }
-      },
-      {
-        "key": "act3_voice",
-        "typeId": "asset.voice",
-        "title": "第3幕·敢杀我的马副歌咆哮 Hook",
-        "params": {
-          "generateInstruction": "敢杀我的马？！敢杀我的马？！大风起兮云飞扬，齐德隆，齐东强，齐德隆的咚得隆咚锵！"
-        }
-      },
-      {
-        "key": "act1_sfx",
-        "typeId": "asset.sfx",
-        "title": "第1幕·拍桌重击与折扇脆响采样",
-        "params": {
-          "generateInstruction": "Rhythmic heavy wooden table slap hit, crisp folding fan snap, and vintage steam train whistle blow locked to 126 BPM beat"
-        }
-      },
-      {
-        "key": "act2_sfx",
-        "typeId": "asset.sfx",
-        "title": "第2幕·拉枪栓与清脆耳光打击采样",
-        "params": {
-          "generateInstruction": "Crisp metallic rifle bolt cocking click, comedic slap impact, and brass telescope snap on 126 BPM snare hits"
-        }
-      },
-      {
-        "key": "act3_sfx",
-        "typeId": "asset.sfx",
-        "title": "第3幕·重低音拍案爆裂与锣鼓齐鸣采样",
-        "params": {
-          "generateInstruction": "Explosive bass drop impact, heavy gavel table smash, gunshot echo, and festive Chinese gong and drum roll climax"
+          "generateAudio": true
         }
       },
       {
@@ -242,223 +53,37 @@
         }
       },
       {
-        "key": "timeline",
-        "typeId": "output.timeline",
-        "title": "鬼畜魔性卡点成片时间线"
+        "key": "sfx-boom",
+        "typeId": "asset.sfx",
+        "title": "鬼畜重拍打击采样（拍桌/耳光/枪栓）",
+        "params": {
+          "generateInstruction": "Crisp comedic table slap impact, metallic rifle bolt click, and punchy bass drop hit locked to 126 BPM beat"
+        }
       },
       {
-        "key": "note",
-        "typeId": "note.text",
-        "title": "B站亿级鬼畜（敢杀我的马×改革春风吹满地）六大剪辑法则指南",
-        "params": {
-          "text": "【鬼畜魔性卡点剪辑 v1.0 · B站亿级播放《敢杀我的马？！》《改革春风吹满地》同源六大技法】\n1. 疯猴pme流派 126 BPM 强拍电音律动（T_beat = 0.476s）：四四拍重低音 Kick 与脆响 Snare 留出清晰中高频人声空隙，将影视/小品散碎对白转化为踩点 Rap。\n2. 念诗之王押韵重组（Sentence Mixing）：提取原片高能金句按同韵脚（ang / i / u）强行拼成押韵顺口溜，配合词级时间戳对齐拍点。\n3. 机关枪鬼畜复读（1/4拍 → 1/8拍 → 1/16拍 Stutter Roll）：利用 sourceOffsetSec 截取 0.12s~0.48s 微切片连续重复核心梗词（如「吹满地—春风吹满地」「什么叫惊喜—什么叫TMD惊喜」）。\n4. 鬼畜正反微循环与左右镜像翻转：截取人物 0.2s 缩脖、摇头、竖指、举望远镜微动作循环卡点，配合 flash 闪白、zoomin 急推、smoothleft/right 甩镜。\n5. 副歌三联屏/左右护法伴舞画中画（overlay 轨 lane 0/1）：高潮 Drop 段在左右两侧对称叠放魔性摇头/大笑伴舞小窗（tweenLoop: pendulum / pulse），中央主画面叠加 soul-out 灵魂出窍与 rgb-glitch 故障色差高速闪切。\n6. 打击乐化原片动作音效 + 逐词弹跳大字幕（karaoke-pop）：把拍桌、耳光、拉枪栓、火车汽笛采样对齐鼓点，配合明黄/暴击红描边大字幕与 syncCues 语义锚点爆点音效。"
-        }
+        "key": "timeline-out",
+        "typeId": "output.timeline",
+        "title": "鬼畜魔性卡点成片时间线"
       }
     ],
     "edges": [
       {
-        "from": "meme_src",
-        "to": "act1_crop",
+        "from": "src-video",
+        "to": "timeline-out",
         "fromPort": "out",
         "toPort": "in"
-      },
-      {
-        "from": "meme_src",
-        "to": "act2_crop",
-        "fromPort": "out",
-        "toPort": "in"
-      },
-      {
-        "from": "meme_src",
-        "to": "act3_crop",
-        "fromPort": "out",
-        "toPort": "in"
-      },
-      {
-        "from": "act1_crop",
-        "to": "act1_recognize",
-        "fromPort": "out",
-        "toPort": "in"
-      },
-      {
-        "from": "act2_crop",
-        "to": "act2_recognize",
-        "fromPort": "out",
-        "toPort": "in"
-      },
-      {
-        "from": "act3_crop",
-        "to": "act3_recognize",
-        "fromPort": "out",
-        "toPort": "in"
-      },
-      {
-        "from": "act1_crop",
-        "to": "act1_real",
-        "fromPort": "out",
-        "toPort": "in-image"
-      },
-      {
-        "from": "act1_recognize",
-        "to": "act1_real",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act2_crop",
-        "to": "act2_real",
-        "fromPort": "out",
-        "toPort": "in-image"
-      },
-      {
-        "from": "act2_recognize",
-        "to": "act2_real",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act3_crop",
-        "to": "act3_real",
-        "fromPort": "out",
-        "toPort": "in-image"
-      },
-      {
-        "from": "act3_recognize",
-        "to": "act3_real",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act1_real",
-        "to": "act1_video",
-        "fromPort": "out",
-        "toPort": "in-first-frame"
-      },
-      {
-        "from": "act1_recognize",
-        "to": "act1_video",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act2_real",
-        "to": "act2_video",
-        "fromPort": "out",
-        "toPort": "in-first-frame"
-      },
-      {
-        "from": "act2_recognize",
-        "to": "act2_video",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act3_real",
-        "to": "act3_video",
-        "fromPort": "out",
-        "toPort": "in-first-frame"
-      },
-      {
-        "from": "act3_recognize",
-        "to": "act3_video",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act1_recognize",
-        "to": "act1_sfx",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act2_recognize",
-        "to": "act2_sfx",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act3_recognize",
-        "to": "act3_sfx",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act1_video",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in"
-      },
-      {
-        "from": "act2_video",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in"
-      },
-      {
-        "from": "act3_video",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in"
-      },
-      {
-        "from": "act1_voice",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in-voice"
-      },
-      {
-        "from": "act2_voice",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in-voice"
-      },
-      {
-        "from": "act3_voice",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in-voice"
-      },
-      {
-        "from": "act1_sfx",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in-voice"
-      },
-      {
-        "from": "act2_sfx",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in-voice"
-      },
-      {
-        "from": "act3_sfx",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in-voice"
-      },
-      {
-        "from": "act1_recognize",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act2_recognize",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in-text"
-      },
-      {
-        "from": "act3_recognize",
-        "to": "timeline",
-        "fromPort": "out",
-        "toPort": "in-text"
       },
       {
         "from": "bgm",
-        "to": "timeline",
+        "to": "timeline-out",
         "fromPort": "out",
         "toPort": "in-music"
+      },
+      {
+        "from": "sfx-boom",
+        "to": "timeline-out",
+        "fromPort": "out",
+        "toPort": "in-voice"
       }
     ]
   }

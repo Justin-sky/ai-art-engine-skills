@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T07:27:44.027Z",
+  "generatedAt": "2026-10-25T09:38:04.380Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -652,17 +652,17 @@
       "id": "guichu-remix",
       "title": "鬼畜魔性卡点剪辑",
       "titleEn": "Guichu Beat Remix & YTPMV",
-      "summary": "任意电影/小品金句拆解→押韵念诗与电音BGM→鬼畜微切片复读+灵魂出窍分屏伴舞→魔性卡点时间线",
+      "summary": "任意电影/小品金句拆解→半音变调爬音+电音BGM→鬼畜微切片复读+灵魂出窍伴舞→魔性卡点时间线",
       "category": "film",
       "tags": [
         "鬼畜剪辑",
         "魔性卡点",
+        "人力VOCALOID变调",
         "念诗之王",
         "让子弹飞",
-        "改革春风吹满地",
-        "成片时间线"
+        "改革春风吹满地"
       ],
-      "version": "1.1.0",
+      "version": "1.4.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -671,37 +671,32 @@
       "cover": "cover.png",
       "requires": {
         "nodeTypes": [
-          "asset.image",
           "asset.music",
           "asset.sfx",
           "asset.video",
-          "asset.voice",
-          "image.process",
-          "image.toPrompt",
-          "note.text",
           "output.timeline"
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 22,
-      "edgeCount": 34,
-      "sizeBytes": 20478,
+      "nodeCount": 4,
+      "edgeCount": 3,
+      "sizeBytes": 2924,
       "skill": {
         "name": "wf-guichu-remix",
-        "description": "用「鬼畜魔性卡点剪辑」工作流将任意电影名、电视剧、春晚小品、B 站链接或本地视频自动剪辑成 B 站亿级播放量风格的鬼畜视频（致敬《敢杀我的马？！》《改革春风吹满地》同款技法）：只需给出电影名/角色名或链接，即可通过 web_fetch_video 自动去 B 站检索并下载高清原片名场面片段至工程，结合词级台词转写（transcribe_audio）与关键帧表情抽帧（detect_video_keyframes），按同韵脚重组“念诗之王”顺口溜，配合 126 BPM Funky/Electro-Trap 强拍电音（asset.music）、动作打击乐采样（asset.sfx）与踩点人声（asset.voice），在成片时间线（output.timeline）通过 timeline_edit 自动编排 1/4→1/8→1/16 拍高频微切片复读、灵魂出窍/故障色差特效、副歌左右护法画中画伴舞及逐词弹跳洗脑大字幕。",
+        "description": "用「鬼畜魔性卡点剪辑」技能将任意电影名、电视剧、春晚小品、B 站链接或本地视频自动剪辑成 B 站亿级播放量风格的鬼畜视频（致敬《敢杀我的马？！》《改革春风吹满地》同款技法）：只需给出电影名/角色名或链接，即可通过 web_fetch_video 自动去 B 站检索并下载高清原片名场面片段，结合词级台词转写（transcribe_audio）与关键帧表情探测（detect_video_keyframes），按同韵脚重组“念诗之王”顺口溜，配合 126 BPM Funky/Electro-Trap 强拍电音（asset.music）与打击乐采样（asset.sfx），在成片时间线（output.timeline）通过 timeline_edit 自动编排 1/4→1/8 拍高频微切片复读、半音阶梯爬音与人力VOCALOID旋律变调（pitchSemitones + voiceEffect）、灵魂出窍特效、左右护法静音伴舞及逐词弹跳大字幕，并支持用 graph_edit 动态混搭任意画布节点。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 5499
+            "sizeBytes": 3816
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 15637
+            "sizeBytes": 15420
           }
         ],
-        "sizeBytes": 21136
+        "sizeBytes": 19236
       }
     },
     {

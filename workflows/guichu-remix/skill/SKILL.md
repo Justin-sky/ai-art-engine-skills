@@ -1,107 +1,92 @@
 ---
 name: wf-guichu-remix
-description: 用「鬼畜魔性卡点剪辑」工作流将任意电影名、电视剧、春晚小品、B 站链接或本地视频自动剪辑成 B 站亿级播放量风格的鬼畜视频（致敬《敢杀我的马？！》《改革春风吹满地》同款技法）：只需给出电影名/角色名或链接，即可通过 web_fetch_video 自动去 B 站检索并下载高清原片名场面片段至工程，结合词级台词转写（transcribe_audio）与关键帧表情抽帧（detect_video_keyframes），按同韵脚重组“念诗之王”顺口溜，配合 126 BPM Funky/Electro-Trap 强拍电音（asset.music）、动作打击乐采样（asset.sfx）与踩点人声（asset.voice），在成片时间线（output.timeline）通过 timeline_edit 自动编排 1/4→1/8→1/16 拍高频微切片复读、灵魂出窍/故障色差特效、副歌左右护法画中画伴舞及逐词弹跳洗脑大字幕。
+description: 用「鬼畜魔性卡点剪辑」技能将任意电影名、电视剧、春晚小品、B 站链接或本地视频自动剪辑成 B 站亿级播放量风格的鬼畜视频（致敬《敢杀我的马？！》《改革春风吹满地》同款技法）：只需给出电影名/角色名或链接，即可通过 web_fetch_video 自动去 B 站检索并下载高清原片名场面片段，结合词级台词转写（transcribe_audio）与关键帧表情探测（detect_video_keyframes），按同韵脚重组“念诗之王”顺口溜，配合 126 BPM Funky/Electro-Trap 强拍电音（asset.music）与打击乐采样（asset.sfx），在成片时间线（output.timeline）通过 timeline_edit 自动编排 1/4→1/8 拍高频微切片复读、半音阶梯爬音与人力VOCALOID旋律变调（pitchSemitones + voiceEffect）、灵魂出窍特效、左右护法静音伴舞及逐词弹跳大字幕，并支持用 graph_edit 动态混搭任意画布节点。
 workflow: guichu-remix
-workflow-version: 1.1.0
+workflow-version: 1.4.0
 argument-hint: "[电影名/角色名/B站链接/本地视频路径，如 让子弹飞·敢杀我的马 / 赵本山·改革春风吹满地 / 亮剑李云龙] [BPM 默认 126] [画幅 16:9]"
-when-to-use: 用户想要把任意一部电影（只给电影名即可自动联网下载对应名场面原片）、电视剧、小品、B 站视频或本地视频自动剪辑成鬼畜视频（押韵念诗、鬼畜高频复读、魔性卡点、灵魂出窍、分屏伴舞），或从零生成 B 站风格鬼畜卡点短片时使用。
-allowed-tools: workflow_list_installed, workflow_use_installed, web_fetch_video, asset_list, asset_import, transcribe_audio, detect_video_keyframes, grab_video_frames, analyze_video_beats, graph_read, graph_edit, timeline_read, timeline_edit, timeline_export, task_run, task_status
+when-to-use: 用户想要把任意一部电影（只给电影名即可自动联网下载对应名场面原片）、电视剧、小品、B 站视频或本地视频自动剪辑成鬼畜视频（故事连续完整、四幕因果剧情 + 关键包袱点鬼畜卡点、半音变调爬音、高频复读、灵魂出窍、分屏伴舞），或跨技能组合创作鬼畜短片时使用。
+allowed-tools: workflow_list_installed, workflow_use_installed, web_fetch_video, asset_list, asset_import, transcribe_audio, detect_video_keyframes, grab_video_frames, analyze_video_beats, graph_read, graph_edit, timeline_read, timeline_edit, timeline_export, timeline_preview, task_run, task_status, render_svg
 ---
 
-# 鬼畜魔性卡点剪辑 · B 站亿级播放六大技法自动化 SOP（guichu-remix v1.1）
+# 鬼畜魔性卡点剪辑 · 「故事主干 + 卡点爆点」双驱架构（guichu-remix v1.4）
 
-> 技法溯源：深度解构 B 站百大殿堂级双冠王——**《敢 杀 我 的 马？！》**（`BV1yt4y1Q7SS`，1.29 亿播放，UP 主 `哦呼w`，素材《让子弹飞》）与 **《赵本山：我就是念诗之王！【改革春风吹满地】》**（`BV1bW411n7fY`，1.29 亿播放，UP 主 `UP-Sings`，素材赵本山春晚小品合集，同源 `@疯猴pme` 流派 Funky/Electro-Trap 强拍律动）。
+> 技法溯源：深度解构 B 站百大殿堂级双冠王——**《敢 杀 我 的 马？！》**（`BV1yt4y1Q7SS`，1.29 亿播放，UP 主 `哦呼w`，素材《让子弹飞》）与 **《赵本山：我就是念诗之王！【改革春风吹满地】》**（`BV1bW411n7fY`，1.29 亿播放，UP 主 `UP-Sings`，素材赵本山春晚小品合集，同源 `@疯猴pme` 流派 Funky/Electro-Trap 强拍律动与人力 VOCALOID 半音变调）。
 
-## 拓扑架构与双模交付物
+## 核心创作哲学：70% 连续故事主干 + 30% 鬼畜卡点锚点（拒绝无逻辑碎切！）
+
+为什么有些鬼畜剪完后让人觉得「不知所云、原片逻辑全丢」？因为把所有台词都一刀切成了 `0.96s` 碎片，既腰斩了 2~3 秒的完整长句，又打乱了原片的「起因 $\to$ 升级 $\to$ 高潮 $\to$ 结局」因果链！
+真正的顶级剧情鬼畜必须遵循 **「先规划四幕故事主干与鬼畜卡点蓝图，再按 70/30 松紧呼吸比剪辑」**：
+1. **70% 连续叙事块（Story Spine）**：按原片故事发生的时间与因果顺序组织四幕剧情；**凡是交代起因、对话交锋、冲突升级、结局反转的完整句子，镜头 `durationSec` 必须 $\ge$ 原片真实发声时长 `(seg.endSec - seg.startSec)`**（向上吸附到 `1.44s` / `1.92s` / `2.40s` / `2.88s` / `3.36s` 等节拍整倍数），保持原调（`pitchSemitones: 0`）把话 100% 完整讲完，绝不半截断句！
+2. **30% 鬼畜卡点锚点（Guichu Hook Drops）**：在每幕的**关键包袱点、出牌/亮招瞬间、情绪最高潮**精准插入鬼畜大招——截取刚刚那句台词里的 **2~4 字灵魂短词**（如「对着你锤！」「炸弹！」「王炸！」「给我！」），进行 `0.48s`（1 拍）或 `0.24s`（半拍 + `speed: 1.25`）的 3~8 连发复读 + `pitchSemitones` 半音阶爬升 + `voiceEffect` 变声，让鬼畜卡点成为引爆剧情高潮的「放大器」！
+
+## 种子拓扑（Seed Skeleton）+ 动态自由组合架构
+
+本技能采用 **「4 节点预连线种子骨架 + 开放式画布算子自由混搭」** 架构——`workflow.json` 只提供最精简的 4 节点核心闭环（且连线全部预置就绪），绝不限制你的节点组合创造力：
 
 ```
-[模式 A · 给电影名/B站链接自动联网抓取原片切片]
-  web_fetch_video({ query: "<电影名> 名场面 原片" }) ──→ 下载 MP4 至 Cache/imports/...
-    ├─→ transcribe_audio ─────────→ 提取词级时间戳台词表 (segments + words) ──→ 挑选同韵脚金句 & 咆哮 Hook
-    ├─→ detect_video_keyframes ───→ 定位夸张表情/拍桌/扭头/举枪秒数 (sourceOffsetSec)
-    └─→ timeline_edit ────────────→ 按 126 BPM 网格 (0.48s / 0.24s / 0.12s) 切片铺入成片时间线 (output.timeline)
+[核心种子骨架（4 节点 3 连线，通过 workflow_use_installed 一键带连线落图）]
+  鬼畜原片/名场面素材源 (asset.video: src-video) ──out→in───────┐
+  126BPM Funky 电音伴奏 (asset.music: bgm) ────────out→in-music─┼─→ 鬼畜魔性卡点成片时间线 (output.timeline: timeline-out)
+  鬼畜重拍打击采样 (asset.sfx: sfx-boom) ──────────out→in-voice─┘
 
-[模式 B · 节点图三幕鬼畜生成与配乐/音效合成管线]
-鬼畜名场面母版 (asset.image: meme_src)
-  ├─out→in──→ 第1幕·名场面取景（Verse·念诗之王押韵铺垫）(image.process: act1_crop)
-  │             ├─out→in────────→ 第1幕·鬼畜押韵台词与微循环卡点策划 (image.toPrompt: act1_recognize)
-  │             │                   ├─out→in-text───→ 第1幕·高反差鬼畜表情精修帧 (asset.image: act1_real)
-  │             │                   ├─out→in-text───→ 第1幕·魔性押韵念诗卡点视频 (asset.video: act1_video)
-  │             │                   ├─out→in-text───→ 第1幕·拍桌重击与折扇脆响采样 (asset.sfx: act1_sfx)
-  │             │                   └─out→in-text───→ 鬼畜魔性卡点成片时间线 (output.timeline)
-  │             └─out→in-image──→ 第1幕·高反差鬼畜表情精修帧 (asset.image: act1_real)
-  │                                 └─out→in-first-frame──→ 第1幕·魔性押韵念诗卡点视频 (asset.video: act1_video) ──out→in─┐
-  ├─out→in──→ 第2幕·名场面取景（Build-up·翻译翻译高频复读）→ 策划 → 精修帧 → 鬼畜微循环视频 ────────────────────────out→in─┤
-  └─out→in──→ 第3幕·名场面取景（Drop·敢杀我的马副歌爆发）  → 策划 → 精修帧 → 副歌咆哮爆发视频 ──────────────────────out→in─┤
-第1~3幕·念诗/复读/咆哮 Hook 人声 (asset.voice: act1_voice..act3_voice) ─────────────────────────────────────────out→in-voice─┤
-第1~3幕·拍桌/耳光/枪栓打击乐采样 (asset.sfx: act1_sfx..act3_sfx) ───────────────────────────────────────────────out→in-voice─┤
-126BPM 疯猴流派 Funky 电音鬼畜伴奏 (asset.music: bgm) ──────────────────────────────────────────────────────────out→in-music─┴─→ 成片时间线 (output.timeline)
+[大模型可按需用 graph_edit (node_upsert + edge_connect) 自由挂载的扩展模块]
+  ├─ [多源名场面混剪] 新增 src-video-2 / src-video-3 (asset.video, locked: true) ──out→in──→ timeline-out
+  ├─ [抠图魔性摇晃大头] 新增 image.process (imageProcessTool: "cutout") ──out→in-image──→ timeline-out (overlay 轨伴舞)
+  ├─ [SVG 矢量鬼畜战力表/格斗血条/弹幕风暴] 新增 svg.gen ──out→in──→ svg.anim ──out-gif→in-image──→ timeline-out
+  ├─ [AI 毒舌 Rap 念诗 / 多角色对呛] 新增 asset.voice / asset.dialogue ──out→in-voice──→ timeline-out
+  └─ [跨技能融合] 调用 workflow_use_installed({ id: "<其它技能>", mode: "merge" }) 将其它技能节点并入同一画布共享 timeline-out！
 ```
 
 ---
 
-## 核心技法拆解：B 站亿级鬼畜六大黄金法则
+## 核心技法拆解：B 站亿级鬼畜七大黄金法则
 
 | 法则编号 | 鬼畜核心手法 | 经典案例对照（《敢杀我的马》《改革春风吹满地》） | AI Art Engine 自动化落地方案 |
 |---|---|---|---|
-| **法则 ①** | **126 BPM 疯猴流派 Funky/Trap 强拍网格** | 均采用 120~128 BPM 四四拍电子律动，底鼓（Kick）与军鼓（Snare）极其鲜明，中高频留出人声空隙。 | 单拍周期 $T_{\text{beat}} = 60 / \text{BPM}$（126 BPM 下 $1\text{拍} \approx 0.48\text{s}$，$\frac{1}{2}\text{拍} = 0.24\text{s}$，$\frac{1}{4}\text{拍} = 0.12\text{s}$）。所有镜头切点严格吸附在 $k \cdot 0.24\text{s}$ 网格上。 |
-| **法则 ②** | **台词切碎重组与“念诗之王”押韵（Sentence Mixing）** | 《改革春风》将跨年小品散句按 `an/u/i/ang` 尾韵拼成顺口溜（`白天想，夜里哭，做梦都想去首都`）；《敢杀我的马》将张麻子/黄四郎/师爷台词按 `ang` 韵重组（`大风起兮云飞扬…枪在手跟我杀四郎`）。 | 用 `web_fetch_video` 自动下载原片名场面后，跑 `transcribe_audio` 获取词级时间戳（`segments` + `words`），挑选同韵母（如 `ang` / `i` / `u`）金句重排。 |
-| **法则 ③** | **机关枪高频鬼畜复读（Stutter Roll `1/4 → 1/8 → 1/16`）** | 副歌前将核心金句切碎连发：`吹满地—吹满地—春风吹满地`、`什么叫惊喜—什么叫惊喜—什么叫TMD惊喜`。 | 用 `timeline_edit` 对同一 `sourceOffsetSec` 连续插入 4~8 个微切片，时长按 `0.48s → 0.24s → 0.24s → 0.12s × 4` 递减，配合 `speed: 1.25~1.6` 制造电音机关枪感。 |
-| **法则 ④** | **鬼畜正反微循环与频闪甩镜（Micro-Loop & Whip Cut）** | 截取人物 0.2 秒最魔性微动作（赵本山缩脖拍手、白云摇头、张麻子竖指、黄四郎举单筒望远镜）高频抽动。 | 微切片交替赋予 `cameraMotion: "kenBurnsIn" / "kenBurnsOut"` 与 `transitionType: "flash" | "zoomin" | "smoothleft" | "smoothright"`，重拍叠加 `strobe-flash` / `camera-shake`。 |
-| **法则 ⑤** | **副歌三联屏 / 左右护法伴舞画中画（Flanking PIP Dancers）** | 《敢杀我的马》`1:18` 高潮段左右两侧对称放置黄四郎狂笑伴舞小窗，正中央高速闪切拍桌举枪；《改革春风》扭秧歌分屏伴舞。 | 在 `output.timeline` 的 `overlay` 轨 `lane: 0`（左翼 `overlayX: 0.02, overlayY: 0.18, overlayWidth: 0.26, overlayHeight: 0.64`）与 `lane: 1`（右翼 `overlayX: 0.72`）对称铺入人物微循环切片，设置 `tweenLoop: "pendulum"`（钟摆摇晃，`tweenLoopSpeedHz: 2.1`）或 `"pulse"`。 |
-| **法则 ⑥** | **动作声当打击乐 + 逐词弹跳大字幕（Percussive SFX & Karaoke Pop）** | 把原片里的**拍桌子、扇耳光、拉枪栓、火车汽笛、拐杖敲地、嚎叫（`嗷—`）**直接对齐在重拍鼓点上，配黄红撞色粗描边大字幕。 | `asset.sfx` 采样动作声踩点铺入 `sfx` 轨；`subtitle` 轨开启 `subtitleKaraokeMode: "karaoke-pop"`（字号 `52~64`，明黄 `#FACC15` / 暴击红 `#F43F5E`），内联 `@{boom}敢杀我的马@{/boom}` 并跑 `op: "syncCues"` 自动吸附 `sfxPresetId: "boom" | "pop"` 与 `comic-boom` 贴纸。 |
+| **法则 ①** | **126 BPM 疯猴流派 Funky/Trap 强拍网格** | 均采用 120~128 BPM 四四拍电子律动，底鼓（Kick）与军鼓（Snare）极其鲜明，中高频留出人声空隙。 | 单拍周期 $T_{\text{beat}} = 60 / \text{BPM}$（126 BPM 下 $1\text{拍} \approx 0.48\text{s}$，$\frac{1}{2}\text{拍} = 0.24\text{s}$）。所有镜头切点严格吸附在 $k \cdot 0.24\text{s}$ 网格上。 |
+| **法则 ②** | **台词切碎重组与“念诗之王”押韵（Sentence Mixing）** | 《改革春风》将跨年小品散句按 `an/u/i/ang` 尾韵拼成顺口溜（`白天想，夜里哭，做梦都想去首都`）；《敢杀我的马》将张麻子/黄四郎/师爷台词按 `ang` 韵重组。 | 用 `web_fetch_video` 自动下载原片名场面后，跑 `transcribe_audio` 获取词级时间戳（`segments` + `words`），挑选同韵母金句重排，确保 `sourceOffsetSec` 100% 对应原片真实发声秒数。 |
+| **法则 ③** | **机关枪高频鬼畜复读（Stutter Roll `1/4 → 1/8`）** | 副歌前将核心金句切碎连发：`吹满地—吹满地—春风吹满地`、`什么叫惊喜—什么叫惊喜—什么叫TMD惊喜`。 | 用 `timeline_edit` 对同一 `sourceOffsetSec` 连续插入 4 个 `0.48s`（1 拍）+ 8 个 `0.24s`（半拍，`speed: 1.25`）微切片，制造层层逼近的机关枪蓄力感。 |
+| **法则 ④** | **半音阶梯爬音与人力 VOCALOID 变调（`pitchSemitones` + `voiceEffect`）** | 鬼畜调音灵魂：蓄力段每次重复抬高半音阶梯直冲高潮，主副歌将人物对白调成五声音阶旋律或电音双声道合唱！ | 在 `timeline_edit` 切片上设置 `pitchSemitones`（`-12 ~ +12` 半音移调且**严格锁死切片时长不变**）：<br>• **蓄力阶梯爬音（Pitch Riser）**：4 连发 `0.48s` 设 `pitchSemitones: [0, 2, 4, 7]`；8 连发 `0.24s` 设 `pitchSemitones: [0, 3, 5, 7, 9, 12, 12, 12]` 并挂载 `voiceEffect: "autotune-chorus"`；<br>• **主副歌旋律调音**：押韵句按五声音阶 `[0, 2, 4, 7, 9]` 或小调 `[0, 3, 5, 7, 10]` 赋 `pitchSemitones`；<br>• **鬼畜变声（`voiceEffect`）**：搞笑反打用 `"chipmunk"`（花栗鼠高频），反派咆哮用 `"demon"`（深渊恶魔低音），洗脑收尾用 `"echo"`（魔性回声）或 `"robot"` / `"megaphone"`。 |
+| **法则 ⑤** | **鬼畜正反微循环与频闪甩镜（Micro-Loop & Whip Cut）** | 截取人物 0.2~0.4 秒魔性微动作（缩脖拍手、摇头、竖指、举望远镜）高频抽动。 | 微切片交替赋予 `cameraMotion: "kenBurnsIn" / "kenBurnsOut"` 与 `transitionType: "flash" | "zoomin" | "smoothleft" | "smoothright"`，重拍叠加 `strobe-flash` / `camera-shake`。 |
+| **法则 ⑥** | **副歌三联屏 / 左右护法静音伴舞（Flanking PIP Dancers）** | 《敢杀我的马》高潮段左右两侧对称放置狂笑伴舞小窗，正中央高速闪切拍桌举枪。 | 在 `output.timeline` 的 `overlay` 轨 `lane: 0`（左翼 `overlayX: 0.02, overlayY: 0.18, overlayWidth: 0.26, overlayHeight: 0.64, volume: 0`）与 `lane: 1`（右翼 `overlayX: 0.72, volume: 0`）对称铺入微循环切片，设置 `tweenLoop: "pendulum"` 或 `"pulse"`（**必须 `volume: 0` 静音以免干扰主轨人声**）。 |
+| **法则 ⑦** | **动作声当打击乐 + 逐词弹跳大字幕（Percussive SFX & Karaoke Pop）** | 把原片里的**拍桌子、扇耳光、拉枪栓、火车汽笛、嚎叫**直接对齐在重拍鼓点上，配黄红撞色粗描边大字幕。 | `asset.sfx` 采样铺入 `sfx` 轨；`subtitle` 轨开启 `subtitleKaraokeMode: "karaoke-pop"`（字号 `54~64`，明黄 `#FACC15` / 暴击红 `#F43F5E`），内联 `@{boom}敢杀我的马@{/boom}` 并跑 `op: "syncCues"` 自动对齐爆点音效与贴纸。 |
 
 ---
 
-## 两条标准自动化执行路径（MCP 路径）
+## 标准自动化执行 SOP（MCP 路径）
 
-### 路径 A（默认首选）：给出电影名 / 角色名 / B 站链接 / 本地视频 → 自动下载原片名场面并切片剪辑鬼畜
-
-只要用户给出了**电影名、电视剧名、小品名、角色名**（如“帮我用《让子弹飞》做个鬼畜”、“做个《亮剑》李云龙鬼畜”、“赵本山改革春风鬼畜”）、**B 站链接/BV 号**或**本地视频文件**，一律优先执行本路径：
-
-1. **创建工作流与自动联网检索下载原片名场面（`web_fetch_video`）**：
-   - 调用 `workflow_use_installed({ id: "guichu-remix", name: "<作品名>·鬼畜卡点", generateAspectRatio: "16:9" })` 创建画布资产 `assetId`。
-   - **自动获取原片视频**：
-     - 若用户只给了**电影名 / 角色名 / 台词梗**（无本地视频文件），立即调用 `web_fetch_video({ query: "<电影名/角色名> 名场面 原片", count: 2, maxDurationSec: 240, preferOriginalMaterial: true })`——系统会自动在 B 站搜索最匹配的 20s~240s 无水印原片名场面片段，下载 MP4 到当前工程 `Cache/imports/...` 并返回 `videos[].relativePath`！
-     - 若用户给了 **B 站视频链接或 BV 号**，调用 `web_fetch_video({ url: "<链接或BV号>", maxDurationSec: 240 })` 直接下载至 `Cache/imports/...`。
-     - 若用户给了**本机磁盘视频路径**，调用 `asset_import` 导入工程获取 `relativePath`。
-2. **多模态台词转写与高能表情/节拍探测**：
-   - 将下载得到的 `relativePath`（如 `"Cache/imports/..."`）传给 `transcribe_audio({ relativePath, language: "zh" })`，获取全片带时间戳的 `segments` 与词级 `words`。
-   - 调用 `detect_video_keyframes({ relativePath, maxFrames: 24 })`（或 `grab_video_frames`）定位人物夸张表情、拍桌、转身、挥手、大笑的精确秒数 `t_action`。
-   - 调用 `graph_read({ assetId })` 拿到 `bgm`（`asset.music`）与 `act1_sfx..act3_sfx`（`asset.sfx`）节点 ID，调用 `task_run({ assetId, nodeIds: [bgmNodeId, sfx1Id, sfx2Id, sfx3Id] })` 生成 126 BPM 疯猴流派 Funky 电音伴奏与打击采样。
-3. **提炼「念诗之王」押韵顺口溜与洗脑副歌 Hook**：
-   - 从 `transcribe_audio` 的台词片段中挑出 6~12 个短句/词汇（每句 `0.24s ~ 0.96s`），优先选择相同尾韵（如 `ang` / `i` / `u` / `ao`）的词尾，并选定 1 句最具爆发力的咆哮金句作为副歌 Hook（记录其在原片中的起止秒数 `[t_hook, t_hook + 0.48]`）。
-4. **用 `timeline_edit` 一键铺设「四段式鬼畜魔性卡点时间线」**（设 $\text{BPM} = 126$，单拍 $B = 0.48\text{s}$，半拍 $H = 0.24\text{s}$，四分之一拍 $Q = 0.12\text{s}$）：
-   - **第 1 段 · 前奏洗脑定场（Intro，`0.00s ~ 3.84s`，8 拍）**：
-     - 在 `video` 轨按每 `0.48s`（1 拍）切入原片最经典的 4 个亮相动作（指定 `relativePath`, `sourceOffsetSec`, `durationSec: 0.48`, `volume: 1`, `visualEffect: "beat-pulse"`）。
-   - **第 2 段 · 主歌「念诗之王」押韵卡点（Verse，`3.84s ~ 11.52s`，16 拍）**：
-     - 将挑选出的押韵台词原片区间按 `sourceOffsetSec` 依次排入 `video` 轨（每句时长对齐 $1B = 0.48\text{s}$ 或 $2B = 0.96\text{s}$，`speed: 1.15`），相邻镜头交替设置 `transitionType: "smoothleft" | "smoothright" | "zoomin"`（`transitionInSec: 0.12`）。
-   - **第 3 段 · 预副歌「机关枪高频复读」（Build-up，`11.52s ~ 15.36s`，8 拍）**：
-     - 锁定副歌核心金句的起止秒数 `sourceOffsetSec = t_hook`，在 `video` 轨做 **3 级加速鬼畜复读**：
-       - 前 4 拍（`11.52s ~ 13.44s`）：连续 4 次 `durationSec: 0.48`（1/4 音符复读），`visualEffect: "zoom-burst"`；
-       - 第 5~6 拍（`13.44s ~ 14.40s`）：连续 4 次 `durationSec: 0.24`（1/8 音符高频复读，`speed: 1.35`），`visualEffect: "strobe-flash"`；
-       - 第 7~8 拍（`14.40s ~ 15.36s`）：连续 8 次 `durationSec: 0.12`（1/16 音符极限鬼畜抽帧，`speed: 1.6`），`visualEffect: "rgb-glitch"`，直冲高潮 Drop！
-   - **第 4 段 · 副歌高潮「灵魂出窍 + 左右护法画中画伴舞」（Chorus Drop，`15.36s ~ 23.04s`，16 拍）**：
-     - **中央主画面（`track: "video"`）**：每 `0.48s` 高速切换原片拍桌、咆哮、拔刀、大笑等爆发镜头，交替挂载 `visualEffect: "soul-out"`（灵魂出窍）、`"earthquake"`（剧烈地动）、`"rgb-glitch"`（故障色差），转场使用 `flash`（闪白卡点，`transitionInSec: 0.15`）；
-     - **左右对称护法伴舞小窗（`track: "overlay"`）**：
-       - 左护法（`lane: 0`）：`overlayX: 0.02, overlayY: 0.18, overlayWidth: 0.26, overlayHeight: 0.64`，取人物魔性摇头/大笑片段，`tweenIn: "popIn"`, `tweenLoop: "pendulum"`, `tweenLoopSpeedHz: 2.1`, `tweenLoopIntensity: 1.4`；
-       - 右护法（`lane: 1`）：`overlayX: 0.72, overlayY: 0.18, overlayWidth: 0.26, overlayHeight: 0.64`，对称放置伴舞片段，`tweenIn: "popIn"`, `tweenLoop: "pulse"`, `tweenLoopSpeedHz: 2.1`, `tweenLoopIntensity: 1.4`；
-     - **逐词弹跳大字幕与语义锚点音效（`track: "subtitle"` + `op: "syncCues"`）**：
-       - 字幕片段设置 `fontSize: 56`, `textColor: "#FACC15"`, `subtitleKaraokeMode: "karaoke-pop"`, `subtitleHighlightColor: "#F43F5E"`，在爆点词上标注 `@{boom}敢杀我的马？！@{/boom}`；
-       - 追加 `overlay` 贴纸片段（`stickerId: "comic-boom"`, `anchorCueTag: "boom"`）与 `sfx` 片段（`sfxPresetId: "boom"`, `anchorCueTag: "boom"`），并在 `timeline_edit` 末尾执行 `{ op: "syncCues" }` 与 `{ op: "applyTemplate", templateId: "high-energy-beat" }`。
-5. **自动导出与预览验证**：
-   - 调用 `timeline_export({ assetId })` 合成最终 MP4 成片，并用 `timeline_preview` 抽帧校验分屏伴舞、大字幕与卡点对齐效果。
-
----
-
-### 路径 B：纯原创虚拟角色主题（或无法联网检索的原创新梗）→ AI 生成三幕鬼畜大片
-
-仅当用户要求为**原创虚拟角色、职场日常吐槽或无法在网络上检索到的虚构主题**制作鬼畜短片（或 `web_fetch_video` 未能命中合适素材）时，运行全图 AI 生成管线：
-
-1. `workflow_use_installed({ id: "guichu-remix", name: "<主题>·鬼畜魔性卡点", generateAspectRatio: "16:9" })`。
-2. `graph_read({ assetId, includeParams: true })` 获取全部节点 ID。
-3. 用 `graph_edit` 覆写 `meme_src`、`act1_recognize` ~ `act3_recognize`、`act1_video` ~ `act3_video`（保持 `generateAudio: true` 与 `generateFrameMode: "first"`）、`act1_voice` ~ `act3_voice`、`act1_sfx` ~ `act3_sfx` 与 `bgm`。
-4. 调用 `task_run({ assetId })` 一键跑通全图生成，随后调用 `timeline_edit` 叠加 `1/8 拍` 微切片复读、左右护法伴舞画中画（`overlay` 轨 `lane 0/1`）与 `soul-out` 灵魂出窍特效。
+1. **一键落下 4 节点预连线种子拓扑 + 获取原片素材**：
+   - 调用 `workflow_use_installed({ id: "guichu-remix", mode: "seed" })`——系统会在当前画布一键创建并连好 `src-video`、`bgm`、`sfx-boom` $\to$ `timeline-out`（含完整连线与自动布局），返回画布 `assetId`！
+   - **获取原片视频**：
+     - 若用户给出**电影名 / 电视剧名 / 小品名 / 角色名**，调用 `web_fetch_video({ query: "<电影名/角色名> 名场面 原片", count: 1, maxDurationSec: 240, preferOriginalMaterial: true })` 下载无水印原片至 `Cache/imports/...`；
+     - 若用户给出 **B 站链接或 BV 号**，调用 `web_fetch_video({ url: "<链接或BV号>", maxDurationSec: 240 })`；
+     - 若用户给出**本机视频路径**，调用 `asset_import`。
+   - 调用 `graph_edit` 将下载好的 `relativePath` 锁定绑定到 `src-video` 节点：
+     `{ op: "node_update", nodeId: "src-video", locked: true, params: { sourceRelativePath: "<relativePath>" } }`（若你额外新增了创意节点，**必须同时附带 `edge_connect` 连入 `timeline-out`**；**严禁调用 `asset_create({ type: "screenplay" })` 另建独立剧本资产**）。
+2. **多模态台词转写、关键帧探测与电音伴奏生成**：
+   - 调用 `transcribe_audio({ relativePath, language: "zh" })` 获取全片 `segments` 与词级 `words` 时间戳。
+   - 调用 `detect_video_keyframes({ relativePath })` 定位夸张表情与动作秒数。
+   - 调用 `task_run({ assetId, nodeIds: ["bgm", "sfx-boom"] })` 生成 126 BPM Funky 电音伴奏与重拍打击采样。
+3. **【必做】先制定「四幕因果故事主干 + 鬼畜卡点锚点」规划蓝图，再用 `timeline_edit` 精编**（直接传画布 `assetId`；设 $\text{BPM} = 126$，单拍 $B = 0.48\text{s}$，半拍 $H = 0.24\text{s}$，总时长建议 `30s ~ 40s` 以保证故事完整）：
+   - **第一幕 · 起因与交锋（Act 1: Setup & Conflict，约 `0.00s ~ 9.60s`，20 拍）**：
+     - **连续叙事主干**：按原片开头顺序选取 3~4 句完整对话交代背景与矛盾起因（如开局嫌弃、砸场子、首轮出牌互怼），每句 `durationSec` 严格 $\ge (t_{\text{end}} - t_{\text{start}})$（取 `1.44s` / `1.92s` / `2.88s`），保持原调（`pitchSemitones: 0`）把整句话讲完；
+     - **🔥 鬼畜卡点锚点 #1（幕尾包袱连击）**：紧接第一幕最后一句狠话（如「对着你锤吗」），截取其核心词做 2~3 次 `0.48s` 阶梯升调连击（`pitchSemitones: 0 → +3` + `voiceEffect: "autotune-chorus"`），并接对手受惊反应句（`pitchSemitones: +5, voiceEffect: "chipmunk"`）。
+   - **第二幕 · 矛盾白热化升级（Act 2: Escalation & Duel，约 `9.60s ~ 19.20s`，20 拍）**：
+     - **连续叙事主干**：顺着时间线推进冲突升级（如武力威胁「我的拳头想喝血啦」$\to$ 众人惊呼逃跑 $\to$ 主角迎战「来吧表哥让我看看你的实力」$\to$ 狂热宣战「兄弟我喜欢战争」$\to$ 绝望吐槽「表哥我们死定了」）；
+     - 每句长台词必须给足 `1.92s ~ 2.88s` 完整播放，仅在惊呼句（`"chipmunk"`）和绝望吐槽句（`"demon"` / `pitchSemitones: -2`）上施加变声反差，确保剧情层层递进、张力拉满。
+   - **第三幕 · 鬼畜狂飙高潮与决战爆发（Act 3: Guichu Climax & Drop，约 `19.20s ~ 28.80s`，20 拍）**：
+     - **🔥 鬼畜卡点锚点 #2 · 机关枪半音爬升（Pitch Riser，`19.20s ~ 22.08s`，6 拍）**：
+       - 前 4 拍：截取 2 字爆点词（如「炸弹！」）连发 4 次 `durationSec: 0.48`，设置 `pitchSemitones: 0, 2, 4, 7` + `voiceEffect: "autotune-chorus"` + `visualEffect: "zoom-burst"`；
+       - 后 2 拍：截取决战词（如「王炸！」）连发 4 次 `durationSec: 0.24`（`speed: 1.2`），设置高八度冲顶 `pitchSemitones: 7, 9, 11, 12` + `voiceEffect: "chipmunk"` + `visualEffect: "rgb-glitch"`！
+     - **🔥 鬼畜卡点锚点 #3 · 副歌名场面大招对轰 + 左右护法伴舞（Chorus Drop，`22.08s ~ 28.80s`，14 拍）**：
+       - 中央主轨（`track: "video"`）：按决战交锋顺序切入核心宣言与大招台词（保留每句完整时长 `0.96s ~ 2.40s`），挂载五声音阶移调 `pitchSemitones: 0 / +4 / +2 / +5` 与 `voiceEffect: "autotune-chorus" | "robot" | "megaphone"` 及 `visualEffect: "soul-out" | "earthquake"`；
+       - 左右护法伴舞小窗（`track: "overlay"`，`lane: 0` 左翼 `overlayX: 0.02`，`lane: 1` 右翼 `overlayX: 0.73`，**强制 `volume: 0` 静音**，`tweenLoop: "pendulum" / "pulse"`）。
+   - **第四幕 · 结局反转与余音回声收束（Act 4: Resolution & Payoff，约 `28.80s ~ 36.48s`，16 拍）**：
+     - **连续叙事收束**：切入决战后的震惊反应与全片点题升华长句（如 3.4s 的旁白总结「难以置信，现在已经不是普通的棋牌对局，正式进入大型武战！」），给足 `1.92s ~ 3.36s` 让整段话一字不漏讲完；
+     - **终极余韵定格**：最后一句认输/散场反转金句（`durationSec: 2.40`）挂载 `voiceEffect: "echo"`（洗脑余音回响）、`freezeTailSec: 0.48` 与 `fadeOutSec: 0.7`；`video`、`music`（`loop: true, fadeOutSec: 0.8`）与 `subtitle` 轨严格在同一秒对齐收尾！
+   - **逐词弹跳大字幕与爆点锚点（`track: "subtitle"` + `op: "syncCues"`）**：开启 `subtitleKaraokeMode: "karaoke-pop"`，字幕文本与每一句完整台词及鬼畜连发词 100% 同步对应，内联 `@{boom}...@{/boom}` 并跑 `syncCues`（切勿调用 `applyTemplate`）。
+4. **单次导出与抽帧自检**：
+   - 调用一次 `timeline_export({ assetId })` 导出成片 MP4，并用 `timeline_preview` 抽帧核验画面。
 
 ## 端口与参数速查
 

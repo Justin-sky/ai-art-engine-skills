@@ -1,96 +1,45 @@
-# 节点拓扑与端口速查（guichu-remix v1.1）
+# 节点拓扑、变调算子与自由扩展速查（guichu-remix v1.3）
 
-## 联网原片检索下载工具（`web_fetch_video`）
+## 1. 核心种子节点清单（4 节点 3 连线）
 
-- 当用户只给出**电影名 / 电视剧名 / 小品名 / 角色名**（如 `"让子弹飞"`、`"赵本山 改革春风吹满地"`、`"亮剑 李云龙"`）或 **B 站链接 / BV 号**时，优先调用：
-  ```json
-  {
-    "query": "让子弹飞 什么叫惊喜 原片",
-    "count": 2,
-    "maxDurationSec": 240,
-    "preferOriginalMaterial": true
-  }
-  ```
-- 返回的 `videos[].relativePath`（位于 `Cache/imports/...mp4`）可直接传入 `transcribe_audio`、`detect_video_keyframes`、`grab_video_frames` 与 `timeline_edit`（通过 `relativePath` + `sourceOffsetSec` 切出毫秒级鬼畜复读片段）。
+| key | typeId | 标题 | 作用 |
+|---|---|---|---|
+| `src-video` | `asset.video` | 鬼畜原片/名场面素材源 | 绑定 `web_fetch_video` 下载或本地导入的原片视频（`locked: true, params: { sourceRelativePath }`），或直接 AI 生成名场面视频 |
+| `bgm` | `asset.music` | 126BPM 疯猴流派 Funky 电音鬼畜伴奏 | 生成 126 BPM 四四拍 Funky Electro-Trap 纯音乐伴奏 |
+| `sfx-boom` | `asset.sfx` | 鬼畜重拍打击采样（拍桌/耳光/枪栓） | 生成卡在重拍上的动作打击音效采样 |
+| `timeline-out` | `output.timeline` | 鬼畜魔性卡点成片时间线 | 汇聚全部视频、伴奏、音效、贴纸与字幕，承载鬼畜变调与微切片时间线 |
 
-## 节点清单（共 20 个节点）
-
-| key | typeId | 标题 |
-|---|---|---|
-| `meme_src` | `asset.image` | 鬼畜名场面母版 · 鹅城三巨头交锋全景 |
-| `act1_crop` | `image.process` | 第1幕·名场面取景（Verse·念诗之王押韵铺垫） |
-| `act2_crop` | `image.process` | 第2幕·名场面取景（Build-up·翻译翻译高频复读） |
-| `act3_crop` | `image.process` | 第3幕·名场面取景（Drop·敢杀我的马副歌爆发） |
-| `act1_recognize` | `image.toPrompt` | 第1幕·鬼畜押韵台词与微循环卡点策划 |
-| `act2_recognize` | `image.toPrompt` | 第2幕·高频鬼畜复读与正反抽帧策划 |
-| `act3_recognize` | `image.toPrompt` | 第3幕·副歌咆哮爆发与分屏伴舞策划 |
-| `act1_real` | `asset.image` | 第1幕·高反差鬼畜表情精修帧 |
-| `act2_real` | `asset.image` | 第2幕·高反差鬼畜表情精修帧 |
-| `act3_real` | `asset.image` | 第3幕·高反差鬼畜表情精修帧 |
-| `act1_video` | `asset.video` | 第1幕·魔性押韵念诗卡点视频（含原声） |
-| `act2_video` | `asset.video` | 第2幕·高频质问鬼畜微循环视频（含原声） |
-| `act3_video` | `asset.video` | 第3幕·副歌咆哮爆发高潮视频（含原声） |
-| `act1_voice` | `asset.voice` | 第1幕·念诗之王押韵踩点人声 |
-| `act2_voice` | `asset.voice` | 第2幕·翻译惊喜高频复读人声 |
-| `act3_voice` | `asset.voice` | 第3幕·敢杀我的马副歌咆哮 Hook |
-| `act1_sfx` | `asset.sfx` | 第1幕·拍桌重击与折扇脆响采样 |
-| `act2_sfx` | `asset.sfx` | 第2幕·拉枪栓与清脆耳光打击采样 |
-| `act3_sfx` | `asset.sfx` | 第3幕·重低音拍案爆裂与锣鼓齐鸣采样 |
-| `bgm` | `asset.music` | 126BPM 疯猴流派 Funky 电音鬼畜伴奏 |
-| `timeline` | `output.timeline` | 鬼畜魔性卡点成片时间线 |
-| `note` | `note.text` | B站亿级鬼畜（敢杀我的马×改革春风吹满地）六大剪辑法则指南 |
-
-## 连线关系（共 34 条连线）
+### 预设连线关系
 
 ```
-meme_src:out → act1_crop:in
-meme_src:out → act2_crop:in
-meme_src:out → act3_crop:in
-act1_crop:out → act1_recognize:in
-act2_crop:out → act2_recognize:in
-act3_crop:out → act3_recognize:in
-act1_crop:out → act1_real:in-image
-act1_recognize:out → act1_real:in-text
-act2_crop:out → act2_real:in-image
-act2_recognize:out → act2_real:in-text
-act3_crop:out → act3_real:in-image
-act3_recognize:out → act3_real:in-text
-act1_real:out → act1_video:in-first-frame
-act1_recognize:out → act1_video:in-text
-act2_real:out → act2_video:in-first-frame
-act2_recognize:out → act2_video:in-text
-act3_real:out → act3_video:in-first-frame
-act3_recognize:out → act3_video:in-text
-act1_recognize:out → act1_sfx:in-text
-act2_recognize:out → act2_sfx:in-text
-act3_recognize:out → act3_sfx:in-text
-act1_video:out → timeline:in
-act2_video:out → timeline:in
-act3_video:out → timeline:in
-act1_voice:out → timeline:in-voice
-act2_voice:out → timeline:in-voice
-act3_voice:out → timeline:in-voice
-act1_sfx:out → timeline:in-voice
-act2_sfx:out → timeline:in-voice
-act3_sfx:out → timeline:in-voice
-act1_recognize:out → timeline:in-text
-act2_recognize:out → timeline:in-text
-act3_recognize:out → timeline:in-text
-bgm:out → timeline:in-music
+src-video:out  → timeline-out:in
+bgm:out        → timeline-out:in-music
+sfx-boom:out   → timeline-out:in-voice
 ```
 
-## 鬼畜时间线精编参数速查（`timeline_edit`）
+## 2. 按需自由挂载的扩展节点配方（通过 `graph_edit` 组合）
 
-- **节拍网格换算（以 126 BPM 为例）**：
-  - 1 拍（1/4 音符）：`0.48s`
-  - 半拍（1/8 音符）：`0.24s`
-  - 1/4 拍（1/16 音符机关枪复读）：`0.12s`
-- **高频微切片复读（`track: "video"`）**：
-  - 通过 `sourceOffsetSec` 指定原片金句或夸张表情起点，`durationSec` 设为 `0.48` / `0.24` / `0.12`，配合 `speed: 1.2 ~ 1.6` 连续铺轨。
+- **多视频源混剪**：`{ op: "node_upsert", nodeId: "src-video-2", typeId: "asset.video", locked: true, params: { sourceRelativePath: "..." } }` + `{ op: "edge_connect", fromNodeId: "src-video-2", fromPort: "out", toNodeId: "timeline-out", toPort: "in" }`
+- **人物抠图魔性摇晃大头**：`{ op: "node_upsert", nodeId: "head-cutout", typeId: "image.process", params: { imageProcessTool: "cutout" } }` + `{ op: "edge_connect", fromNodeId: "head-cutout", fromPort: "out", toNodeId: "timeline-out", toPort: "in-image" }`
+- **SVG 动态鬼畜血条 / VS 计分板 / 弹幕贴纸**：`svg.gen` (`out -> in`) $\to$ `svg.anim` (`out-gif -> in-image`) $\to$ `timeline-out`
+- **AI 押韵念诗配音 / 多角色对呛**：`asset.voice` / `asset.dialogue` (`out -> in-voice`) $\to$ `timeline-out`
+
+## 3. 鬼畜时间线变调与精编参数速查（`timeline_edit`）
+
+- **半音阶梯爬音与人力 VOCALOID 调音（`pitchSemitones`）**：
+  - 取值范围：`-12 ~ +12`（单位：半音，基于 `asetrate + atempo` 反向补偿，**100% 保持切片时长 `durationSec` 不变**，绝不破坏 BPM 拍点网格！）。
+  - 预副歌 4 连发 1/4 拍爬音：`pitchSemitones: 0` $\to$ `2` $\to$ `4` $\to$ `7`
+  - 预副歌 8 连发 1/8 拍冲顶：`pitchSemitones: 0` $\to$ `3` $\to$ `5` $\to$ `7` $\to$ `9` $\to$ `12` $\to$ `12` $\to$ `12`
+  - 大调五声音阶旋律调音：`[0, 2, 4, 7, 9, 12]`；小调电音旋律：`[0, 3, 5, 7, 10, 12]`
+- **鬼畜人声变声特效（`voiceEffect`）**：
+  - `"autotune-chorus"`：鬼畜电音双声道合唱（适合 Build-up 冲顶与副歌 Drop 主唱）
+  - `"chipmunk"`：高频花栗鼠搞笑变声（适合滑稽反打、跟班附和）
+  - `"demon"`：深渊恶魔低沉咆哮（适合反派质问、霸气放狠话）
+  - `"robot"`：环形调制机械电音颤音（适合机械复读）
+  - `"echo"`：洗脑多重回声（适合终极点题金句定格收尾）
+  - `"megaphone"`：复古大喇叭中频过载喊话（适合开场定场口号）
 - **重拍视觉特效（`visualEffect`）**：
-  - `"soul-out"`（灵魂出窍残影抽离）、`"rgb-glitch"`（红蓝通道故障色差）、`"strobe-flash"`（快节奏明暗频闪）、`"beat-pulse"`（随节拍呼吸缩放）、`"earthquake"`（重低音剧烈震屏）、`"zoom-burst"`（急推冲击）、`"split-3v"`（三联分屏）。
-- **副歌左右护法画中画伴舞（`track: "overlay"`）**：
-  - 左翼伴舞（`lane: 0`）：`overlayX: 0.02, overlayY: 0.18, overlayWidth: 0.26, overlayHeight: 0.64, tweenLoop: "pendulum", tweenLoopSpeedHz: 2.1`
-  - 右翼伴舞（`lane: 1`）：`overlayX: 0.72, overlayY: 0.18, overlayWidth: 0.26, overlayHeight: 0.64, tweenLoop: "pulse", tweenLoopSpeedHz: 2.1`
-- **洗脑大字幕与语义锚点爆点音效（`track: "subtitle"` + `op: "syncCues"`）**：
-  - `subtitleKaraokeMode: "karaoke-pop"`, `fontSize: 56`, `textColor: "#FACC15"`, `subtitleHighlightColor: "#F43F5E"`，内联 `@{boom}敢杀我的马@{/boom}` 自动吸附 `sfxPresetId: "boom"` 与 `stickerId: "comic-boom"`。
+  - `"soul-out"`（灵魂出窍残影抽离）、`"rgb-glitch"`（红蓝通道故障色差）、`"strobe-flash"`（快节奏明暗频闪）、`"beat-pulse"`（随节拍呼吸缩放）、`"earthquake"`（重低音剧烈震屏）、`"zoom-burst"`（急推冲击）。
+- **副歌左右护法画中画伴舞（`track: "overlay"`，必须设 `volume: 0`）**：
+  - 左翼伴舞（`lane: 0`）：`overlayX: 0.02, overlayY: 0.18, overlayWidth: 0.26, overlayHeight: 0.64, volume: 0, tweenLoop: "pendulum", tweenLoopSpeedHz: 2.1`
+  - 右翼伴舞（`lane: 1`）：`overlayX: 0.72, overlayY: 0.18, overlayWidth: 0.26, overlayHeight: 0.64, volume: 0, tweenLoop: "pulse", tweenLoopSpeedHz: 2.1`
