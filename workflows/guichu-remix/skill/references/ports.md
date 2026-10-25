@@ -38,8 +38,16 @@ sfx-boom:out   → timeline-out:in-voice
   - `"robot"`：环形调制机械电音颤音（适合机械复读）
   - `"echo"`：洗脑多重回声（适合终极点题金句定格收尾）
   - `"megaphone"`：复古大喇叭中频过载喊话（适合开场定场口号）
-- **重拍视觉特效（`visualEffect`）**：
-  - `"soul-out"`（灵魂出窍残影抽离）、`"rgb-glitch"`（红蓝通道故障色差）、`"strobe-flash"`（快节奏明暗频闪）、`"beat-pulse"`（随节拍呼吸缩放）、`"earthquake"`（重低音剧烈震屏）、`"zoom-burst"`（急推冲击）。
+- **夸张鬼畜画面特效（`visualEffect`，建议搭配 `effectIntensity: 95`）**：
+  - `"guichu-pingpong"`：鬼畜正倒放镜像抽搐（前半段正放 + 后半段水平镜像倒放，制造经典鬼畜魔性抽动）
+  - `"beat-flip"`：6Hz 卡点左右镜像高频翻转 + 红青色差闪烁
+  - `"split-2h"` / `"split-3v"` / `"split-4grid"` / `"split-9grid"`：双屏镜像对称、三联屏、四宫格鬼畜矩阵、九宫格鬼畜大合唱（FFmpeg 真实多路分流克隆拼贴 + 霓虹分割线）
+  - `"rainbow-rave"`：彩虹蹦迪 360° 色相高速旋转狂飙
+  - `"deep-fry"`：核爆过载（表情包级超高对比度 + 锐化 + 热力红黄爆表 + 高频震屏）
+  - `"soul-out"`：1.28x 放大红青偏移半透明灵魂出窍残影抽离
+  - `"rgb-glitch"` / `"strobe-flash"` / `"earthquake"` / `"zoom-burst"`：故障色差、强拍频闪、重低音剧烈震屏、急推冲击
+- **程序化透明视觉爆炸贴纸（`track: "overlay"`, `lane: 2`, `volume: 0`）**：
+  - 支持直接将 `relativePath` 设为 `"vfx://comic-boom"`（漫威式爆炸星芒）、`"vfx://neon-slash-combo"`（霓虹双色交叉刀光）、`"vfx://electric-lightning"`（高压雷霆电弧）、`"vfx://fire-burst"`（烈焰爆燃）、`"vfx://laser-beam"`（高能贯穿激光炮）、`"vfx://shockwave-ring"`（超新星冲击波环）。
 - **副歌左右护法画中画伴舞（`track: "overlay"`，必须设 `volume: 0`）**：
   - 左翼伴舞（`lane: 0`）：`overlayX: 0.02, overlayY: 0.18, overlayWidth: 0.26, overlayHeight: 0.64, volume: 0, tweenLoop: "pendulum", tweenLoopSpeedHz: 2.1`
   - 右翼伴舞（`lane: 1`）：`overlayX: 0.72, overlayY: 0.18, overlayWidth: 0.26, overlayHeight: 0.64, volume: 0, tweenLoop: "pulse", tweenLoopSpeedHz: 2.1`
