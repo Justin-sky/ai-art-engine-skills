@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T07:11:18.998Z",
+  "generatedAt": "2026-10-25T07:27:44.027Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -662,7 +662,7 @@
         "改革春风吹满地",
         "成片时间线"
       ],
-      "version": "1.0.0",
+      "version": "1.1.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -688,20 +688,20 @@
       "sizeBytes": 20478,
       "skill": {
         "name": "wf-guichu-remix",
-        "description": "用「鬼畜魔性卡点剪辑」工作流将任意电影、电视剧、春晚小品视频或影视名场面主题自动剪辑成 B 站亿级播放量风格的鬼畜视频（致敬《敢杀我的马？！》《改革春风吹满地》同款技法）：支持对用户导入的任意视频做词级台词转写（transcribe_audio）与关键帧表情抽帧（detect_video_keyframes），按同韵脚重组“念诗之王”顺口溜，配合 126 BPM Funky/Electro-Trap 强拍电音（asset.music）、原片动作打击乐采样（asset.sfx）与踩点人声（asset.voice），在成片时间线（output.timeline）通过 timeline_edit 自动编排 1/4→1/8→1/16 拍高频微切片复读、灵魂出窍/故障色差/频闪震屏特效、副歌左右对称画中画伴舞小窗及逐词弹跳洗脑大字幕。",
+        "description": "用「鬼畜魔性卡点剪辑」工作流将任意电影名、电视剧、春晚小品、B 站链接或本地视频自动剪辑成 B 站亿级播放量风格的鬼畜视频（致敬《敢杀我的马？！》《改革春风吹满地》同款技法）：只需给出电影名/角色名或链接，即可通过 web_fetch_video 自动去 B 站检索并下载高清原片名场面片段至工程，结合词级台词转写（transcribe_audio）与关键帧表情抽帧（detect_video_keyframes），按同韵脚重组“念诗之王”顺口溜，配合 126 BPM Funky/Electro-Trap 强拍电音（asset.music）、动作打击乐采样（asset.sfx）与踩点人声（asset.voice），在成片时间线（output.timeline）通过 timeline_edit 自动编排 1/4→1/8→1/16 拍高频微切片复读、灵魂出窍/故障色差特效、副歌左右护法画中画伴舞及逐词弹跳洗脑大字幕。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 4819
+            "sizeBytes": 5499
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 14351
+            "sizeBytes": 15637
           }
         ],
-        "sizeBytes": 19170
+        "sizeBytes": 21136
       }
     },
     {

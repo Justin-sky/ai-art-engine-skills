@@ -1,4 +1,17 @@
-# 节点拓扑与端口速查（guichu-remix v1.0）
+# 节点拓扑与端口速查（guichu-remix v1.1）
+
+## 联网原片检索下载工具（`web_fetch_video`）
+
+- 当用户只给出**电影名 / 电视剧名 / 小品名 / 角色名**（如 `"让子弹飞"`、`"赵本山 改革春风吹满地"`、`"亮剑 李云龙"`）或 **B 站链接 / BV 号**时，优先调用：
+  ```json
+  {
+    "query": "让子弹飞 什么叫惊喜 原片",
+    "count": 2,
+    "maxDurationSec": 240,
+    "preferOriginalMaterial": true
+  }
+  ```
+- 返回的 `videos[].relativePath`（位于 `Cache/imports/...mp4`）可直接传入 `transcribe_audio`、`detect_video_keyframes`、`grab_video_frames` 与 `timeline_edit`（通过 `relativePath` + `sourceOffsetSec` 切出毫秒级鬼畜复读片段）。
 
 ## 节点清单（共 20 个节点）
 
