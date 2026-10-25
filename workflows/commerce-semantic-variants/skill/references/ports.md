@@ -2,12 +2,12 @@
 
 ## 节点
 
-| key | typeId | 入 | 出 |
-|---|---|---|---|
-| analyze | `semantic.analyze` | video | `semanticTimeline`（整份文档） |
-| compile | `semantic.compile` | `semanticTimeline` | `videoPrompts`（`aiart.video-prompts@1`） |
-| rebuild | `semantic.rebuild` | `videoPrompts` | text（计划/清单）+ video（成片） |
-| note | `note.text` | — | — |
+| key | 名称 | typeId | 入 | 出 |
+|---|---|---|---|---|
+| analyze | 视频拆解 | `semantic.analyze` | video + 参考图 | `semanticTimeline`（拆解时间线文档） |
+| compile | 重制规划 | `semantic.compile` | `semanticTimeline` | `videoPrompts`（重制提示词方案 `aiart.video-prompts@1`） |
+| rebuild | 视频重制 | `semantic.rebuild` | `videoPrompts` | `out-video`（重制成片） |
+| note | 使用说明 | `note.text` | — | — |
 
 端口类型说明：
 
