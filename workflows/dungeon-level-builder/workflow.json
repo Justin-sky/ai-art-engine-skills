@@ -81,9 +81,7 @@
         "typeId": "asset.music",
         "title": "地牢关卡探索循环配乐",
         "params": {
-          "musicInstrumental": true,
-          "generateDuration": 30,
-          "generateInstruction": "Atmospheric fantasy dungeon exploration soundtrack, mysterious pizzicato strings, ambient cavern pads, subtle rhythmic percussion, seamless loop"
+          "generateInstruction": "Atmospheric fantasy dungeon exploration soundtrack, mysterious pizzicato strings, ambient cavern pads, subtle rhythmic percussion, instrumental seamless loop, no vocals"
         }
       },
       {
