@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "id": "steam-store-capsule-kit",
+  "title": "Steam商店胶囊图与宣传片",
+  "titleEn": "Steam Store Capsule & Trailer Kit",
+  "summary": "一键生成Steam商店横幅胶囊图、竖版封面图、透明Logo、实机宣传片视频及BGM时间轴合成套装",
+  "category": "game",
+  "tags": [
+    "Steam",
+    "胶囊图",
+    "商店页",
+    "宣传片",
+    "透明Logo",
+    "游戏发行"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "asset.music",
+      "asset.video",
+      "note.text",
+      "output.timeline"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "Steam / 独立游戏商店页胶囊视觉与预告片发行套件",
+    "nodes": [
+      {
+        "key": "headerCapsule",
+        "typeId": "asset.image",
+        "title": "Steam横版主视觉胶囊图（16:9）",
+        "params": {
+          "generateAspectRatio": "16:9",
+          "generateInstruction": "独立游戏 Steam 商店页横版主视觉海报（Header Capsule 构图）：主角伫立在宏伟的幻想遗迹高台，戏剧性体积光与粒子星火，画面左侧三分之一保留干净深色负空间以便叠加游戏标题 Logo，不要生成任何文字"
+        }
+      },
+      {
+        "key": "verticalCapsule",
+        "typeId": "asset.image",
+        "title": "Steam竖版游戏库封面（3:4）",
+        "params": {
+          "generateAspectRatio": "3:4",
+          "generateInstruction": "独立游戏 Steam 游戏库竖版封面海报（Library Capsule 构图）：极具辨识度的主角居中剪影与强烈边缘逆光，环绕神秘符文能量，顶部保留干净空间供放置标题 Logo，大师级插画质感，不要生成任何文字"
+        }
+      },
+      {
+        "key": "gameLogo",
+        "typeId": "asset.image",
+        "title": "原生透明通道游戏标题Logo",
+        "params": {
+          "generateTransparentBg": true,
+          "generateAspectRatio": "16:9",
+          "generateInstruction": "独立游戏主标题徽标（Game Title Emblem Logo）：精锻暗金金属铭文与青色发光晶石镶嵌的幻想徽章式标志，居中构图，边缘锐利干净，原生透明背景（RGBA 透明通道）"
+        }
+      },
+      {
+        "key": "trailerVid",
+        "typeId": "asset.video",
+        "title": "商店页动态宣传片镜头（Trailer）",
+        "params": {
+          "generateAspectRatio": "16:9",
+          "generateDuration": 5,
+          "generateInstruction": "电影级独立游戏商店宣传片开场镜头：镜头推进环绕主角释放元素觉醒冲击波，古老遗迹浮石震颤、流光粒子飞溅，60fps 丝滑运镜与史诗光影"
+        }
+      },
+      {
+        "key": "trailerBgm",
+        "typeId": "asset.music",
+        "title": "宣传片史诗交响配乐（BGM）",
+        "params": {
+          "generateDuration": 30,
+          "generateInstruction": "Epic indie game reveal trailer soundtrack, building orchestral strings and hybrid braams, emotional melody climax, cinematic mastering"
+        }
+      },
+      {
+        "key": "storeTimeline",
+        "typeId": "output.timeline",
+        "title": "商店宣传片音画合成时间轴",
+        "params": {}
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "Steam商店发行套件工程化说明",
+        "params": {
+          "text": "独立游戏上架 Steam / Epic / TapTap / Itch.io 商店宣发视觉与预告片全链路套件：\n1. 【胶囊图矩阵】：headerCapsule（16:9 横幅胶囊图，左侧预留标题负空间）+ verticalCapsule（3:4 竖版库封面）。\n2. 【原生透明 Logo】：gameLogo 开启 generateTransparentBg: true 直出带 Alpha 通道的徽标 Logo，无需二次抠图即可叠加在任意胶囊图上。\n3. 【商店预告片合成】：headerCapsule 作为首帧驱动 trailerVid 生成动态镜头，与 trailerBgm 史诗配乐自动汇入 storeTimeline 合成商店页 MP4 预告片。\n4. 【全工程一键打包】：可调用 game_bundle_export 将商店宣发套件与游戏内资产、碰撞体、数值表和引擎导入脚本一键归档交付！"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "headerCapsule",
+        "to": "trailerVid",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "trailerVid",
+        "to": "storeTimeline"
+      },
+      {
+        "from": "trailerBgm",
+        "to": "storeTimeline"
+      }
+    ]
+  }
+}

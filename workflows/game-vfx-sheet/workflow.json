@@ -1,0 +1,95 @@
+{
+  "schemaVersion": 1,
+  "id": "game-vfx-sheet",
+  "title": "2D 游戏特效序列帧",
+  "titleEn": "2D Game VFX Flipbook",
+  "summary": "原生透明刀光/爆炸/法阵特效网格（frame.animGen）→切格稳像与残影拖尾（anim.2d）→配套打击音效",
+  "category": "game",
+  "tags": [
+    "游戏特效",
+    "VFX序列帧",
+    "刀光剑气",
+    "魔法爆炸",
+    "透明Flipbook",
+    "打击音效"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "anim.2d",
+      "asset.sfx",
+      "frame.animGen",
+      "note.text"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "2D 游戏特效序列帧（VFX Flipbook）",
+    "nodes": [
+      {
+        "key": "vfxSheet",
+        "typeId": "frame.animGen",
+        "title": "生成VFX特效序列图",
+        "params": {
+          "animRows": 2,
+          "animCols": 4,
+          "generateAspectRatio": "16:9",
+          "generateTransparentBg": true,
+          "animPresetId": "vfxSlash",
+          "animGenMode": "ai-sheet",
+          "animKeyColor": "",
+          "animViewAngle": "side",
+          "animStyleLock": "vfx",
+          "animStabilize": "center",
+          "generateInstruction": "2D 游戏纯视觉特效（VFX Flipbook）2 行 4 列共 8 帧「凛冽青金弧形刀光剑气斩击」序列图：按从左到右、从上到下顺序展现完整生命周期（#1 剑气初现聚光 → #2 高速拉出新月刃弧 → #3 刀光全盛爆发迸射火花 → #4 能量裂纹扩散 → #5~#8 残影粒子逐帧消散归零），画面中严禁出现任何人物或武器实体，每格等大 1:1 构图，原生透明背景（RGBA 透明通道），严禁绘制棋盘格或边框"
+        }
+      },
+      {
+        "key": "vfxAnim",
+        "typeId": "anim.2d",
+        "title": "特效切格与GIF合成",
+        "params": {
+          "animRows": 2,
+          "animCols": 4,
+          "animPresetId": "vfxSlash",
+          "animInstruction": "纯刀光剑气斩击特效生命周期：起手聚光→新月斩弧爆发→粒子消散",
+          "animKeyColor": "",
+          "animEdgeInset": "auto",
+          "animStabilize": "center",
+          "animPlayMode": "loop",
+          "animGifFps": 14
+        }
+      },
+      {
+        "key": "vfxSfx",
+        "typeId": "asset.sfx",
+        "title": "配套技能打击音效",
+        "params": {
+          "generateInstruction": "Crisp metallic sword slash whoosh followed by arcane energy burst impact, clean game combat SFX, zero background noise"
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "2D 游戏特效（VFX Flipbook）工业管线说明",
+        "params": {
+          "text": "2D 游戏特效序列图（VFX Flipbook）核心规范：\n1. 纯特效无人物约束：vfxSheet（frame.animGen）锁定 animStyleLock='vfx'、generateTransparentBg=true、animKeyColor=''，提示词明确「纯视觉特效，严禁出现任何人物或武器实体」，展现从起手聚能 → 核心爆发 → 粒子消散的完整生命周期。\n2. 三大预设切换：animPresetId 支持 'vfxSlash'（刀光剑气）、'vfxExplosion'（受击/爆炸冲击波）、'vfxAura'（持续法阵/能量光环循环）。\n3. 质心锁定与防疲劳音效：vfxAnim（anim.2d）设 animStabilize='center' 锁定特效爆发中心；vfxSfx 生成打击音效后可调用 game_audio_variants 生成 4 组微音高随机变体。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "vfxSheet",
+        "to": "vfxAnim",
+        "fromPort": "out",
+        "toPort": "in"
+      }
+    ]
+  }
+}

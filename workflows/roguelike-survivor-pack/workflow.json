@@ -1,0 +1,198 @@
+{
+  "schemaVersion": 1,
+  "id": "roguelike-survivor-pack",
+  "title": "肉鸽割草与弹幕生存套件",
+  "titleEn": "Roguelike Survivor Asset Pack",
+  "summary": "主角与怪潮序列帧动画+弹幕武器/经验宝石3×3图标包+爽快割草音效+碰撞框与波次配表",
+  "category": "game",
+  "tags": [
+    "肉鸽割草",
+    "吸血鬼幸存者",
+    "弹幕射击",
+    "怪物潮序列帧",
+    "掉落宝石图标",
+    "碰撞体与波次表"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "anim.2d",
+      "asset.image",
+      "asset.sfx",
+      "frame.animGen",
+      "image.iconPack",
+      "note.text",
+      "text.plain"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "肉鸽割草与弹幕生存（Survivor Roguelike）全套资产包",
+    "nodes": [
+      {
+        "key": "heroRef",
+        "typeId": "asset.image",
+        "title": "幸存者主角基准立绘（锚点）",
+        "params": {
+          "generateTransparentBg": true,
+          "generateAspectRatio": "1:1",
+          "generateInstruction": "俯视角轻度肉鸽割草游戏（《吸血鬼幸存者》《土豆兄弟》级）主角全身设定立绘：微俯视斜 45° 视角，夸张醒目的二头身/三头身比例，手持发光猎魔十字弩，外轮廓加粗清晰，原生透明背景（RGBA 透明通道），无地面阴影"
+        }
+      },
+      {
+        "key": "heroSheet",
+        "typeId": "frame.animGen",
+        "title": "主角移动循环序列图",
+        "params": {
+          "animRows": 2,
+          "animCols": 2,
+          "generateAspectRatio": "1:1",
+          "generateTransparentBg": true,
+          "animPresetId": "run",
+          "animGenMode": "ai-sheet",
+          "animKeyColor": "",
+          "animViewAngle": "iso",
+          "animStyleLock": "cel",
+          "animStabilize": "ground",
+          "generateInstruction": "基于输入主角生成 2×2 共 4 帧「俯视角灵巧奔跑走位」循环序列图：步伐轻快富有弹性，披风随跑动摆动，各格角色身高比例与配色 100% 一致，原生透明背景（RGBA 透明通道）"
+        }
+      },
+      {
+        "key": "heroAnim",
+        "typeId": "anim.2d",
+        "title": "主角精灵切帧与GIF",
+        "params": {
+          "animRows": 2,
+          "animCols": 2,
+          "animPresetId": "run",
+          "animKeyColor": "",
+          "animEdgeInset": "auto",
+          "animStabilize": "ground",
+          "animPlayMode": "loop",
+          "animGifFps": 10
+        }
+      },
+      {
+        "key": "mobSheet",
+        "typeId": "frame.animGen",
+        "title": "怪物潮杂兵追击序列图",
+        "params": {
+          "animRows": 2,
+          "animCols": 2,
+          "generateAspectRatio": "1:1",
+          "generateTransparentBg": true,
+          "animPresetId": "walk",
+          "animGenMode": "ai-sheet",
+          "animKeyColor": "",
+          "animViewAngle": "iso",
+          "animStyleLock": "cel",
+          "animStabilize": "ground",
+          "generateInstruction": "俯视角肉鸽割草游戏怪物潮杂兵 2×2 共 4 帧「暗影骷髅小怪蹒跚扑击」循环序列图：微俯视斜 45° 视角，剪影辨识度极高（同屏百只不糊），每格等大 1:1 构图，原生透明背景（RGBA 透明通道）"
+        }
+      },
+      {
+        "key": "mobAnim",
+        "typeId": "anim.2d",
+        "title": "怪物潮精灵切帧与GIF",
+        "params": {
+          "animRows": 2,
+          "animCols": 2,
+          "animPresetId": "walk",
+          "animKeyColor": "",
+          "animEdgeInset": "auto",
+          "animStabilize": "ground",
+          "animPlayMode": "loop",
+          "animGifFps": 8
+        }
+      },
+      {
+        "key": "lootNames",
+        "typeId": "text.plain",
+        "title": "弹幕投射物与掉落物名单",
+        "params": {
+          "text": "蓝色经验水晶\n金色高阶经验石\n全屏磁铁遗物\n回血烤鸡腿\n穿透飞刀弹幕\n环绕圣火法球\n连锁闪电符文\n狂暴暴击戒指\n黄金进化宝箱"
+        }
+      },
+      {
+        "key": "lootSheet",
+        "typeId": "asset.image",
+        "title": "弹幕与掉落宝石·3×3整版",
+        "params": {
+          "generateAspectRatio": "1:1",
+          "generateInstruction": "按名单顺序，绘制一张 3 行 × 3 列均匀九宫格的肉鸽割草游戏弹幕投射物与掉落道具整版表：每格一枚高饱和度、粗黑描边、强高光辨识度的独立图标，不画任何文字、不画网格线，纯色干净底板。"
+        }
+      },
+      {
+        "key": "lootPack",
+        "typeId": "image.iconPack",
+        "title": "弹幕与掉落物切格透明打包",
+        "params": {
+          "iconPack": {
+            "rows": 3,
+            "cols": 3,
+            "edgeInset": "auto",
+            "keyColor": "auto",
+            "distance": 40,
+            "feather": 34,
+            "canvasSize": 256
+          },
+          "mediaOutputDir": "Assets/IconPacks/roguelike_loot"
+        }
+      },
+      {
+        "key": "juicyHitSfx",
+        "typeId": "asset.sfx",
+        "title": "爽快割草受击与宝石拾取音效",
+        "params": {
+          "generateInstruction": "Juicy arcade roguelike enemy hit pop followed by crisp crystal gem pickup chime, punchy and satisfying game SFX"
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "肉鸽割草（Survivor）全流程工程化说明",
+        "params": {
+          "text": "肉鸽割草与弹幕生存游戏四大核心交付：\n1. 【主角与怪潮序列帧】：heroRef → heroSheet → heroAnim 产出主角走位精灵；mobSheet → mobAnim 产出高辨识度怪潮杂兵精灵。\n2. 【弹幕与经验宝石包】：lootNames → lootSheet → lootPack 一键切出 9 枚 256×256 透明 PNG 弹幕、经验水晶与进化宝箱。\n3. 【2D 碰撞多边形与判定框】：调用 game_tile_pbr_process({ assetId, extractPhysicsHull: true }) 自动提取主角与怪物的紧致凸包 CollisionPolygon2D 与 Hurtbox/Hitbox。\n4. 【防疲劳音效与刷怪波次配表】：调用 game_audio_variants 为 juicyHitSfx 生成 6 组随机音高变体；调用 game_data_table_generate 生成包含 characters、items、waves（刷怪波次表）与 localization.csv 的完整数值配表！"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "heroRef",
+        "to": "heroSheet",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "heroSheet",
+        "to": "heroAnim",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "mobSheet",
+        "to": "mobAnim",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "lootNames",
+        "to": "lootSheet"
+      },
+      {
+        "from": "lootNames",
+        "to": "lootPack"
+      },
+      {
+        "from": "lootSheet",
+        "to": "lootPack"
+      }
+    ]
+  }
+}

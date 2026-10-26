@@ -1,0 +1,122 @@
+{
+  "schemaVersion": 1,
+  "id": "card-slg-pack",
+  "title": "卡牌与SLG策略游戏资产包",
+  "titleEn": "Card & SLG Strategy Asset Suite",
+  "summary": "卡面插画+9-Slice卡牌边框底板+阵营费用徽章打包+SLG等轴测六角建筑地块",
+  "category": "game",
+  "tags": [
+    "卡牌构筑DBG",
+    "SLG策略战棋",
+    "卡牌UI边框",
+    "九宫格9Slice",
+    "六角地块",
+    "阵营徽章"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "image.iconPack",
+      "note.text",
+      "text.plain"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "卡牌构筑（DBG）与 SLG 策略战棋资产套件",
+    "nodes": [
+      {
+        "key": "cardIllust",
+        "typeId": "asset.image",
+        "title": "核心卡面英雄/技能插画",
+        "params": {
+          "generateAspectRatio": "3:4",
+          "generateInstruction": "DBG 卡牌构筑游戏（《杀戮尖塔》《炉石传说》级）3:4 竖版史诗卡面主视觉插画：暗金铠甲女武神高举雷霆长枪劈开乌云，强光影戏剧张力，主体居中突出，四周预留卡框叠合余量"
+        }
+      },
+      {
+        "key": "cardFrameUi",
+        "typeId": "asset.image",
+        "title": "可拉伸卡牌外框与羊皮纸面板（9-Slice）",
+        "params": {
+          "generateAspectRatio": "3:4",
+          "generateTransparentBg": true,
+          "generateInstruction": "奇幻卡牌游戏 UI 金属浮雕镶边面板框：外圈为精致巴洛克暗金雕花金属边框与四角宝石装饰，内部中央区域为均匀平铺的深色羊皮纸纹理底板（供 9-Slice 九宫格无损拉伸与文字排版），外框四周为原生 RGBA 透明通道，严禁包含任何文字或数字"
+        }
+      },
+      {
+        "key": "badgeNames",
+        "typeId": "text.plain",
+        "title": "卡牌费用与SLG阵营徽章名单",
+        "params": {
+          "text": "法力水晶蓝宝石\n攻击力铁剑徽记\n护甲盾牌徽记\n稀有度传说金星\n烈焰阵营纹章\n寒冰阵营纹章\n雷霆阵营纹章\n暗影阵营纹章\n圣殿阵营纹章"
+        }
+      },
+      {
+        "key": "badgeSheet",
+        "typeId": "asset.image",
+        "title": "费用水晶与阵营徽章·3×3整版",
+        "params": {
+          "generateAspectRatio": "1:1",
+          "generateInstruction": "按名单顺序，绘制一张 3 行 × 3 列均匀九宫格的卡牌与 SLG 阵营徽章整版表：每格一枚独立高质感金属宝石徽记图标，等线宽描边、统一光影角度、主体饱满高对比，不画任何文字、不画网格线，纯色干净底板。"
+        }
+      },
+      {
+        "key": "badgePack",
+        "typeId": "image.iconPack",
+        "title": "徽章切格与透明打包",
+        "params": {
+          "iconPack": {
+            "rows": 3,
+            "cols": 3,
+            "edgeInset": "auto",
+            "keyColor": "auto",
+            "distance": 40,
+            "feather": 34,
+            "canvasSize": 256
+          },
+          "mediaOutputDir": "Assets/IconPacks/card_badges"
+        }
+      },
+      {
+        "key": "slgHexTile",
+        "typeId": "asset.image",
+        "title": "SLG 等轴测六角主城/资源地块",
+        "params": {
+          "generateAspectRatio": "1:1",
+          "generateTransparentBg": true,
+          "generateInstruction": "SLG 策略战棋游戏斜 45° 等轴测（Isometric 2.5D）六边形战略地块：悬浮在六边形岩基上的中世纪黄金要塞主城，塔楼旗帜鲜明，边缘严格收束在正六边形底座内，底座外部为原生 RGBA 透明通道，无地面投射杂影"
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "卡牌构筑（DBG）与 SLG 战棋全套资产管线说明",
+        "params": {
+          "text": "卡牌与 SLG 策略游戏核心资产工程化：\n1. 【分层卡牌拼装】：cardIllust（3:4 史诗卡面插画）+ cardFrameUi（带四角浮雕装饰的卡牌 UI 面板）+ badgePack（自动切出并抠成 256×256 透明 PNG 的费用水晶、攻防图标与阵营纹章）。\n2. 【UI 9-Slice 九宫格自动标定】：对 cardFrameUi 调用 MCP 工具 game_tile_pbr_process({ assetId, detectNineSlice: true })，自动检测四角金属雕花厚度与中心可拉伸区域，输出 Godot StyleBoxTexture / Unity Sprite.border 九宫格切线 JSON。\n3. 【SLG 六角战棋地块】：slgHexTile 直接产出原生透明背景的斜 45° 等轴测六角建筑/资源地块，可直接擺上战棋大地图。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "badgeNames",
+        "to": "badgeSheet"
+      },
+      {
+        "from": "badgeNames",
+        "to": "badgePack"
+      },
+      {
+        "from": "badgeSheet",
+        "to": "badgePack"
+      }
+    ]
+  }
+}

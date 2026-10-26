@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "id": "game3d-rigged-character",
+  "title": "3D 角色绑骨与动作管线",
+  "titleEn": "3D Rigged Character Pipeline",
+  "summary": "T-Pose设定图→3D网格生成→自动骨骼蒙皮→动作库重定向→低模重拓扑与FBX导出",
+  "category": "game",
+  "tags": [
+    "3D角色建模",
+    "自动绑骨蒙皮",
+    "动作重定向",
+    "低模重拓扑",
+    "GLB转FBX",
+    "Unity/Godot/UE"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "asset.model3d",
+      "model.convert",
+      "model.retarget",
+      "model.retopology",
+      "model.rigSkin",
+      "note.text"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "3D 游戏角色生成、绑骨蒙皮、动作与减面管线",
+    "nodes": [
+      {
+        "key": "tposeRef",
+        "typeId": "asset.image",
+        "title": "角色标准 T-Pose 正交参考图",
+        "params": {
+          "generateTransparentBg": true,
+          "generateAspectRatio": "1:1",
+          "generateInstruction": "3D 游戏角色建模专用标准正面正交 T-Pose 全身设定图：双臂水平向两侧平举（或标准 A-Pose 45° 自然张开），双腿微开站立，无披风或长发遮挡腋下与胯部关节，结构对称清晰，PBR 金属皮革材质细节分明，原生透明背景（RGBA 透明通道）"
+        }
+      },
+      {
+        "key": "charModel",
+        "typeId": "asset.model3d",
+        "title": "生成 3D 角色网格（GLB）",
+        "params": {
+          "generateInstruction": "基于输入 T-Pose 设定图生成完整对称的 3D 游戏角色模型，四肢独立无粘连，带完整 PBR 贴图"
+        }
+      },
+      {
+        "key": "rigSkin",
+        "typeId": "model.rigSkin",
+        "title": "自动骨骼蒙皮（Humanoid Rig）",
+        "params": {
+          "generateRigType": "humanoid",
+          "generateInstruction": "标准人形骨骼自动绑定与权重蒙皮"
+        }
+      },
+      {
+        "key": "retargetAnim",
+        "typeId": "model.retarget",
+        "title": "3D 动作库绑定（待机/奔跑/攻击）",
+        "params": {
+          "retargetOutFormat": "glb",
+          "retargetBakeAnimation": true,
+          "retargetExportWithGeometry": true,
+          "retargetAnimateInPlace": true
+        }
+      },
+      {
+        "key": "lowPolyModel",
+        "typeId": "model.retopology",
+        "title": "游戏引擎低模重拓扑（Retopology）",
+        "params": {
+          "retopologyMode": "smart",
+          "retopologyQuad": true,
+          "retopologyBake": true
+        }
+      },
+      {
+        "key": "fbxConvert",
+        "typeId": "model.convert",
+        "title": "引擎就绪 FBX/GLB 标准化导出",
+        "params": {
+          "convertFormat": "FBX",
+          "convertPivotToCenterBottom": true,
+          "convertBake": true,
+          "convertWithAnimation": true
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "3D 游戏角色全流程管线说明",
+        "params": {
+          "text": "3D 游戏角色工业级全链路：\n1. 【关节无遮挡 T-Pose 锚点】：tposeRef 生成双臂平举、双腿分离、无披风粘连的正交透明全身像，连入 charModel:in-image 生成四肢干净分离的 3D 角色网格。\n2. 【自动绑骨与动作重定向】：charModel → rigSkin（自动植入标准人形骨骼与蒙皮权重）→ retargetAnim（勾选 retargetAnimateInPlace=true 原地动作烘焙，支持待机、奔跑、跳跃、挥砍等游戏动作库）→ fbxConvert（将原点归中到脚底中心 convertPivotToCenterBottom=true 并导出 FBX/GLB）。\n3. 【低模减面旁路】：charModel → lowPolyModel（model.retopology）一键生成四边面低模并烘焙法线贴图。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "tposeRef",
+        "to": "charModel",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "charModel",
+        "to": "rigSkin",
+        "fromPort": "out",
+        "toPort": "in-model"
+      },
+      {
+        "from": "rigSkin",
+        "to": "retargetAnim",
+        "fromPort": "out",
+        "toPort": "in-model"
+      },
+      {
+        "from": "retargetAnim",
+        "to": "fbxConvert",
+        "fromPort": "out",
+        "toPort": "in-model"
+      },
+      {
+        "from": "charModel",
+        "to": "lowPolyModel",
+        "fromPort": "out",
+        "toPort": "in-model"
+      }
+    ]
+  }
+}

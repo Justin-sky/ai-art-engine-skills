@@ -1,0 +1,165 @@
+{
+  "schemaVersion": 1,
+  "id": "avg-portrait-pack",
+  "title": "AVG/RPG 立绘与表情差分包",
+  "titleEn": "AVG/RPG Portrait & Expression Pack",
+  "summary": "角色透明基准立绘→6格喜怒哀乐表情差分（expr6）+4格口型眨眼差分（lipSync4）+剧情CG背景+角色配音",
+  "category": "game",
+  "tags": [
+    "AVG立绘",
+    "表情差分",
+    "口型同步",
+    "视觉小说",
+    "Galgame",
+    "RPG对话框立绘"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "anim.2d",
+      "asset.image",
+      "asset.voice",
+      "frame.animGen",
+      "note.text"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "AVG/RPG 角色立绘与表情口型差分资产包",
+    "nodes": [
+      {
+        "key": "charPortrait",
+        "typeId": "asset.image",
+        "title": "角色基准半身立绘（原生透明锚点）",
+        "params": {
+          "generateTransparentBg": true,
+          "generateAspectRatio": "3:4",
+          "generateInstruction": "AVG 视觉小说 / JRPG 对话框角色正面微侧（3/4 视角）腰部以上半身基准立绘：精致二次元厚涂赛璐璐画风，发丝与服饰褶皱细腻，神态平静自然，外轮廓清晰闭合，原生透明背景（RGBA 透明通道），严禁任何背景杂物或棋盘格纹理"
+        }
+      },
+      {
+        "key": "exprSheet",
+        "typeId": "frame.animGen",
+        "title": "6格表情差分表（喜怒哀乐惊羞）",
+        "params": {
+          "animRows": 2,
+          "animCols": 3,
+          "generateAspectRatio": "4:3",
+          "generateTransparentBg": true,
+          "animPresetId": "expr6",
+          "animGenMode": "ai-sheet",
+          "animKeyColor": "",
+          "animViewAngle": "front",
+          "animStyleLock": "cel",
+          "animStabilize": "ground",
+          "generateInstruction": "基于输入角色立绘生成 2 行 3 列共 6 格「AVG 角色表情差分表」：#1 平静微笑、#2 开怀欢笑、#3 傲娇生气皱眉、#4 委屈含泪悲伤、#5 瞳孔收缩惊讶、#6 脸红害羞闪躲；除五官表情变化外，各格角色发型、服饰、头肩比例与姿态保持 100% 严丝合缝一致，原生透明背景（RGBA 透明通道）"
+        }
+      },
+      {
+        "key": "exprPack",
+        "typeId": "anim.2d",
+        "title": "表情差分切帧与对齐输出",
+        "params": {
+          "animRows": 2,
+          "animCols": 3,
+          "animPresetId": "expr6",
+          "animKeyColor": "",
+          "animEdgeInset": "auto",
+          "animStabilize": "ground",
+          "animPlayMode": "loop",
+          "animGifFps": 2
+        }
+      },
+      {
+        "key": "lipSheet",
+        "typeId": "frame.animGen",
+        "title": "4格说话口型与眨眼差分（Lip-Sync）",
+        "params": {
+          "animRows": 2,
+          "animCols": 2,
+          "generateAspectRatio": "1:1",
+          "generateTransparentBg": true,
+          "animPresetId": "lipSync4",
+          "animGenMode": "ai-sheet",
+          "animKeyColor": "",
+          "animViewAngle": "front",
+          "animStyleLock": "cel",
+          "animStabilize": "ground",
+          "generateInstruction": "基于输入角色立绘生成 2 行 2 列共 4 格「AVG 对话口型与眨眼差分表」：#1 睁眼闭口待机、#2 睁眼半张口说话、#3 睁眼大张口元音说话、#4 闭眼微笑眨眼帧；头肩轮廓与服饰位置 100% 锁定不动，原生透明背景（RGBA 透明通道）"
+        }
+      },
+      {
+        "key": "lipAnim",
+        "typeId": "anim.2d",
+        "title": "口型眨眼动态精灵",
+        "params": {
+          "animRows": 2,
+          "animCols": 2,
+          "animPresetId": "lipSync4",
+          "animKeyColor": "",
+          "animEdgeInset": "auto",
+          "animStabilize": "ground",
+          "animPlayMode": "pingpong",
+          "animGifFps": 6
+        }
+      },
+      {
+        "key": "storyBg",
+        "typeId": "asset.image",
+        "title": "配套剧情舞台背景CG",
+        "params": {
+          "generateAspectRatio": "16:9",
+          "generateInstruction": "AVG 视觉小说 16:9 剧场背景 CG：黄昏夕阳透过彩绘玻璃窗洒入古典魔法学院图书馆，丁达尔光束与漂浮微尘，构图留出中央偏下角色立绘站位空间，无人空镜场景"
+        }
+      },
+      {
+        "key": "charVoice",
+        "typeId": "asset.voice",
+        "title": "角色代表台词配音",
+        "params": {
+          "text": "你终于来了……我在这座图书馆里，已经等你很久了。"
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "AVG / RPG 立绘与差分资产包工业管线说明",
+        "params": {
+          "text": "AVG 视觉小说 / 叙事 RPG 角色差分管线：\n1. 【单锚点锁死头肩】：charPortrait（原生透明半身立绘）同时连入 exprSheet（2×3 喜怒哀乐惊羞 6 表情差分）与 lipSheet（2×2 说话口型与眨眼 4 格差分）。\n2. 【零跳变切换】：exprPack 与 lipAnim（anim.2d）均开启 animStabilize='ground' 与 animKeyColor=''，将切出的 6 张表情透明 PNG 与 4 张口型帧对齐到完全相同的像素基准线上，导入 Ren'Py / Unity Fungus / Naninovel / Godot Dialogic 切换表情时身体零晃动！\n3. 【全套交付】：同步产出 16:9 无人剧情背景 CG（storyBg）与角色台词配音（charVoice）。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "charPortrait",
+        "to": "exprSheet",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "exprSheet",
+        "to": "exprPack",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "charPortrait",
+        "to": "lipSheet",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "lipSheet",
+        "to": "lipAnim",
+        "fromPort": "out",
+        "toPort": "in"
+      }
+    ]
+  }
+}

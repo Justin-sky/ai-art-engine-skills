@@ -1,0 +1,94 @@
+{
+  "schemaVersion": 1,
+  "id": "game-audio-suite",
+  "title": "全品类游戏音频矩阵",
+  "titleEn": "Game Audio Suite (BGM/SFX/Voice)",
+  "summary": "探索/战斗双态BGM+挥砍/受击/UI音效+角色战斗语音→无缝循环与防疲劳音效变体矩阵",
+  "category": "game",
+  "tags": [
+    "游戏BGM",
+    "无缝循环音乐",
+    "游戏音效SFX",
+    "防疲劳音效变体",
+    "角色战斗配音",
+    "UI交互音效"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.music",
+      "asset.sfx",
+      "asset.voice",
+      "note.text"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "全品类游戏音频套件（无缝循环 BGM + 防疲劳 SFX 变体 + 角色语音）",
+    "nodes": [
+      {
+        "key": "bgmExplore",
+        "typeId": "asset.music",
+        "title": "探索态/主城环境 BGM",
+        "params": {
+          "generateInstruction": "Atmospheric fantasy RPG exploration background music, gentle Celtic harp, warm strings and wooden flute, steady tempo 96 BPM, instrumental loopable structure, no vocals"
+        }
+      },
+      {
+        "key": "bgmBattle",
+        "typeId": "asset.music",
+        "title": "高燃 Boss 战斗态 BGM",
+        "params": {
+          "generateInstruction": "Intense orchestral boss battle game music, driving war drums, brass stabs and fast string ostinato, 140 BPM, high energy loopable instrumental, no vocals"
+        }
+      },
+      {
+        "key": "sfxAttack",
+        "typeId": "asset.sfx",
+        "title": "近战挥砍/武器攻击音效",
+        "params": {
+          "generateInstruction": "Sharp metallic blade swing whoosh with crisp air cut, clean isolated game combat sound effect, instant attack transient"
+        }
+      },
+      {
+        "key": "sfxHit",
+        "typeId": "asset.sfx",
+        "title": "重击命中/护甲受击音效",
+        "params": {
+          "generateInstruction": "Heavy melee impact hit on armor with crunchy bone thud and spark, isolated game combat hit SFX"
+        }
+      },
+      {
+        "key": "sfxUiClick",
+        "typeId": "asset.sfx",
+        "title": "UI 按钮确认/卡牌出牌音效",
+        "params": {
+          "generateInstruction": "Clean tactile fantasy UI button confirm chime with subtle wooden click, crisp game interface SFX"
+        }
+      },
+      {
+        "key": "battleVoice",
+        "typeId": "asset.voice",
+        "title": "角色必杀技/受击战斗语音",
+        "params": {
+          "text": "破晓之刃——斩断一切虚妄吧！"
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "游戏音频工程化后处理管线说明",
+        "params": {
+          "text": "全品类游戏音频工业级交付规范：\n1. 【BGM 零接缝无限循环（acrossfade）】：bgmExplore 与 bgmBattle 生成后，调用 MCP 工具 game_audio_variants({ assetId, mode: 'bgm_loop', crossfadeSec: 2.5 })，在 t=2.5s 采样点执行相位连续等功率交叉淡化，使引擎循环播放时 100% 零爆音、零跳拍。\n2. 【SFX 0ms 瞬发响应与防疲劳变体矩阵】：sfxAttack / sfxHit / sfxUiClick 生成后，调用 game_audio_variants({ assetId, mode: 'sfx_variants', count: 4, trimSilence: true })，自动切除首部静音（实现 0ms 按键瞬发响应）并产出 4 组微音高/明暗度随机变体，彻底消除高频连按的机械重复感！"
+        }
+      }
+    ],
+    "edges": []
+  }
+}

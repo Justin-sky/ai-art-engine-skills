@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T07:40:05.416Z",
+  "generatedAt": "2026-10-26T09:36:10.121Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -111,6 +111,109 @@
           }
         ],
         "sizeBytes": 16259
+      }
+    },
+    {
+      "id": "avg-portrait-pack",
+      "title": "AVG/RPG 立绘与表情差分包",
+      "titleEn": "AVG/RPG Portrait & Expression Pack",
+      "summary": "角色透明基准立绘→6格喜怒哀乐表情差分（expr6）+4格口型眨眼差分（lipSync4）+剧情CG背景+角色配音",
+      "category": "game",
+      "tags": [
+        "AVG立绘",
+        "表情差分",
+        "口型同步",
+        "视觉小说",
+        "Galgame",
+        "RPG对话框立绘"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "anim.2d",
+          "asset.image",
+          "asset.voice",
+          "frame.animGen",
+          "note.text"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 8,
+      "edgeCount": 4,
+      "sizeBytes": 6152,
+      "skill": {
+        "name": "wf-avg-portrait-pack",
+        "description": "用「AVG/RPG 立绘与表情差分包」工作流生成视觉小说（Galgame / Ren'Py）、叙事解谜与 JRPG 对话系统的原生透明角色基准立绘、6格喜怒哀乐惊羞表情差分、4格说话口型与眨眼差分（Lip-Sync）、16:9 剧情舞台背景 CG 与角色台词配音。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 1216
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 3707
+          }
+        ],
+        "sizeBytes": 4923
+      }
+    },
+    {
+      "id": "card-slg-pack",
+      "title": "卡牌与SLG策略游戏资产包",
+      "titleEn": "Card & SLG Strategy Asset Suite",
+      "summary": "卡面插画+9-Slice卡牌边框底板+阵营费用徽章打包+SLG等轴测六角建筑地块",
+      "category": "game",
+      "tags": [
+        "卡牌构筑DBG",
+        "SLG策略战棋",
+        "卡牌UI边框",
+        "九宫格9Slice",
+        "六角地块",
+        "阵营徽章"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "image.iconPack",
+          "note.text",
+          "text.plain"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 7,
+      "edgeCount": 3,
+      "sizeBytes": 5029,
+      "skill": {
+        "name": "wf-card-slg-pack",
+        "description": "用「卡牌与SLG策略游戏资产包」工作流一键生产卡牌构筑（DBG / CCG）与 SLG 策略战棋游戏所需的 3:4 卡面主视觉插画、可 9-Slice 九宫格拉伸的卡牌边框底板、费用水晶/攻防属性/阵营纹章透明图标包与斜 45° 等轴测六角战略建筑地块。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 1042
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 4196
+          }
+        ],
+        "sizeBytes": 5238
       }
     },
     {
@@ -444,6 +547,57 @@
       }
     },
     {
+      "id": "game-audio-suite",
+      "title": "全品类游戏音频矩阵",
+      "titleEn": "Game Audio Suite (BGM/SFX/Voice)",
+      "summary": "探索/战斗双态BGM+挥砍/受击/UI音效+角色战斗语音→无缝循环与防疲劳音效变体矩阵",
+      "category": "game",
+      "tags": [
+        "游戏BGM",
+        "无缝循环音乐",
+        "游戏音效SFX",
+        "防疲劳音效变体",
+        "角色战斗配音",
+        "UI交互音效"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.music",
+          "asset.sfx",
+          "asset.voice",
+          "note.text"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 7,
+      "edgeCount": 0,
+      "sizeBytes": 3638,
+      "skill": {
+        "name": "wf-game-audio-suite",
+        "description": "用「全品类游戏音频矩阵」工作流一键生成探索态与战斗态纯器乐 BGM、攻击挥砍/命中受击/UI确认音效与角色战斗语音，并通过本地 FFmpeg 算子（game_audio_variants）自动将 BGM 处理为相位连续无缝循环音轨、将 SFX 裁切首部静音实现 0ms 瞬发响应并派生多组防听觉疲劳音高变体。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 1018
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 3594
+          }
+        ],
+        "sizeBytes": 4612
+      }
+    },
+    {
       "id": "game-icons",
       "title": "游戏图标包",
       "titleEn": "Game icon pack",
@@ -491,6 +645,57 @@
           }
         ],
         "sizeBytes": 20225
+      }
+    },
+    {
+      "id": "game-tileset-parallax",
+      "title": "2D 瓦片地图与视差背景",
+      "titleEn": "2D Tileset & Parallax BG",
+      "summary": "九宫格地形瓦片图集+无缝地面砖+远中近三层视差滚轴背景→无缝融合与法线贴图派生",
+      "category": "game",
+      "tags": [
+        "Tilemap瓦片",
+        "AutoTile九宫格",
+        "无缝贴图",
+        "视差滚轴背景",
+        "2D平台跳跃",
+        "俯视角RPG地图"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "frame.animGen",
+          "image.gridSplit",
+          "note.text"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 6,
+      "edgeCount": 1,
+      "sizeBytes": 4773,
+      "skill": {
+        "name": "wf-game-tileset-parallax",
+        "description": "用「2D 瓦片地图与视差背景」工作流生成平台跳跃/银河城/俯视角RPG/肉鸽/模拟经营游戏的 3×3 Auto-Tile 九宫格地形瓦片图集、100% 零接缝平铺地表材质、2D动态光照法线贴图（Normal Map）以及远中近多层横向无缝视差滚轴背景（Parallax Background）。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 1269
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 4518
+          }
+        ],
+        "sizeBytes": 5787
       }
     },
     {
@@ -598,6 +803,57 @@
       }
     },
     {
+      "id": "game-vfx-sheet",
+      "title": "2D 游戏特效序列帧",
+      "titleEn": "2D Game VFX Flipbook",
+      "summary": "原生透明刀光/爆炸/法阵特效网格（frame.animGen）→切格稳像与残影拖尾（anim.2d）→配套打击音效",
+      "category": "game",
+      "tags": [
+        "游戏特效",
+        "VFX序列帧",
+        "刀光剑气",
+        "魔法爆炸",
+        "透明Flipbook",
+        "打击音效"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "anim.2d",
+          "asset.sfx",
+          "frame.animGen",
+          "note.text"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 4,
+      "edgeCount": 1,
+      "sizeBytes": 3769,
+      "skill": {
+        "name": "wf-game-vfx-sheet",
+        "description": "用「2D 游戏特效序列帧」工作流生成动作/RPG/卡牌/肉鸽/弹幕游戏的原生透明刀光剑气、魔法爆炸、受击火花、持续法阵光环序列图（VFX Flipbook Sprite Sheet）与循环透明 GIF，并同步生成配套技能打击音效与防疲劳音效变体。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 1299
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 3826
+          }
+        ],
+        "sizeBytes": 5125
+      }
+    },
+    {
       "id": "game3d-asset",
       "title": "游戏3D资产",
       "titleEn": "Game 3D assets",
@@ -646,6 +902,60 @@
           }
         ],
         "sizeBytes": 15511
+      }
+    },
+    {
+      "id": "game3d-rigged-character",
+      "title": "3D 角色绑骨与动作管线",
+      "titleEn": "3D Rigged Character Pipeline",
+      "summary": "T-Pose设定图→3D网格生成→自动骨骼蒙皮→动作库重定向→低模重拓扑与FBX导出",
+      "category": "game",
+      "tags": [
+        "3D角色建模",
+        "自动绑骨蒙皮",
+        "动作重定向",
+        "低模重拓扑",
+        "GLB转FBX",
+        "Unity/Godot/UE"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "asset.model3d",
+          "model.convert",
+          "model.retarget",
+          "model.retopology",
+          "model.rigSkin",
+          "note.text"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 7,
+      "edgeCount": 5,
+      "sizeBytes": 4678,
+      "skill": {
+        "name": "wf-game3d-rigged-character",
+        "description": "用「3D 角色绑骨与动作管线」工作流完成从标准 T-Pose 角色立绘设定、3D PBR 模型生成（asset.model3d）、人形自动绑骨蒙皮（model.rigSkin）、原地游戏动作库重定向（model.retarget）、四边面低模重拓扑（model.retopology）到脚底原点对齐 FBX/GLB 导出的完整 3D 游戏工业流程。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 1127
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 3994
+          }
+        ],
+        "sizeBytes": 5121
       }
     },
     {
@@ -918,6 +1228,60 @@
       }
     },
     {
+      "id": "roguelike-survivor-pack",
+      "title": "肉鸽割草与弹幕生存套件",
+      "titleEn": "Roguelike Survivor Asset Pack",
+      "summary": "主角与怪潮序列帧动画+弹幕武器/经验宝石3×3图标包+爽快割草音效+碰撞框与波次配表",
+      "category": "game",
+      "tags": [
+        "肉鸽割草",
+        "吸血鬼幸存者",
+        "弹幕射击",
+        "怪物潮序列帧",
+        "掉落宝石图标",
+        "碰撞体与波次表"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "anim.2d",
+          "asset.image",
+          "asset.sfx",
+          "frame.animGen",
+          "image.iconPack",
+          "note.text",
+          "text.plain"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 10,
+      "edgeCount": 6,
+      "sizeBytes": 7147,
+      "skill": {
+        "name": "wf-roguelike-survivor-pack",
+        "description": "用「肉鸽割草与弹幕生存套件」工作流一键生成《吸血鬼幸存者》《土豆兄弟》类俯视角肉鸽游戏的主角与怪潮移动序列帧、弹幕投射物/经验水晶/遗物 3×3 透明图标包、爽快割草拾取音效，并配合本地算子自动提取 2D 物理碰撞多边形（CollisionPolygon2D）与生成刷怪波次数值配表（waves.csv）。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 1455
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 4256
+          }
+        ],
+        "sizeBytes": 5711
+      }
+    },
+    {
       "id": "science-explainer",
       "title": "科普动画全流程",
       "titleEn": "Science explainer",
@@ -1073,6 +1437,58 @@
           }
         ],
         "sizeBytes": 7260
+      }
+    },
+    {
+      "id": "steam-store-capsule-kit",
+      "title": "Steam商店胶囊图与宣传片",
+      "titleEn": "Steam Store Capsule & Trailer Kit",
+      "summary": "一键生成Steam商店横幅胶囊图、竖版封面图、透明Logo、实机宣传片视频及BGM时间轴合成套装",
+      "category": "game",
+      "tags": [
+        "Steam",
+        "胶囊图",
+        "商店页",
+        "宣传片",
+        "透明Logo",
+        "游戏发行"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "asset.music",
+          "asset.video",
+          "note.text",
+          "output.timeline"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 7,
+      "edgeCount": 3,
+      "sizeBytes": 4713,
+      "skill": {
+        "name": "wf-steam-store-capsule-kit",
+        "description": "用「Steam商店胶囊图与宣传片」工作流一键生成独立游戏上架 Steam / Epic / TapTap / Itch.io 所需的横版主视觉胶囊图（16:9）、竖版游戏库封面（3:4）、原生透明通道游戏标题 Logo、商店动态宣传片镜头（Trailer）与史诗预告片配乐（BGM），并通过时间轴节点合成为可直传商店后台的宣传成片。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 1289
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 3597
+          }
+        ],
+        "sizeBytes": 4886
       }
     },
     {

@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 1,
+  "id": "game-tileset-parallax",
+  "title": "2D 瓦片地图与视差背景",
+  "titleEn": "2D Tileset & Parallax BG",
+  "summary": "九宫格地形瓦片图集+无缝地面砖+远中近三层视差滚轴背景→无缝融合与法线贴图派生",
+  "category": "game",
+  "tags": [
+    "Tilemap瓦片",
+    "AutoTile九宫格",
+    "无缝贴图",
+    "视差滚轴背景",
+    "2D平台跳跃",
+    "俯视角RPG地图"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "frame.animGen",
+      "image.gridSplit",
+      "note.text"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "2D 瓦片地图与多层视差背景（Tileset & Parallax）",
+    "nodes": [
+      {
+        "key": "autoTileSheet",
+        "typeId": "frame.animGen",
+        "title": "九宫格地形瓦片图集（3×3 Auto-Tile）",
+        "params": {
+          "animRows": 3,
+          "animCols": 3,
+          "generateAspectRatio": "1:1",
+          "generateTransparentBg": true,
+          "animPresetId": "autotile3x3",
+          "animGenMode": "ai-sheet",
+          "animKeyColor": "",
+          "animViewAngle": "side",
+          "animStyleLock": "cel",
+          "animStabilize": "off",
+          "generateInstruction": "2D 横版平台跳跃游戏 3×3 九宫格地形瓦片图集（Auto-Tile Atlas）：第 1 行依次为左上角草皮边缘、顶部水平草皮平台、右上角草皮边缘；第 2 行依次为左侧苔藓岩壁、中心深层泥土岩石填充、右侧苔藓岩壁；第 3 行依次为左下悬崖底角、底部悬挂钟乳岩边、右下悬崖底角。各格边缘严格对齐可无缝拼接，原生透明背景（外沿转角处为 RGBA 透明通道）"
+        }
+      },
+      {
+        "key": "tileSplitter",
+        "typeId": "image.gridSplit",
+        "title": "3×3 瓦片切格器",
+        "params": {
+          "imageGridSplit": {
+            "rows": 3,
+            "cols": 3
+          }
+        }
+      },
+      {
+        "key": "seamlessGround",
+        "typeId": "asset.image",
+        "title": "无缝平铺地表基础纹理",
+        "params": {
+          "generateAspectRatio": "1:1",
+          "generateInstruction": "2D 游戏正交平铺地表材质纹理（Seamless Tileable Texture）：奇幻森林青苔石板路面，细节丰富均匀，无明显透视消失点，无暗角阴影，四边纹理自然连续可无缝平铺"
+        }
+      },
+      {
+        "key": "skyFarBg",
+        "typeId": "asset.image",
+        "title": "视差远景层（天空与远山）",
+        "params": {
+          "generateAspectRatio": "16:9",
+          "generateInstruction": "2D 横版游戏视差滚动最远景层（Parallax Far Sky Layer）：暮色星云与远方巍峨雪山剪影，大气透视柔和，水平方向构图均衡可横向循环滚动"
+        }
+      },
+      {
+        "key": "midForestBg",
+        "typeId": "asset.image",
+        "title": "视差中景层（透明前景剪影）",
+        "params": {
+          "generateAspectRatio": "16:9",
+          "generateTransparentBg": true,
+          "generateInstruction": "2D 横版游戏视差滚动中景层（Parallax Midground Layer）：荧光古树林与断壁残垣遗迹中景，上半部分与树冠间隙保持原生 RGBA 透明通道以便透出远景天空，底部水平连续"
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "2D 瓦片地图与视差背景工程化说明",
+        "params": {
+          "text": "2D 关卡场景资产全套管线：\n1. 【3×3 Auto-Tile 地形图集】：autoTileSheet（frame.animGen, animPresetId='autotile3x3'）生成包含四角、四边与中心填充的标准九宫格地形，经 tileSplitter（image.gridSplit）切出 9 张独立瓦片。\n2. 【无缝平铺与法线贴图派生】：生图完成后调用 MCP 工具 game_tile_pbr_process({ assetId: seamlessGround, makeSeamless: true, derivePbr: true, autoTileLayout: 'grid3x3' })，在本地将地表纹理处理为 100% 零接缝平铺贴图，同时派生 2D/3D 动态光照所需的 Normal 法线贴图、Roughness 粗糙度贴图与 Godot/Unity Auto-Tile 掩码配置清单。\n3. 【多层视差背景】：skyFarBg（实底远景）+ midForestBg（原生透明中景），亦可对远中景调用 game_tile_pbr_process({ makeSeamless: true, wrapX: true, wrapY: false }) 实现水平无限卷轴滚动！"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "autoTileSheet",
+        "to": "tileSplitter",
+        "fromPort": "out",
+        "toPort": "in"
+      }
+    ]
+  }
+}
