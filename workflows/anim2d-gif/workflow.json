@@ -3,16 +3,16 @@
   "id": "anim2d-gif",
   "title": "2D 帧动画",
   "titleEn": "2D frame anim",
-  "summary": "角色设定→T-Pose基准锚点（in-image锁比例色板）→待机呼吸/奔跑循环/技能攻击三套序列帧雪碧图与透明GIF",
+  "summary": "角色透明立绘锚点→黄金网格透明序列图（frame.animGen）→零二次抠图+躯干稳像→循环透明GIF与引擎序列帧",
   "category": "game",
   "tags": [
     "2D序列帧",
     "游戏雪碧图",
     "透明GIF",
-    "动作循环",
-    "锚点锁比例"
+    "躯干稳像",
+    "视频抽帧转精灵"
   ],
-  "version": "2.1.0",
+  "version": "2.3.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -36,7 +36,8 @@
         "typeId": "asset.image",
         "title": "角色立绘基准（锚点）",
         "params": {
-          "generateInstruction": "2D 游戏角色正侧面全身基准设定立绘：线条干净、色块分明、头身比例明确，纯色高对比干净背景，无地面阴影与杂物，作为序列帧动画的角色形象锚点",
+          "generateTransparentBg": true,
+          "generateInstruction": "2D 游戏角色正侧面（正交平视 Profile View）全身基准设定立绘：线条干净锐利、赛璐璐色块分明、头身比例明确、外轮廓清晰闭合，原生透明背景（RGBA 透明通道），严禁地面阴影、发光雾气、脚底底座、棋盘格纹理与任何背景杂物，作为序列帧动画的角色形象锚点",
           "generateAspectRatio": "1:1"
         }
       },
@@ -45,20 +46,17 @@
         "typeId": "frame.animGen",
         "title": "生成帧动画序列图",
         "params": {
-          "animRows": 1,
-          "animCols": 4,
+          "animRows": 2,
+          "animCols": 2,
+          "generateAspectRatio": "1:1",
+          "generateTransparentBg": true,
           "animPresetId": "walk",
           "animGenMode": "ai-sheet",
+          "animKeyColor": "",
+          "animViewAngle": "side",
+          "animStyleLock": "cel",
           "animStabilize": "ground",
-          "generateInstruction": "基于输入角色基准图生成 1 行 4 列「侧面行走循环」序列图（sprite sheet）：帧序从左到右展现完整步态周期（接触→低位→跨步→高位），各格角色服装、配色与比例严格一致，纯色干净背景、无网格边框线"
-        }
-      },
-      {
-        "key": "sheet",
-        "typeId": "asset.image",
-        "title": "备用直出序列图",
-        "params": {
-          "generateInstruction": "为同一角色生成「行走」动作的序列图（sprite sheet）：一张图内按 1 行 4 列分格，帧序从左到右，格子无缝拼接、无边框与分隔线，纯色干净背景，各格角色的外观、体型、配色与画风完全一致，仅姿态不同"
+          "generateInstruction": "基于输入角色基准图生成 2 行 2 列共 4 帧「正侧面行走循环」序列图（sprite sheet）：按从左到右、从上到下顺序依次展现完整闭环步态周期（#1 左脚接触地面 → #2 重心下沉过渡 → #3 右脚跨步接触 → #4 重心抬升收腿），每格均为等大 1:1 构图，无缝紧贴无格线边框，原生透明背景（RGBA 透明通道）无地面阴影且严禁绘制棋盘格纹理，各格角色身高比例、服装配色与画风 100% 一致"
         }
       },
       {
@@ -66,21 +64,23 @@
         "typeId": "anim.2d",
         "title": "2D帧动画",
         "params": {
-          "animRows": 1,
-          "animCols": 4,
+          "animRows": 2,
+          "animCols": 2,
           "animPresetId": "walk",
           "animInstruction": "角色侧面行走循环：完整步态周期，四肢摆动自然，各帧外形一致",
-          "animKeyColor": "auto",
+          "animKeyColor": "",
+          "animEdgeInset": "auto",
           "animStabilize": "ground",
-          "animGifFps": 12
+          "animPlayMode": "loop",
+          "animGifFps": 10
         }
       },
       {
         "key": "note",
         "typeId": "note.text",
-        "title": "帧动画工业管线说明",
+        "title": "产品级 2D 帧动画工业管线说明",
         "params": {
-          "text": "专业 2D 游戏序列帧动画管线：\n1. 角色锚定 + 可控序列图生成：先运行「角色立绘基准（锚点）」，接入「生成帧动画序列图（frame.animGen）」（支持 ai-sheet 角色生序列图、video-sheet 视频抽帧转序列图、video-restyle 视频姿态重绘、frames-sheet 散帧拼合 4 种模式）。\n2. 自动抠底、脚底稳像与 GIF 导出：「2D帧动画（anim.2d）」按行列切出逐帧 PNG（out 帧 / out-all 全部帧），自动采样纯色底键控透明（animKeyColor=auto）并按脚底基准线原地稳像防漂移（animStabilize=ground），经 out-gif 端口直出循环 GIF 动图；双击可进入全屏帧动画工作台逐帧精修。"
+          "text": "产品级 2D 游戏序列帧动画三大黄金通道：\n1. 【黄金网格原生透明直出通道（默认种子）】：角色正交立绘锚点（charRef, 开启 generateTransparentBg=true 直接生成 RGBA 透明角色立绘）→ 生成帧动画序列图（frameGen: 开启 generateTransparentBg=true 直接生成 RGBA 透明序列图，4 帧用 2×2+1:1 画幅，8 帧用 2×4+16:9 画幅，开启视角锁定 animViewAngle=side、画风锁定 animStyleLock=cel，animKeyColor 留空 \"\"）→ 2D帧动画（anim.2d: animKeyColor 留空 \"\" 不做二次抠图，直接执行切格 + 躯干主轴水平锁定 + 跨格身高尺度归一化），彻底消除二次抠图挖穿银白盔甲/高光以及挥剑/迈步时的躯干反向抽动。\n2. 【高流畅度 I2V 视频抽帧通道（推荐用于 8~16 帧细腻动作）】：在 charRef 与 frameGen 之间串联 asset.video（首帧连入 charRef，生成固定机位、纯色干净背景的原地动作视频），将视频连入 frameGen:in-video 并设 animGenMode='video-sheet'（或 'video-restyle'），利用视频模型的时序先验获得丝滑动作帧。\n3. 【零闪烁 2D 骨骼绑定通道】：charRef → image.align（精灵规整）→ stage.2d（自动拆件绑骨 + 关键帧动作烘焙导出序列帧或 Spine JSON）。"
         }
       }
     ],
@@ -90,12 +90,6 @@
         "to": "frameGen",
         "fromPort": "out",
         "toPort": "in"
-      },
-      {
-        "from": "charRef",
-        "to": "sheet",
-        "fromPort": "out",
-        "toPort": "in-image"
       },
       {
         "from": "frameGen",

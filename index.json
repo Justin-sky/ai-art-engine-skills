@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T05:06:40.062Z",
+  "generatedAt": "2026-10-26T07:19:43.364Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -67,16 +67,16 @@
       "id": "anim2d-gif",
       "title": "2D 帧动画",
       "titleEn": "2D frame anim",
-      "summary": "角色设定→T-Pose基准锚点（in-image锁比例色板）→待机呼吸/奔跑循环/技能攻击三套序列帧雪碧图与透明GIF",
+      "summary": "角色透明立绘锚点→黄金网格透明序列图（frame.animGen）→零二次抠图+躯干稳像→循环透明GIF与引擎序列帧",
       "category": "game",
       "tags": [
         "2D序列帧",
         "游戏雪碧图",
         "透明GIF",
-        "动作循环",
-        "锚点锁比例"
+        "躯干稳像",
+        "视频抽帧转精灵"
       ],
-      "version": "2.1.0",
+      "version": "2.3.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -92,25 +92,25 @@
         ],
         "appMinVersion": "7.1.0"
       },
-      "nodeCount": 5,
-      "edgeCount": 3,
-      "sizeBytes": 4008,
+      "nodeCount": 4,
+      "edgeCount": 2,
+      "sizeBytes": 4708,
       "skill": {
         "name": "wf-anim2d-gif",
-        "description": "用「2D 帧动画」工作流生成游戏级 2D 角色序列帧雪碧图（Sprite Sheet）与去底循环透明 GIF：角色基准立绘（charRef）→ 可控序列图生成（frameGen: frame.animGen，支持 ai-sheet / video-sheet / video-restyle / frames-sheet 四种模式）→ 2D 帧动画切格抠底稳像（anim: anim.2d），并可按需动态扩展待机/奔跑/攻击多动作并行管线。",
+        "description": "用「2D 帧动画」工作流生成产品级 2D 游戏角色序列帧雪碧图（Sprite Sheet）与循环透明 GIF：角色立绘（charRef）与序列图（frameGen）直接生成原生透明 PNG（generateTransparentBg: true），后续切帧与 GIF 合成不加入二次抠图操作（animKeyColor: \"\"），内置躯干主轴 X 防抖、跨帧身高归一化与 PixelOver 级后处理，并可按需扩展待机/奔跑/攻击/特效全套游戏动作包。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 3295
+            "sizeBytes": 7089
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 5184
+            "sizeBytes": 9170
           }
         ],
-        "sizeBytes": 8479
+        "sizeBytes": 16259
       }
     },
     {
