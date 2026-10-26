@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T09:36:10.121Z",
+  "generatedAt": "2026-10-26T11:16:01.461Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -1472,7 +1472,7 @@
       },
       "nodeCount": 7,
       "edgeCount": 3,
-      "sizeBytes": 4713,
+      "sizeBytes": 4682,
       "skill": {
         "name": "wf-steam-store-capsule-kit",
         "description": "用「Steam商店胶囊图与宣传片」工作流一键生成独立游戏上架 Steam / Epic / TapTap / Itch.io 所需的横版主视觉胶囊图（16:9）、竖版游戏库封面（3:4）、原生透明通道游戏标题 Logo、商店动态宣传片镜头（Trailer）与史诗预告片配乐（BGM），并通过时间轴节点合成为可直传商店后台的宣传成片。",
