@@ -41,7 +41,8 @@
 
 | 端口 | 类型 | 说明 |
 |---|---|---|
-| `in-image` | `image`（**多**） | 本页各分镜图按阅读顺序逐个连一条边；执行时按阅读顺序填入尚未绑图的分格 |
+| `in-image` | `image`（**多**） | 本页各分镜图按阅读顺序逐个连一条边；执行时按阅读顺序自动填入/刷新分镜格 `imageUrl` |
+| `in-video` | `video`（**多**） | 可选：将高潮格派生的 `asset.video`（如 `climaxVideo:out`）连入此端口，执行时自动按同源分镜或高潮格绑定至对应分镜的 `videoUrl` 实现动静混排 |
 | `out` / `out-all` | `image` / `images` | 执行时同时烘焙：**① 整页漫画 PNG（`comic-page:<nodeId>`）**、**② 每格无气泡纯净底图切片（`comic-panel:<nodeId>:<panelId>`）**、**③ 每个台词气泡/拟声词的独立透明 PNG 切片（`comic-bubble:<nodeId>:<bubbleId>`）**，直接供下游 `output.timeline` 编译动态漫 |
 
 ### `comicPage` 动态漫完整数据结构（`serializeComicPage` 的产物）
@@ -58,8 +59,8 @@
   "borderColor": "#111111",          // 全局分格描边颜色
   "borderRadius": 0,                 // 全局分格圆角（px）
   "readingDirection": "ltr",         // 阅读顺序：ltr（国漫/条漫左到右，默认）| rtl（日漫右到左）
-  "width": 1080,                     // 页面像素宽（默认 1080）
-  "height": 1520,                    // 页面像素高（页漫推荐 1520，条漫可设 1920~2400）
+  "width": 1920,                     // 页面像素宽（动态漫推荐 1920 横屏 16:9，与导出视频画幅一致；传统竖版页漫可用 1080）
+  "height": 1080,                    // 页面像素高（动态漫推荐 1080 横屏 16:9；传统竖版页漫可用 1520）
   "panels": [
     {
       "id": "p2-panel-1",
