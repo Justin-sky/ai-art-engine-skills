@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T11:21:33.706Z",
+  "generatedAt": "2026-10-26T11:37:43.029Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -439,6 +439,58 @@
       }
     },
     {
+      "id": "damage-font-shader-fx",
+      "title": "暴击美术跳字与Shader特效套件",
+      "titleEn": "Damage Bitmap Font & Game Shader FX Kit",
+      "summary": "生成4×4艺术暴击数字跳字图集(.fnt)+无缝溶解噪声遮罩+暴击音效+跨引擎战斗Shader与粒子预设",
+      "category": "game",
+      "tags": [
+        "暴击跳字",
+        "BMFont位图字体",
+        "游戏Shader",
+        "受击闪白",
+        "余烬溶解",
+        "GPU粒子"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "asset.sfx",
+          "image.iconPack",
+          "note.text",
+          "text.plain"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "sizeBytes": 4676,
+      "skill": {
+        "name": "wf-damage-font-shader-fx",
+        "description": "用「暴击美术跳字与Shader特效套件」工作流一键生成 4×4 战斗暴击跳字美术字图集（0-9、+-!%CM）、导出标准 AngelCode BMFont (.fnt) 位图字体文件、生成无缝溶解噪声贴图与暴击重击音效，并配合 game_shader_particle_generate 一键生成跨引擎（Godot 4 .gdshader / Unity .shader / WebGL GLSL）8 大核心游戏 Shader（受击闪白、余烬溶解、像素外描边、水面波纹、复古CRT、全息故障、植被摇曳、传奇流光）与 8 大运行时 GPU 粒子预设。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 965
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 3599
+          }
+        ],
+        "sizeBytes": 4564
+      }
+    },
+    {
       "id": "director-previz",
       "title": "3D导演台预演",
       "titleEn": "3D director previz",
@@ -488,6 +540,58 @@
           }
         ],
         "sizeBytes": 15030
+      }
+    },
+    {
+      "id": "dungeon-level-builder",
+      "title": "2D地牢与平台关卡设计套件",
+      "titleEn": "2D Dungeon & Platformer Level Builder",
+      "summary": "生成无缝地牢/平台瓦片集+宝箱机关传送门交互物件包+关卡BGM+导出Tiled(.tmj)可玩关卡地图",
+      "category": "game",
+      "tags": [
+        "关卡设计",
+        "Tiled地图",
+        "地牢生成",
+        "平台跳跃",
+        "机关宝箱",
+        "AI状态机"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "asset.music",
+          "image.iconPack",
+          "note.text",
+          "text.plain"
+        ],
+        "appMinVersion": "7.1.0"
+      },
+      "nodeCount": 6,
+      "edgeCount": 3,
+      "sizeBytes": 4401,
+      "skill": {
+        "name": "wf-dungeon-level-builder",
+        "description": "用「2D地牢与平台关卡设计套件」工作流一键生成关卡地形瓦片集、9 枚关卡可交互物件（宝箱/传送门/地刺陷阱/祭坛/机关拉杆）透明切图包、关卡探索背景音乐，并配合 game_level_map_generate 与 game_systems_graph_generate 自动生成可玩 Tiled (.tmj) 关卡地图（支持 BSP 地牢、有机洞穴、横版平台跳跃、肉鸽竞技场）及 Boss AI 状态机。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 1007
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 3782
+          }
+        ],
+        "sizeBytes": 4789
       }
     },
     {

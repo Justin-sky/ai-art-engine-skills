@@ -1,0 +1,111 @@
+{
+  "schemaVersion": 1,
+  "id": "damage-font-shader-fx",
+  "title": "暴击美术跳字与Shader特效套件",
+  "titleEn": "Damage Bitmap Font & Game Shader FX Kit",
+  "summary": "生成4×4艺术暴击数字跳字图集(.fnt)+无缝溶解噪声遮罩+暴击音效+跨引擎战斗Shader与粒子预设",
+  "category": "game",
+  "tags": [
+    "暴击跳字",
+    "BMFont位图字体",
+    "游戏Shader",
+    "受击闪白",
+    "余烬溶解",
+    "GPU粒子"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "asset.sfx",
+      "image.iconPack",
+      "note.text",
+      "text.plain"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "游戏战斗打击感表现层：艺术暴击跳字 (BMFont) + 跨引擎 Shader 与 GPU 粒子套件",
+    "nodes": [
+      {
+        "key": "glyphNames",
+        "typeId": "text.plain",
+        "title": "暴击跳字16字符表",
+        "params": {
+          "text": "数字0\n数字1\n数字2\n数字3\n数字4\n数字5\n数字6\n数字7\n数字8\n数字9\n加号+\n减号-\n感叹号!\n百分号%\n暴击C\n闪避M"
+        }
+      },
+      {
+        "key": "fontSheet",
+        "typeId": "asset.image",
+        "title": "暴击跳字艺术字体·4×4整版",
+        "params": {
+          "generateAspectRatio": "1:1",
+          "generateInstruction": "游戏战斗暴击伤害跳字位图字体整版图（严格 4 行 × 4 列均匀网格，共 16 格）：按顺序依次绘制『0, 1, 2, 3, 4, 5, 6, 7, 8, 9, +, -, !, %, C, M』共 16 个高冲击力斜体金属烈焰描边游戏美术字符，每格居中一个字符，粗黑外轮廓配亮金渐变高光，纯色干净底板，不画网格线。"
+        }
+      },
+      {
+        "key": "fontPack",
+        "typeId": "image.iconPack",
+        "title": "暴击跳字切格透明打包",
+        "params": {
+          "iconPack": {
+            "rows": 4,
+            "cols": 4,
+            "edgeInset": "auto",
+            "keyColor": "auto",
+            "distance": 42,
+            "feather": 32,
+            "canvasSize": 256
+          },
+          "mediaOutputDir": "Assets/IconPacks/damage_font"
+        }
+      },
+      {
+        "key": "dissolveNoise",
+        "typeId": "asset.image",
+        "title": "Shader余烬溶解无缝噪声遮罩图",
+        "params": {
+          "generateAspectRatio": "1:1",
+          "generateInstruction": "Seamless tileable grayscale Perlin and Voronoi organic cloud noise texture map for game shader dissolve and erosion effects, smooth full-range black to white gradients, no seams, no text"
+        }
+      },
+      {
+        "key": "critHitSfx",
+        "typeId": "asset.sfx",
+        "title": "刀刀烈火暴击重击音效",
+        "params": {
+          "generateInstruction": "Heavy devastating critical hit impact sound effect, metallic blade cleave combined with thunderous bass punch and crystalline shatter ring"
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "BMFont (.fnt) 与跨引擎 Shader 导出说明",
+        "params": {
+          "text": "战斗打击感与实时特效表现层四大交付：\n1. 【艺术暴击跳字与 .fnt】：glyphNames → fontSheet → fontPack 切出 16 枚透明暴击数字字符，配合 game_systems_graph_generate({ bitmapFont: { fontName: 'damage_crit_font', rows: 4, cols: 4, charset: '0123456789+-!%CM' } }) 自动生成标准 AngelCode BMFont (.fnt) 位图字体文件！\n2. 【跨引擎 8 大核心 Shader】：调用 game_shader_particle_generate 一键输出 Godot 4 (.gdshader)、Unity (.shader) 与 WebGL (.glsl) 的受击闪白（hit_flash）、余烬溶解（dissolve_burn）、像素外描边（pixel_outline）、水面波纹（water_2d）、复古 CRT（crt_retro）、全息故障（hologram_glitch）、植被摇曳（wind_foliage）与传奇流光（rarity_sheen）！\n3. 【无缝溶解噪声图】：对 dissolveNoise 调用 game_tile_pbr_process({ makeSeamless: true }) 即可作为 dissolve_burn Shader 的采样遮罩。\n4. 【运行时 GPU 粒子与防疲劳暴击音效】：game_shader_particle_generate 同步生成 8 套 GPU 粒子发射器配置；对 critHitSfx 调用 game_audio_variants 生成多变体暴击音效。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "glyphNames",
+        "to": "fontSheet"
+      },
+      {
+        "from": "glyphNames",
+        "to": "fontPack"
+      },
+      {
+        "from": "fontSheet",
+        "to": "fontPack"
+      }
+    ]
+  }
+}

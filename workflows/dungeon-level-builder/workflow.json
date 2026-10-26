@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "id": "dungeon-level-builder",
+  "title": "2D地牢与平台关卡设计套件",
+  "titleEn": "2D Dungeon & Platformer Level Builder",
+  "summary": "生成无缝地牢/平台瓦片集+宝箱机关传送门交互物件包+关卡BGM+导出Tiled(.tmj)可玩关卡地图",
+  "category": "game",
+  "tags": [
+    "关卡设计",
+    "Tiled地图",
+    "地牢生成",
+    "平台跳跃",
+    "机关宝箱",
+    "AI状态机"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "asset.music",
+      "image.iconPack",
+      "note.text",
+      "text.plain"
+    ],
+    "appMinVersion": "7.1.0"
+  },
+  "plan": {
+    "title": "2D 地牢探索与横版平台跳跃可玩关卡（Tiled .tmj）全链路设计套件",
+    "nodes": [
+      {
+        "key": "tilesetImg",
+        "typeId": "asset.image",
+        "title": "关卡无缝地形瓦片集（4×5 Wang-16）",
+        "params": {
+          "generateAspectRatio": "1:1",
+          "generateInstruction": "2D 奇幻地下城关卡无缝地形瓦片集整版图（4 列 × 5 行整齐网格）：包含深色青苔石砖地面、16 种边界转角墙体瓦片與尖刺熔岩陷阱格，正交俯视/横版通用切块，边缘严丝合缝，不要任何文字"
+        }
+      },
+      {
+        "key": "propNames",
+        "typeId": "text.plain",
+        "title": "关卡可交互物件清单（9件）",
+        "params": {
+          "text": "黄金秘宝木箱\n紫色传送法阵门\n地刺翻转陷阱\n女神恢复祭坛\n神秘铁匠铺招牌\n石制机关拉杆\n木质可破坏炸药桶\n铁栅栏升降门\n关底Boss王座标志"
+        }
+      },
+      {
+        "key": "propSheet",
+        "typeId": "asset.image",
+        "title": "关卡交互物件·3×3整版",
+        "params": {
+          "generateAspectRatio": "1:1",
+          "generateInstruction": "按名单顺序，绘制一张 3 行 × 3 列均匀九宫格的 2D 游戏关卡场景可交互物件（Props）整版图：每格一件独立居中物件（宝箱、传送门、地刺、祭坛、拉杆、木桶等），外轮廓清晰，不画文字与网格线，纯色干净底板。"
+        }
+      },
+      {
+        "key": "propPack",
+        "typeId": "image.iconPack",
+        "title": "关卡物件切格透明打包",
+        "params": {
+          "iconPack": {
+            "rows": 3,
+            "cols": 3,
+            "edgeInset": "auto",
+            "keyColor": "auto",
+            "distance": 40,
+            "feather": 34,
+            "canvasSize": 256
+          },
+          "mediaOutputDir": "Assets/IconPacks/dungeon_props"
+        }
+      },
+      {
+        "key": "dungeonBgm",
+        "typeId": "asset.music",
+        "title": "地牢关卡探索循环配乐",
+        "params": {
+          "musicInstrumental": true,
+          "generateDuration": 30,
+          "generateInstruction": "Atmospheric fantasy dungeon exploration soundtrack, mysterious pizzicato strings, ambient cavern pads, subtle rhythmic percussion, seamless loop"
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "关卡地图 (.tmj) 与 AI 状态机工程化说明",
+        "params": {
+          "text": "2D 关卡设计全链路交付说明：\n1. 【地形与交互物件】：tilesetImg 产出关卡瓦片贴图，调用 game_tile_pbr_process({ makeSeamless: true, autoTileLayout: 'wang16' }) 生成无缝瓦片与位掩码；propPack 切出 9 枚透明关卡可交互物件（宝箱/传送门/陷阱/祭坛）。\n2. 【程序化 Tiled (.tmj) 关卡导出】：调用 game_level_map_generate({ algorithm: 'bsp_dungeon' | 'cellular_cave' | 'platformer_course' | 'arena_waves' })，直接生成带地面层、墙体层与出生点/Boss/宝箱对象层的标准 Tiled .tmj 地图文件！\n3. 【敌人 AI 状态机与任务链】：调用 game_systems_graph_generate 一键导出 Boss 状态机（巡逻→追击→近战→半血狂暴）与关卡任务链。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "propNames",
+        "to": "propSheet"
+      },
+      {
+        "from": "propNames",
+        "to": "propPack"
+      },
+      {
+        "from": "propSheet",
+        "to": "propPack"
+      }
+    ]
+  }
+}
