@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-25T14:32:10.674Z",
+  "generatedAt": "2026-10-26T03:03:47.225Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -203,14 +203,14 @@
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 7103
+            "sizeBytes": 7755
           },
           {
             "path": "SKILL.md",
             "sizeBytes": 7879
           }
         ],
-        "sizeBytes": 14982
+        "sizeBytes": 15634
       }
     },
     {
@@ -756,6 +756,60 @@
           }
         ],
         "sizeBytes": 103012
+      }
+    },
+    {
+      "id": "motion-comic",
+      "title": "B站高燃动态漫剧",
+      "titleEn": "Motion Comic & 2.5D Manga Video",
+      "summary": "剧本→角色定妆→多格斜切漫画页+高潮微动视频+BGM→气泡按序弹出与2.5D视差动态漫成片",
+      "category": "comic",
+      "tags": [
+        "B站动态漫",
+        "有声漫剧",
+        "气泡按序弹出",
+        "2.5D景深视差",
+        "动态速度线",
+        "动静混排"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.image",
+          "asset.music",
+          "asset.video",
+          "comic.page",
+          "note.text",
+          "output.timeline",
+          "text.plain"
+        ],
+        "appMinVersion": "8.5.0"
+      },
+      "nodeCount": 14,
+      "edgeCount": 23,
+      "sizeBytes": 15044,
+      "skill": {
+        "name": "wf-motion-comic",
+        "description": "用「B站高燃动态漫剧」工作流将一段剧本或小说章节全自动制作为 B 站商业级有声动态漫 MP4 成片（script → charAnchor 角色与画风定妆锚点 → p1_1..p2_3 分镜原画 + climaxVideo 高潮格微动视频 → page1..page2 斜切破格漫画页 + bgm 热血配乐 → timeline 动态漫多轨时间线自动完成多角色 TTS 配音、无字底图推拉摇移、气泡随开口时机逐个弹出、全屏高频闪烁速度线/集中线、2.5D 前后景差速视差、刀口擦除转场与卡拉 OK 字幕合成）。当用户要做动态漫、有声漫剧、条漫改视频、小说漫改短片或 B 站漫剧时加载本技能。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/ports.md",
+            "sizeBytes": 7280
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 10180
+          }
+        ],
+        "sizeBytes": 17460
       }
     },
     {

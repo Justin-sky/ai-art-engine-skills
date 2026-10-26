@@ -1,0 +1,291 @@
+{
+  "schemaVersion": 1,
+  "id": "motion-comic",
+  "title": "B站高燃动态漫剧",
+  "titleEn": "Motion Comic & 2.5D Manga Video",
+  "summary": "剧本→角色定妆→多格斜切漫画页+高潮微动视频+BGM→气泡按序弹出与2.5D视差动态漫成片",
+  "category": "comic",
+  "tags": [
+    "B站动态漫",
+    "有声漫剧",
+    "气泡按序弹出",
+    "2.5D景深视差",
+    "动态速度线",
+    "动静混排"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.image",
+      "asset.music",
+      "asset.video",
+      "comic.page",
+      "note.text",
+      "output.timeline",
+      "text.plain"
+    ],
+    "appMinVersion": "8.5.0"
+  },
+  "plan": {
+    "title": "B站高燃动态漫剧（剧本 → 角色锚点 → 斜切漫画页 + 高潮微动视频 + BGM → 动态漫时间线）",
+    "nodes": [
+      {
+        "key": "script",
+        "typeId": "text.plain",
+        "title": "动态漫剧本",
+        "params": {
+          "text": "（在此输入动态漫剧本或故事梗概；在 AI 对话栏选择本工作流并输入剧本后，Agent 会自动拆解多幕漫画分格、锁定角色定妆、配置每格斜切刀口、动态集中线/速度线、运镜方式、2.5D视差与多角色台词气泡，并合成带配音、卡拉OK字幕与BGM的B站级动态漫视频）"
+        }
+      },
+      {
+        "key": "charAnchor",
+        "typeId": "asset.image",
+        "title": "角色与画风定妆",
+        "params": {
+          "generateInstruction": "根据剧本设定生成主角人设与日漫/国漫高燃画风基准图：角色全身与凌厉面部神态设定，线条锐利、光影层次分明，纯画面不含任何文字，作为全集所有分镜的形象参考锚点"
+        }
+      },
+      {
+        "key": "p1_1",
+        "typeId": "asset.image",
+        "title": "第 1 幕 · 格 1（暗夜定场）",
+        "params": {
+          "generateInstruction": "第 1 幕第 1 格（广角俯拍定场镜头）：暴雨将至的古街与远处高塔，主角孤身立于屋脊，压迫感十足，严格保持与定妆参考图一致的画风与角色形象，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "p1_2",
+        "typeId": "asset.image",
+        "title": "第 1 幕 · 格 2（强敌现身）",
+        "params": {
+          "generateInstruction": "第 1 幕第 2 格（中景冷峻对峙镜头）：黑衣宿敌从暗影中缓步走出，杀气弥漫，承接前格环境光影，严格保持画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "p1_3",
+        "typeId": "asset.image",
+        "title": "第 1 幕 · 格 3（按刀警觉）",
+        "params": {
+          "generateInstruction": "第 1 幕第 3 格（近景特写镜头）：主角右手猛然按住刀柄，眼神凌厉收缩，戏剧张力拉满，严格保持角色服装与外貌一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "page1",
+        "typeId": "comic.page",
+        "title": "动态漫 · 第 1 页（起承对峙）",
+        "params": {
+          "comicPage": "{\n  \"title\": \"第一话 · 暗夜锋芒\",\n  \"backgroundColor\": \"#0f172a\",\n  \"columns\": 6,\n  \"rows\": 6,\n  \"gutter\": 16,\n  \"width\": 1080,\n  \"height\": 1520,\n  \"padding\": 32,\n  \"borderWidth\": 3,\n  \"borderColor\": \"#111111\",\n  \"borderRadius\": 0,\n  \"panels\": [\n    {\n      \"id\": \"p1-panel-1\",\n      \"row\": 0,\n      \"col\": 0,\n      \"rowSpan\": 2,\n      \"colSpan\": 6,\n      \"title\": \"格 1 · 暗夜定场\",\n      \"cameraMotion\": \"panRight\",\n      \"caption\": \"朔风凛冽，黑云压城——\",\n      \"bubbles\": [\n        {\n          \"id\": \"p1-b1\",\n          \"text\": \"子时已到，整座城池连一丝风声都静止了。\",\n          \"x\": 0.28,\n          \"y\": 0.28,\n          \"tail\": \"tl\",\n          \"shape\": \"narration\"\n        }\n      ]\n    },\n    {\n      \"id\": \"p1-panel-2\",\n      \"row\": 2,\n      \"col\": 0,\n      \"rowSpan\": 4,\n      \"colSpan\": 3,\n      \"title\": \"格 2 · 强敌现身\",\n      \"cameraMotion\": \"kenBurnsIn\",\n      \"effectType\": \"vignette\",\n      \"effectIntensity\": 0.65,\n      \"bubbles\": [\n        {\n          \"id\": \"p1-b2\",\n          \"text\": \"躲了三年，终于肯露面了吗？\",\n          \"speaker\": \"玄影\",\n          \"x\": 0.62,\n          \"y\": 0.22,\n          \"tail\": \"bl\",\n          \"tailTipX\": 0.45,\n          \"tailTipY\": 0.44\n        }\n      ]\n    },\n    {\n      \"id\": \"p1-panel-3\",\n      \"row\": 2,\n      \"col\": 3,\n      \"rowSpan\": 4,\n      \"colSpan\": 3,\n      \"title\": \"格 3 · 按刀警觉\",\n      \"cameraMotion\": \"kenBurnsIn\",\n      \"effectType\": \"focus-lines\",\n      \"effectIntensity\": 0.65,\n      \"bubbles\": [\n        {\n          \"id\": \"p1-b3\",\n          \"text\": \"今晚，就在这里做个了断！\",\n          \"speaker\": \"凌霄\",\n          \"x\": 0.42,\n          \"y\": 0.22,\n          \"tail\": \"br\",\n          \"scale\": 1.05,\n          \"tailTipX\": 0.55,\n          \"tailTipY\": 0.44\n        },\n        {\n          \"id\": \"p1-b4\",\n          \"text\": \"铮——！\",\n          \"x\": 0.76,\n          \"y\": 0.8,\n          \"tail\": \"tl\",\n          \"scale\": 1.2,\n          \"shape\": \"sfx\"\n        }\n      ]\n    }\n  ]\n}\n"
+        }
+      },
+      {
+        "key": "p2_1",
+        "typeId": "asset.image",
+        "title": "第 2 幕 · 格 1（疾闪突袭）",
+        "params": {
+          "generateInstruction": "第 2 幕第 1 格（低角度疾速冲刺镜头）：主角化作残影拔刀突进，地面石板碎裂，极具速度感，严格保持角色与画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "p2_2",
+        "typeId": "asset.image",
+        "title": "第 2 幕 · 格 2（兵刃交锋）",
+        "params": {
+          "generateInstruction": "第 2 幕第 2 格（正面碰撞火花四溅镜头）：双刃正面剧烈交击，蓝色雷光与火星迸裂，张力爆表，严格保持角色与画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "p2_3",
+        "typeId": "asset.image",
+        "title": "第 2 幕 · 格 3（觉醒破局大格）",
+        "params": {
+          "generateInstruction": "第 2 幕第 3 格（史诗级跨幅仰拍高潮镜头）：主角瞳孔燃起苍蓝雷焰，一剑劈开夜空雷云，构图极具视觉统治力，严格保持角色与画风一致，纯画面不含任何文字"
+        }
+      },
+      {
+        "key": "climaxVideo",
+        "typeId": "asset.video",
+        "title": "高潮格 · 觉醒微动视频（I2V）",
+        "params": {
+          "generateInstruction": "B站动态漫高潮2.5D微动镜头：严格保持参考图漫画画风、线条与构图不变，主角眼神凌厉眨眼，周身苍蓝雷光与剑气高频跃动，黑发与披风随气浪剧烈飘动，镜头平稳推近",
+          "generateDuration": 4
+        }
+      },
+      {
+        "key": "page2",
+        "typeId": "comic.page",
+        "title": "动态漫 · 第 2 页（高潮破局）",
+        "params": {
+          "comicPage": "{\n  \"title\": \"第一话 · 雷霆破晓\",\n  \"backgroundColor\": \"#0f172a\",\n  \"columns\": 6,\n  \"rows\": 6,\n  \"gutter\": 16,\n  \"width\": 1080,\n  \"height\": 1520,\n  \"padding\": 32,\n  \"borderWidth\": 3,\n  \"borderColor\": \"#111111\",\n  \"borderRadius\": 0,\n  \"panels\": [\n    {\n      \"id\": \"p2-panel-1\",\n      \"row\": 0,\n      \"col\": 0,\n      \"rowSpan\": 2,\n      \"colSpan\": 3,\n      \"title\": \"格 1 · 疾闪突袭\",\n      \"cameraMotion\": \"panLeft\",\n      \"cornerOffsets\": [\n        0,\n        0,\n        0,\n        0,\n        -0.08,\n        0,\n        0,\n        0\n      ],\n      \"effectType\": \"speed-lines\",\n      \"effectIntensity\": 0.72,\n      \"effectAngle\": 0,\n      \"bubbles\": [\n        {\n          \"id\": \"p2-b1\",\n          \"text\": \"好快的刀！\",\n          \"speaker\": \"玄影\",\n          \"x\": 0.35,\n          \"y\": 0.26,\n          \"tail\": \"br\"\n        },\n        {\n          \"id\": \"p2-b2\",\n          \"text\": \"唰——！\",\n          \"x\": 0.78,\n          \"y\": 0.75,\n          \"tail\": \"tl\",\n          \"scale\": 1.2,\n          \"shape\": \"sfx\"\n        }\n      ]\n    },\n    {\n      \"id\": \"p2-panel-2\",\n      \"row\": 0,\n      \"col\": 3,\n      \"rowSpan\": 2,\n      \"colSpan\": 3,\n      \"title\": \"格 2 · 兵刃交锋\",\n      \"cameraMotion\": \"kenBurnsIn\",\n      \"cornerOffsets\": [\n        0.08,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0,\n        0\n      ],\n      \"effectType\": \"focus-lines\",\n      \"effectIntensity\": 0.75,\n      \"bubbles\": [\n        {\n          \"id\": \"p2-b3\",\n          \"text\": \"接我这一剑试试！！\",\n          \"speaker\": \"凌霄\",\n          \"x\": 0.5,\n          \"y\": 0.24,\n          \"tail\": \"bl\",\n          \"scale\": 1.1,\n          \"shape\": \"shout\"\n        }\n      ]\n    },\n    {\n      \"id\": \"p2-panel-3\",\n      \"row\": 2,\n      \"col\": 0,\n      \"rowSpan\": 4,\n      \"colSpan\": 6,\n      \"title\": \"格 3 · 觉醒破局\",\n      \"cameraMotion\": \"kenBurnsIn\",\n      \"effectType\": \"focus-lines\",\n      \"effectIntensity\": 0.8,\n      \"durationSec\": 4.2,\n      \"bubbles\": [\n        {\n          \"id\": \"p2-b4\",\n          \"text\": \"苍雷万钧——破！！\",\n          \"speaker\": \"凌霄\",\n          \"x\": 0.32,\n          \"y\": 0.24,\n          \"tail\": \"br\",\n          \"scale\": 1.2,\n          \"shape\": \"shout\"\n        },\n        {\n          \"id\": \"p2-b5\",\n          \"text\": \"轰隆！！\",\n          \"x\": 0.78,\n          \"y\": 0.8,\n          \"tail\": \"tl\",\n          \"scale\": 1.35,\n          \"shape\": \"sfx\"\n        }\n      ]\n    }\n  ]\n}\n"
+        }
+      },
+      {
+        "key": "bgm",
+        "typeId": "asset.music",
+        "title": "热血燃系动态漫配乐（BGM）",
+        "params": {
+          "generateInstruction": "High-energy anime & Bilibili motion comic battle soundtrack: tense cinematic shamisen and taiko drum intro building into explosive orchestral strings, distorted rock guitar riff and punchy electronic bass, dramatic climax, pure instrumental without vocals",
+          "generateMusicInstrumental": true
+        }
+      },
+      {
+        "key": "timeline",
+        "typeId": "output.timeline",
+        "title": "动态漫多轨成片时间线"
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "使用说明",
+        "params": {
+          "text": "B站高燃动态漫剧工作流（支持一键出片）：\n1. 在底部 AI 对话栏选择本工作流并输入剧本，Agent 会自动编写角色定妆、各格画面指令、漫画页斜切与台词气泡，并自动运行整图合成有声动态漫 MP4。\n2. 当漫画页（page1/page2）连入「动态漫多轨成片时间线（timeline）」执行时，引擎会自动：\n   - 按角色名（speaker）分配差异化音色合成多角色 TTS 配音，并按真实配音时长反推每格停留时间（以音定画）；\n   - 切出无气泡纯净分镜底图做推拉摇移运镜，并在角色开口瞬间将对应台词气泡（popIn / elasticIn）逐个动态弹出；\n   - 对开启集中线（focus-lines）或速度线（speed-lines）的分镜自动叠加全屏高频脉冲/震动漫画气氛线与刀光/雷电贴纸音效；\n   - 自动生成逐词弹跳卡拉OK字幕与BGM人声闪避（Auto-Ducking）。\n3. 双击任意「漫画页」下钻，可一键使用「✂️ AI 抠取前景立绘 (2.5D)」生成前后景差速视差，或使用「⚡ AI 生成微动视频 (I2V)」将特写格升级为真动态视频。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "script",
+        "to": "charAnchor",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "p1_1",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "p1_2",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "p1_3",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p1_1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p1_2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p1_3",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p1_1",
+        "to": "page1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p1_2",
+        "to": "page1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p1_3",
+        "to": "page1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "script",
+        "to": "p2_1",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "p2_2",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "script",
+        "to": "p2_3",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p2_1",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p2_2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "charAnchor",
+        "to": "p2_3",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p2_1",
+        "to": "page2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p2_2",
+        "to": "page2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p2_3",
+        "to": "page2",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "p2_3",
+        "to": "climaxVideo",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "page1",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "page2",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-image"
+      },
+      {
+        "from": "bgm",
+        "to": "timeline",
+        "fromPort": "out",
+        "toPort": "in-music"
+      }
+    ]
+  }
+}

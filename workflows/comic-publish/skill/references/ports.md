@@ -80,7 +80,13 @@
       "imageZoom": 1,                // 格内图片缩放 0.5 ~ 4
       "imageRotation": 0,            // 格内图片旋转 -180 ~ 180 度
       "imageFlipX": false,           // 水平镜像翻转
-      "imageFilter": "none",         // none | manga-bw（黑白日漫）| high-contrast（高对比）| sepia（复古泛黄）
+      "imageFilter": "none",         // none | manga-bw（黑白日漫）| halftone（网点）| sepia（复古泛黄）| dramatic（戏剧暗调）
+      // 动态漫演出字段（可选，当接入 output.timeline 或点「一键生成动态漫」时生效）：
+      "cameraMotion": "auto",        // auto | kenBurnsIn | kenBurnsOut | panLeft | panRight | panUp | panDown | none
+      "durationSec": 3.0,            // 单格停留秒数（缺省按气泡台词与配音时长自动反推）
+      "videoUrl": "",                // 动静混排视频相对路径（高潮格可直接播放 I2V 动态视频）
+      "foregroundImageUrl": "",      // 2.5D 视差前景透明立绘 PNG 相对路径
+      "parallaxDepth": 0.5,          // 2.5D 视差深度强度（0.1 ~ 1.0）
       // 注意：自动生产时不要预填 imageUrl，留空以便执行 comic.page 时自动填入上游生成的分镜图
       "bubbles": [
         {
