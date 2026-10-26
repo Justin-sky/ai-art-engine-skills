@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T07:19:43.364Z",
+  "generatedAt": "2026-10-26T07:40:05.416Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -176,7 +176,7 @@
         "对白气泡",
         "多页连载"
       ],
-      "version": "1.1.0",
+      "version": "1.2.0",
       "author": {
         "name": "AIArtEngine",
         "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -193,24 +193,24 @@
         "appMinVersion": "7.1.0"
       },
       "nodeCount": 16,
-      "edgeCount": 31,
-      "sizeBytes": 18395,
+      "edgeCount": 20,
+      "sizeBytes": 18741,
       "skill": {
         "name": "wf-comic-publish",
-        "description": "用「漫画出版」工作流把一段剧本自动变成一集多页漫画（script → charAnchor 角色与画风定妆锚点 → 多页分镜图 p1_1..p3_3 → page1..page3 漫画页自动排版、斜切破格、速度线/集中线与台词气泡/音效字合成 PNG），并支持自由增删页数/格数或接入时间线制作有声动态漫。当用户要做一集漫画、多页连载条漫/日漫、四格漫画或输入剧本自动生成带气泡的漫画成片时加载本技能。",
+        "description": "用「漫画出版」工作流把一段剧本自动变成一集多页漫画（script 剧本备忘 → charAnchor 角色与画风定妆锚点 → 多页按格比例生图 p1_1..p3_3 → page1..page3 漫画页自动排版、斜切破格、速度线/集中线与台词气泡/音效字合成 PNG），支持日漫黑白网点（右到左竖排）、韩系手机长条漫（Webtoon）、国漫全彩页漫及自由增删页数/格数。当用户要做一集漫画、多页连载条漫/日漫、四格漫画或输入剧本自动生成带气泡的漫画成片时加载本技能。",
         "entry": "SKILL.md",
         "hasScripts": false,
         "files": [
           {
             "path": "references/ports.md",
-            "sizeBytes": 7755
+            "sizeBytes": 9285
           },
           {
             "path": "SKILL.md",
-            "sizeBytes": 7879
+            "sizeBytes": 7873
           }
         ],
-        "sizeBytes": 15634
+        "sizeBytes": 17158
       }
     },
     {
