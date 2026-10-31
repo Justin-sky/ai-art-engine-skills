@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "generatedAt": "2026-10-26T11:44:07.778Z",
+  "generatedAt": "2026-10-31T11:41:17.443Z",
   "source": {
     "repo": "https://github.com/Justin-sky/ai-art-engine-skills",
     "ref": "main"
@@ -702,6 +702,64 @@
       }
     },
     {
+      "id": "game-full-pipeline",
+      "title": "全栈游戏设计与可玩实现",
+      "titleEn": "Full-Stack Game Design & Playable Build",
+      "summary": "选参立项→经济与全套数值体系→全套策划案→多屏UI界面+直接生成HTML可玩游戏",
+      "category": "game",
+      "tags": [
+        "游戏设计全流程",
+        "系统策划案GDD",
+        "经济与数值体系",
+        "多屏UI界面",
+        "HTML可玩游戏",
+        "数值配表CSV",
+        "一键试玩"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.gameSystem",
+          "asset.image",
+          "game.audioDsp",
+          "game.economy",
+          "game.levelMap",
+          "image.layerSplit",
+          "note.text",
+          "text.plain",
+          "ui.gen",
+          "ui.split"
+        ],
+        "appMinVersion": "7.5.0"
+      },
+      "nodeCount": 12,
+      "edgeCount": 9,
+      "sizeBytes": 9340,
+      "skill": {
+        "name": "wf-game-full-pipeline",
+        "description": "用「全栈游戏设计与可玩实现」工作流引导用户完成游戏参数选择（品类/2D或3D视角/美术与UI画风/核心循环/数值规模），先创建完整经济系统与全套数值配表（game.economy + game_data_table_generate + game_systems_graph_generate），再驱动生成全套游戏系统策划案（asset.gameSystem）、拆解并生成多屏UI界面与PSD图层（ui.split → ui.gen → image.layerSplit），最后直接把策划案、全套数值配表与UI界面架构编译为可一键试玩的单文件HTML游戏（gameplay_prepare_project → 编写 src/** → gameplay_build + game_playable_preview_compile）。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/stages.md",
+            "sizeBytes": 8583
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 15527
+          }
+        ],
+        "sizeBytes": 24110
+      }
+    },
+    {
       "id": "game-icons",
       "title": "游戏图标包",
       "titleEn": "Game icon pack",
@@ -1276,6 +1334,60 @@
           }
         ],
         "sizeBytes": 10200
+      }
+    },
+    {
+      "id": "novel-serial",
+      "title": "数值驱动长篇小说连载",
+      "titleEn": "Numerical-Driven Serialized Novel",
+      "summary": "开书选参→创建数值经济系统→锁死境界底牌一章一章递进生成长篇小说+同步衍生剧本与游戏策划案",
+      "category": "film",
+      "tags": [
+        "创建小说",
+        "长篇小说连载",
+        "数值经济系统",
+        "逐章生成",
+        "战力崩坏防控",
+        "小说改剧本",
+        "IP游戏策划案"
+      ],
+      "version": "1.0.0",
+      "author": {
+        "name": "AIArtEngine",
+        "url": "https://github.com/Justin-sky/ai-art-engine"
+      },
+      "license": "CC-BY-4.0",
+      "cover": "cover.png",
+      "requires": {
+        "nodeTypes": [
+          "asset.gameSystem",
+          "asset.novel",
+          "asset.screenplay",
+          "game.economy",
+          "note.text",
+          "text.plain"
+        ],
+        "appMinVersion": "7.5.0"
+      },
+      "nodeCount": 6,
+      "edgeCount": 6,
+      "sizeBytes": 7016,
+      "skill": {
+        "name": "wf-novel-serial",
+        "description": "用「数值驱动长篇小说连载」工作流引导用户完成开书参数配置（流派/总章数/单章字数/主角与反派双轴/底牌阶梯），先行创建完整的数值经济系统（game.economy）锁定全书境界曲线与底牌门禁，再驱动创建小说节点（asset.novel）一章一章递进生成长篇小说，维护四层记忆金字塔与人物/伏笔账本，并支持同步衍生分集剧本（asset.screenplay）或同名IP游戏系统策划案（asset.gameSystem）。",
+        "entry": "SKILL.md",
+        "hasScripts": false,
+        "files": [
+          {
+            "path": "references/stages.md",
+            "sizeBytes": 9361
+          },
+          {
+            "path": "SKILL.md",
+            "sizeBytes": 12572
+          }
+        ],
+        "sizeBytes": 21933
       }
     },
     {

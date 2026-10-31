@@ -1,0 +1,210 @@
+{
+  "schemaVersion": 1,
+  "id": "game-full-pipeline",
+  "title": "全栈游戏设计与可玩实现",
+  "titleEn": "Full-Stack Game Design & Playable Build",
+  "summary": "选参立项→经济与全套数值体系→全套策划案→多屏UI界面+直接生成HTML可玩游戏",
+  "category": "game",
+  "tags": [
+    "游戏设计全流程",
+    "系统策划案GDD",
+    "经济与数值体系",
+    "多屏UI界面",
+    "HTML可玩游戏",
+    "数值配表CSV",
+    "一键试玩"
+  ],
+  "version": "1.0.0",
+  "author": {
+    "name": "AIArtEngine",
+    "url": "https://github.com/Justin-sky/ai-art-engine"
+  },
+  "license": "CC-BY-4.0",
+  "cover": "cover.png",
+  "requires": {
+    "nodeTypes": [
+      "asset.gameSystem",
+      "asset.image",
+      "game.audioDsp",
+      "game.economy",
+      "game.levelMap",
+      "image.layerSplit",
+      "note.text",
+      "text.plain",
+      "ui.gen",
+      "ui.split"
+    ],
+    "appMinVersion": "7.5.0"
+  },
+  "plan": {
+    "title": "全栈游戏设计与可玩实现",
+    "nodes": [
+      {
+        "key": "brief",
+        "typeId": "text.plain",
+        "title": "游戏立项与参数总纲",
+        "params": {
+          "text": "【项目名称】《星渊幸存者：奥术余烬》\n【核心品类】俯视角动作肉鸽割草 + 局内法术构筑（roguelike_survivor / survivor）\n【视角与维度】2D 3/4 俯视角（topdown_34）｜画幅：16:9 横屏\n【美术与UI风格】星轨白金幻想（celestial_star_gold），深空钴蓝底板配鎏金星芒边框与高对比度技能图标\n【核心玩法循环】WASD 走位闪避怪潮 → 自动释放主武器与环绕法球 → 拾取余烬经验结晶升级 → 三选一构筑法术词条与被动遗物 → 击败第 5/10/15 波深渊领主通关\n【经济与数值目标】单局时长 10 分钟（15 波）；玩家初始 HP 120 / ATK 18 / 移速 220 / 暴击率 10%；经验曲线按 E(Lv)=40×1.28^(Lv-1) 递增；局内金币用于波间星界商店刷新与购买遗物，设置动态保底与池稀释护栏\n【全套UI界面规划（6屏）】1) 主标题与星渊入口界面；2) 局内战斗 HUD（左上生命/护盾/经验条、顶部波次倒计时、底部主动法术槽与被动遗物栏）；3) 升级三选一法术构筑弹窗；4) 波间星界商店与遗物合成界面；5) 角色属性与图鉴面板；6) 战斗结算与伤害统计界面\n【可玩HTML实现要求】内联全套数值配表（角色/怪物/法术卡/遗物/15波刷怪曲线），支持 WASD/方向键移动、鼠标瞄准冲刺、升级三选一面板交互、波间商店购买、WebAudio 实时合成打击/升级/BGM 音效、R 键重开"
+        }
+      },
+      {
+        "key": "economy",
+        "typeId": "game.economy",
+        "title": "经济系统与全套数值体系",
+        "params": {
+          "gameEconomyPreset": "survivor_xp_loop",
+          "gameEconomySteps": 50,
+          "gameEconomyMonteCarloRuns": 60,
+          "gameEconomySeed": 2026
+        }
+      },
+      {
+        "key": "gameSystem",
+        "typeId": "asset.gameSystem",
+        "title": "全套游戏系统策划案 (GDD)",
+        "params": {
+          "gameSystemArchetype": "roguelike_survivor",
+          "gameSystemTargetAspect": "16:9",
+          "generateInstruction": "基于上游《游戏立项与参数总纲》与《经济系统与全套数值体系》（game.economy），编写工业级完整游戏系统策划案（GDD）：\n1. 核心玩法循环（Core Loop）、3C 操控手感参数（移动速度、冲刺无敌帧、受击硬直、镜头震动）与胜负判定规则；\n2. 完整数值与经济系统公式：严格对齐上游 game.economy 模拟出的角色基础属性表、伤害乘区公式、经验升级曲线、金币产出与商店回收（Sink/Faucet）平衡、抽卡/三选一词条权重与防膨胀护栏；\n3. 全量配置表规格：主角与职业阶梯、普通怪/精英怪/Boss 行为状态机与波次配表、主动技能/卡牌与被动遗物词条表；\n4. 全套 UI 界面交互与布局规范（6~8 屏）：逐屏列出界面名称、功能模块、核心控件、数据绑定字段与状态流转，供下游 ui.split 直接拆分为多屏 UI 提示词。"
+        }
+      },
+      {
+        "key": "uiSplit",
+        "typeId": "ui.split",
+        "title": "全游戏 UI 界面拆分"
+      },
+      {
+        "key": "uiGen",
+        "typeId": "ui.gen",
+        "title": "全套 UI 界面生成",
+        "params": {
+          "generateAspectRatio": "16:9",
+          "generateTransparentBg": true,
+          "uiGenTrackMode": "dual",
+          "uiGenStylePreset": "celestial_star_gold"
+        }
+      },
+      {
+        "key": "uiLayerSplit",
+        "typeId": "image.layerSplit",
+        "title": "UI 图层分离与九宫格导出"
+      },
+      {
+        "key": "heroSprite",
+        "typeId": "asset.image",
+        "title": "主角核心精灵设定",
+        "params": {
+          "generateInstruction": "celestial astral mage knight hero, glowing starlight staff and navy gold cloak, single character, full body, centered, isolated on a plain solid white background, no shadow, no text, game sprite asset, three-quarter top-down view",
+          "generateAspectRatio": "1:1",
+          "generateCount": 1,
+          "generateTransparentBg": true
+        }
+      },
+      {
+        "key": "enemySprite",
+        "typeId": "asset.image",
+        "title": "怪物与Boss精灵设定",
+        "params": {
+          "generateInstruction": "abyssal void corrupted golem monster with purple ember core, single character, full body, centered, isolated on a plain solid white background, no shadow, no text, game sprite asset, three-quarter top-down view",
+          "generateAspectRatio": "1:1",
+          "generateCount": 1,
+          "generateTransparentBg": true
+        }
+      },
+      {
+        "key": "levelMap",
+        "typeId": "game.levelMap",
+        "title": "可玩关卡地图生成 (.tmj)",
+        "params": {
+          "gameLevelAlgorithm": "arena_waves",
+          "gameLevelWidth": 36,
+          "gameLevelHeight": 22,
+          "gameLevelSeed": 2026
+        }
+      },
+      {
+        "key": "bgmDsp",
+        "typeId": "game.audioDsp",
+        "title": "无缝循环 BGM 工坊",
+        "params": {
+          "gameAudioDspMode": "loop_bgm",
+          "gameAudioSynthPreset": "chiptune_bgm"
+        }
+      },
+      {
+        "key": "sfxDsp",
+        "typeId": "game.audioDsp",
+        "title": "防疲劳战斗音效矩阵",
+        "params": {
+          "gameAudioDspMode": "sfx_variants",
+          "gameAudioSynthPreset": "sword_slash",
+          "gameAudioVariantCount": 4
+        }
+      },
+      {
+        "key": "note",
+        "typeId": "note.text",
+        "title": "全栈游戏设计与可玩HTML指南",
+        "params": {
+          "text": "【全栈游戏设计与可玩HTML实现工作流】\n1. 选参立项（brief）：确定游戏品类、2D/3D视角、UI画风预设、核心循环与数值目标。\n2. 经济与全套数值体系（economy + 配表落盘）：先运行「经济系统与全套数值体系」（game.economy），完成 Machinations 资源流与蒙特卡洛模拟，导出全套角色/技能/卡牌/道具/波次 CSV 配表与商业数值 QA 审计报告。\n3. 全套游戏系统策划案（gameSystem）：自动接收上游经济数值包，产出涵盖核心循环、战斗公式、成长曲线与逐屏界面规格的完整 GDD。\n4. 多屏 UI 界面生成与拆层（uiSplit → uiGen → uiLayerSplit）：将策划案拆解为 6~12 屏双轨 UI 提示词，双击「全套 UI 界面生成」进入内图逐屏出图后回外层 Cook，再经「UI 图层分离」导出分层 PSD、九宫格切边与多态按钮。\n5. 直接生成 HTML 可玩游戏实现：Agent 基于已锁定的 GDD 策划案、经济数值配表与 UI 界面架构，调用 gameplay_prepare_project → 编写 src/**（完整内联数值表、多屏 HUD/弹窗 UI 与 WebAudio 音效）→ gameplay_build → 通过 smoke 试玩门禁后直接生成可一键试玩的单文件 HTML 游戏（同时支持用 game_playable_preview_compile 编译画布精灵微缩沙盒）。"
+        }
+      }
+    ],
+    "edges": [
+      {
+        "from": "brief",
+        "to": "economy",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "brief",
+        "to": "gameSystem",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "economy",
+        "to": "gameSystem",
+        "fromPort": "out-text",
+        "toPort": "in"
+      },
+      {
+        "from": "gameSystem",
+        "to": "uiSplit",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "uiSplit",
+        "to": "uiGen",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "uiGen",
+        "to": "uiLayerSplit",
+        "fromPort": "out-selected",
+        "toPort": "in"
+      },
+      {
+        "from": "brief",
+        "to": "heroSprite",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "brief",
+        "to": "enemySprite",
+        "fromPort": "out",
+        "toPort": "in-text"
+      },
+      {
+        "from": "brief",
+        "to": "levelMap",
+        "fromPort": "out",
+        "toPort": "in"
+      }
+    ]
+  }
+}
