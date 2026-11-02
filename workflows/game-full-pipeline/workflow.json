@@ -3,18 +3,19 @@
   "id": "game-full-pipeline",
   "title": "全栈游戏设计与可玩实现",
   "titleEn": "Full-Stack Game Design & Playable Build",
-  "summary": "选参立项→经济与全套数值体系→全套策划案→多屏UI界面+直接生成HTML可玩游戏",
+  "summary": "选参立项→经济系统与数值系统双核建模→全套策划案→多屏UI界面+直接生成HTML可玩游戏",
   "category": "game",
   "tags": [
     "游戏设计全流程",
     "系统策划案GDD",
-    "经济与数值体系",
+    "经济系统",
+    "数值系统",
     "多屏UI界面",
     "HTML可玩游戏",
     "数值配表CSV",
     "一键试玩"
   ],
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -28,6 +29,7 @@
       "game.audioDsp",
       "game.economy",
       "game.levelMap",
+      "game.numerical",
       "image.layerSplit",
       "note.text",
       "text.plain",
@@ -50,12 +52,24 @@
       {
         "key": "economy",
         "typeId": "game.economy",
-        "title": "经济系统与全套数值体系",
+        "title": "经济系统",
         "params": {
           "gameEconomyPreset": "survivor_xp_loop",
           "gameEconomySteps": 50,
           "gameEconomyMonteCarloRuns": 60,
           "gameEconomySeed": 2026
+        }
+      },
+      {
+        "key": "numerical",
+        "typeId": "game.numerical",
+        "title": "数值系统",
+        "params": {
+          "gameEconomyPreset": "survivor_xp_loop",
+          "gameEconomySteps": 50,
+          "gameEconomyMonteCarloRuns": 60,
+          "gameEconomySeed": 2026,
+          "generateInstruction": "结合上游《游戏立项与参数总纲》与《经济系统》（in-economy），定标 15 波肉鸽割草的经验升级曲线、角色基础属性表、伤害乘区边际收益、遭遇战 TTK 矩阵、法术/遗物词条倍率与波次刷怪配表。"
         }
       },
       {
@@ -65,7 +79,7 @@
         "params": {
           "gameSystemArchetype": "roguelike_survivor",
           "gameSystemTargetAspect": "16:9",
-          "generateInstruction": "基于上游《游戏立项与参数总纲》与《经济系统与全套数值体系》（game.economy），编写工业级完整游戏系统策划案（GDD）：\n1. 核心玩法循环（Core Loop）、3C 操控手感参数（移动速度、冲刺无敌帧、受击硬直、镜头震动）与胜负判定规则；\n2. 完整数值与经济系统公式：严格对齐上游 game.economy 模拟出的角色基础属性表、伤害乘区公式、经验升级曲线、金币产出与商店回收（Sink/Faucet）平衡、抽卡/三选一词条权重与防膨胀护栏；\n3. 全量配置表规格：主角与职业阶梯、普通怪/精英怪/Boss 行为状态机与波次配表、主动技能/卡牌与被动遗物词条表；\n4. 全套 UI 界面交互与布局规范（6~8 屏）：逐屏列出界面名称、功能模块、核心控件、数据绑定字段与状态流转，供下游 ui.split 直接拆分为多屏 UI 提示词。"
+          "generateInstruction": "基于上游《游戏立项与参数总纲》（in）、《经济系统》（in-economy）与《数值系统》（in-numerical），编写工业级完整游戏系统策划案（GDD）：\n1. 核心玩法循环（Core Loop）、3C 操控手感参数（移动速度、冲刺无敌帧、受击硬直、镜头震动）与胜负判定规则；\n2. 完整经济与数值系统公式：严格对齐 in-economy 的金币水龙头/商店回收（Sink/Faucet）与保底机制，以及 in-numerical 的角色基础属性表、伤害乘区公式、经验升级曲线与 TTK 定标；\n3. 全量配置表规格：主角与职业阶梯、普通怪/精英怪/Boss 行为状态机与波次配表、主动技能/卡牌与被动遗物词条表；\n4. 全套 UI 界面交互与布局规范（6~8 屏）：逐屏列出界面名称、功能模块、核心控件、数据绑定字段与状态流转，供下游 ui.split 直接拆分为多屏 UI 提示词。"
         }
       },
       {
@@ -146,7 +160,7 @@
         "typeId": "note.text",
         "title": "全栈游戏设计与可玩HTML指南",
         "params": {
-          "text": "【全栈游戏设计与可玩HTML实现工作流】\n1. 选参立项（brief）：确定游戏品类、2D/3D视角、UI画风预设、核心循环与数值目标。\n2. 经济与全套数值体系（economy + 配表落盘）：先运行「经济系统与全套数值体系」（game.economy），完成 Machinations 资源流与蒙特卡洛模拟，导出全套角色/技能/卡牌/道具/波次 CSV 配表与商业数值 QA 审计报告。\n3. 全套游戏系统策划案（gameSystem）：自动接收上游经济数值包，产出涵盖核心循环、战斗公式、成长曲线与逐屏界面规格的完整 GDD。\n4. 多屏 UI 界面生成与拆层（uiSplit → uiGen → uiLayerSplit）：将策划案拆解为 6~12 屏双轨 UI 提示词，双击「全套 UI 界面生成」进入内图逐屏出图后回外层 Cook，再经「UI 图层分离」导出分层 PSD、九宫格切边与多态按钮。\n5. 直接生成 HTML 可玩游戏实现：Agent 基于已锁定的 GDD 策划案、经济数值配表与 UI 界面架构，调用 gameplay_prepare_project → 编写 src/**（完整内联数值表、多屏 HUD/弹窗 UI 与 WebAudio 音效）→ gameplay_build → 通过 smoke 试玩门禁后直接生成可一键试玩的单文件 HTML 游戏（同时支持用 game_playable_preview_compile 编译画布精灵微缩沙盒）。"
+          "text": "【全栈游戏设计与可玩HTML实现工作流 v2.0】\n1. 选参立项（brief）：确定游戏品类、2D/3D视角、UI画风预设、核心循环与数值目标。\n2. 经济系统与数值系统双核建模（economy + numerical）：先运行「经济系统」（game.economy）完成 Machinations 资源流与蒙特卡洛模拟，再运行「数值系统」（game.numerical）完成成长曲线、乘区边际审计、战斗 TTK 定标与全套角色/技能/道具/波次 CSV 配表。\n3. 全套游戏系统策划案（gameSystem）：通过 in（立项总纲）、in-economy（经济系统）、in-numerical（数值系统）三端口汇聚，产出涵盖核心循环、战斗公式、成长曲线与逐屏界面规格的完整 GDD。\n4. 多屏 UI 界面生成与拆层（uiSplit → uiGen → uiLayerSplit）：将策划案拆解为 6~12 屏双轨 UI 提示词，双击「全套 UI 界面生成」进入内图逐屏出图后回外层 Cook，再经「UI 图层分离」导出分层 PSD、九宫格切边与多态按钮。\n5. 直接生成 HTML 可玩游戏实现：Agent 基于已锁定的 GDD 策划案、经济与数值配表及 UI 界面架构，调用 gameplay_prepare_project → 编写 src/**（完整内联数值表、多屏 HUD/弹窗 UI 与 WebAudio 音效）→ gameplay_build → 通过 smoke 试玩门禁后直接生成可一键试玩的单文件 HTML 游戏。"
         }
       }
     ],
@@ -159,6 +173,18 @@
       },
       {
         "from": "brief",
+        "to": "numerical",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "economy",
+        "to": "numerical",
+        "fromPort": "out-text",
+        "toPort": "in-economy"
+      },
+      {
+        "from": "brief",
         "to": "gameSystem",
         "fromPort": "out",
         "toPort": "in"
@@ -167,7 +193,13 @@
         "from": "economy",
         "to": "gameSystem",
         "fromPort": "out-text",
-        "toPort": "in"
+        "toPort": "in-economy"
+      },
+      {
+        "from": "numerical",
+        "to": "gameSystem",
+        "fromPort": "out-text",
+        "toPort": "in-numerical"
       },
       {
         "from": "gameSystem",

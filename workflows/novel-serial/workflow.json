@@ -3,18 +3,20 @@
   "id": "novel-serial",
   "title": "数值驱动长篇小说连载",
   "titleEn": "Numerical-Driven Serialized Novel",
-  "summary": "开书选参→创建数值经济系统→锁死境界底牌一章一章递进生成长篇小说+同步衍生剧本与游戏策划案",
+  "summary": "开书选参→经济与数值系统双核建模→小说大纲→逐章节点串联连载+同步衍生剧本与策划案",
   "category": "film",
   "tags": [
     "创建小说",
+    "小说大纲",
     "长篇小说连载",
-    "数值经济系统",
+    "经济系统",
+    "数值系统",
     "逐章生成",
     "战力崩坏防控",
     "小说改剧本",
     "IP游戏策划案"
   ],
-  "version": "1.0.0",
+  "version": "2.0.0",
   "author": {
     "name": "AIArtEngine",
     "url": "https://github.com/Justin-sky/ai-art-engine"
@@ -27,26 +29,28 @@
       "asset.novel",
       "asset.screenplay",
       "game.economy",
+      "game.numerical",
       "note.text",
+      "novel.outline",
       "text.plain"
     ],
     "appMinVersion": "7.5.0"
   },
   "plan": {
-    "title": "数值驱动长篇小说连载（开书选参 → 数值经济系统建模 → 逐章递进连载 → 剧本/策划案衍生）",
+    "title": "数值驱动长篇小说连载（开书选参 → 经济系统 + 数值系统 → 小说大纲 → 第1~N章节点串联连载 → 全部端口汇总衍生剧本与策划案）",
     "nodes": [
       {
         "key": "brief",
         "typeId": "text.plain",
         "title": "开书立项与世界观总纲",
         "params": {
-          "text": "《九霄断剑录》开书立项参数总纲\n- 题材流派（novelGenre）：xianxia_cultivation（修仙长生 · 宗门逆袭）\n- 全书规划总章数（novelTotalChapters）：600 章（分 10 卷，随时可动态伸缩）\n- 单章目标字数（novelTargetWords）：3200+ 字/章\n- 主角成长轴：修为灵力上限（凡人引气期 ➔ 筑基 ➔ 金丹 ➔ 元婴 ➔ 化神 ➔ 渡劫飞升）\n- 反派施压轴：宗门世家与天劫强敌威胁值（随章节指数级递增，每 10 章设一处小高潮 Boss 战）\n- 初期准入底牌（第 1~30 章可用）：残缺青铜剑匣、玄火敛息诀、一阶聚气丹\n- 严禁提前泄露的终局封存底牌：九霄诛仙剑阵、太古混沌神脉、法则时间静止\n- 核心人物档案：\n  1. 林玄（主角）：青云宗外门弃徒，性格沉稳果决，偶得残缺青铜剑匣，从微末蛰伏期一步步逆袭。\n  2. 苏清寒（女主/盟友）：内门剑峰天骄，外冷内热，暗中庇护林玄。\n  3. 赵无极（首卷反派）：外门执法长老之孙，依仗筑基半步修为横行霸道。\n- 第 1 章开篇钩子：外门年终大比前夜，赵无极带人强夺林玄父母遗留的青铜剑匣，剑匣沾染林玄心头精血后于暴雨夜悄然苏醒。"
+          "text": "《九霄断剑录》开书立项参数总纲\n- 题材流派（novelGenre）：xianxia_cultivation（修仙长生 · 宗门逆袭）\n- 全书规划总章数（novelTotalChapters）：600 章（分 10 卷，随时可动态伸缩）\n- 单章目标字数（novelTargetWords）：3200+ 字/章\n- 主角成长轴：修为灵力上限（凡人引气期 ➔ 筑基 ➔ 金丹 ➔ 元婴 ➔ 化神 ➔ 渡劫飞升）\n- 反派施压轴：宗门世家与天劫强敌威胁值（随章节指数级递增，每 10 章设一处小高潮 Boss 战）\n- 初期准入底牌（第 1~30 章可用）：残缺青铜剑匣、玄火敛息诀、一阶聚气丹\n- 严禁提前泄露的终局封存底牌：九霄诛仙剑阵、太古混沌神脉、法则时间静止\n- 核心人物档案：\n  1. 林玄（主角）：青云宗外门弃徒，性格沉稳果决，偶得残缺青铜剑匣，从微末蛰伏期一步步逆袭。\n  2. 苏清寒（女主/盟友）：内门剑峰天骄，外冷内热，暗中庇护林玄。\n  3. 赵无极（首卷反派）：外门执法长老之孙，依仗筑基半步修为横行霸道。\n- 第 1~3 章开篇弧光：第1章外门大比前夜强夺剑匣触发滴血苏醒；第2章剑冢秘境开启，林玄以玄火敛息诀猎杀妖兽晋升引气九重；第3章大比擂台正面对决赵无极，越阶斩敌立威并引出内门黑手悬念。"
         }
       },
       {
         "key": "economy",
         "typeId": "game.economy",
-        "title": "小说数值与经济系统",
+        "title": "经济系统",
         "params": {
           "gameEconomyPreset": "short_drama_reversal_loop",
           "gameEconomySteps": 30,
@@ -55,16 +59,68 @@
         }
       },
       {
-        "key": "novel",
+        "key": "numerical",
+        "typeId": "game.numerical",
+        "title": "数值系统",
+        "params": {
+          "gameEconomyPreset": "short_drama_reversal_loop",
+          "gameEconomySteps": 30,
+          "gameEconomyMonteCarloRuns": 60,
+          "gameEconomySeed": 2026,
+          "generateInstruction": "基于上游开书总纲与经济系统水龙头/黑洞仿真，定标全书 600 章境界阶梯、战力上限曲线（powerCeiling）、反派施压曲线（villainPressure）、乘区公式与初期准入/终局封存底牌门禁。"
+        }
+      },
+      {
+        "key": "outline",
+        "typeId": "novel.outline",
+        "title": "小说大纲",
+        "params": {
+          "novelGenre": "xianxia_cultivation",
+          "novelTotalChapters": 600,
+          "novelTargetWords": 3200,
+          "generateInstruction": "结合上游开书总纲、经济系统资源循环与数值系统境界阶梯，生成《九霄断剑录》全书世界观宪法、10 卷分卷规划、人物生死与势力档案及首卷逐章大纲列表。",
+          "text": ""
+        }
+      },
+      {
+        "key": "chapter1",
         "typeId": "asset.novel",
-        "title": "长篇小说逐章连载工作台",
+        "title": "小说·第1章",
         "params": {
           "novelGenre": "xianxia_cultivation",
           "novelTotalChapters": 600,
           "novelCurrentChapter": 1,
           "novelTargetWords": 3200,
-          "novelAutoAdvanceChapter": true,
-          "generateInstruction": "严格遵照上游「小说数值与经济系统」解算出的【第 1 / 600 章数值配额锁】与四拍戏剧节拍（①潜修受挫铺垫 → ②剑匣苏醒奇遇 → ③反派上门施压 → ④越阶反击立威+章末高能断章钩子），精写第 1 章（3200+ 字）。严禁提前动用封存的后期底牌（九霄诛仙剑阵等）。",
+          "novelAutoAdvanceChapter": false,
+          "generateInstruction": "严格遵循上游「小说大纲」第1章分章规划、「经济系统」资源约束与「数值系统」【第 1 / 600 章数值配额锁】，按四拍戏剧节拍（①潜修受挫铺垫 → ②剑匣滴血苏醒 → ③赵无极党羽上门逼宫 → ④残剑反击立威+章末剑冢开启钩子）精写第 1 章（3200+ 字）。严禁提前动用封存底牌。",
+          "text": ""
+        }
+      },
+      {
+        "key": "chapter2",
+        "typeId": "asset.novel",
+        "title": "小说·第2章",
+        "params": {
+          "novelGenre": "xianxia_cultivation",
+          "novelTotalChapters": 600,
+          "novelCurrentChapter": 2,
+          "novelTargetWords": 3200,
+          "novelAutoAdvanceChapter": false,
+          "generateInstruction": "无缝承接「上一章（in）」章末 550 字原文尾锚与状态账本，结合「小说大纲（in-outline）」第2章规划、「经济系统（in-economy）」与「数值系统（in-numerical）」第 2 章配额锁，精写第 2 章（剑冢外围猎杀赤鳞兽、炼化一阶聚气丹突破引气九重、遭遇赵无极暗探伏击，3200+ 字）。",
+          "text": ""
+        }
+      },
+      {
+        "key": "chapter3",
+        "typeId": "asset.novel",
+        "title": "小说·第3章",
+        "params": {
+          "novelGenre": "xianxia_cultivation",
+          "novelTotalChapters": 600,
+          "novelCurrentChapter": 3,
+          "novelTargetWords": 3200,
+          "novelAutoAdvanceChapter": false,
+          "generateInstruction": "无缝承接「上一章（in）」章末尾锚与状态账本，结合「小说大纲（in-outline）」第3章规划、「经济系统（in-economy）」与「数值系统（in-numerical）」第 3 章配额锁，精写第 3 章（外门年终大比生死台对决赵无极、准入底牌青铜剑匣一剑破敌、章末内门神秘长老现身悬念，3200+ 字）。",
           "text": ""
         }
       },
@@ -73,7 +129,7 @@
         "typeId": "asset.screenplay",
         "title": "分集短剧剧本改编（可选下游）",
         "params": {
-          "generateInstruction": "将上游长篇小说当前输出的章节正文改编为标准多场次影视/漫剧剧本（含【人物小传】、第X集标题、场次头、△动作视觉描写与人物台词），保留原章的核心冲突与章末悬念钩子。",
+          "generateInstruction": "接收上游最后一章「全部（out-all）」端口汇总的第 1~3 章全量小说正文，改编为标准多场次影视/漫剧剧本（含【人物小传】、分集标题、场次头、△动作视觉描写与人物台词），完整保留每章核心冲突与断章钩子。",
           "text": ""
         }
       },
@@ -84,16 +140,16 @@
         "params": {
           "gameSystemArchetype": "rpg_progression",
           "gameSystemTargetAspect": "16:9",
-          "generateInstruction": "融合上游「小说数值与经济系统」的乘区公式/保底规则与「长篇小说」的世界观境界、人物卡池及法宝道具，生成完整的六维工业级游戏系统策划案（含 UI 线框图与 9-slice 拆件规范）。",
+          "generateInstruction": "融合「in」端口接收的小说全量正文（世界观境界、人物卡池、法宝道具）、「in-economy」端口接收的经济系统资源闭环与「in-numerical」端口接收的数值系统乘区公式/TTK定标，生成完整的六维工业级游戏系统策划案（含 UI 线框图与 9-slice 拆件规范）。",
           "text": ""
         }
       },
       {
         "key": "note",
         "typeId": "note.text",
-        "title": "数值驱动长篇小说逐章连载指南",
+        "title": "数值驱动长篇小说连载指南",
         "params": {
-          "text": "📚 数值驱动长篇小说逐章连载四步法（novel-serial）：\n1. 【阶段一 · 立项选参】：选定题材流派（novelGenre，8 大流派或自定义阶段阶梯）、全书规划总章数（novelTotalChapters，如 80/200/600/1200 章）、单章目标字数（novelTargetWords，默认 3200 字）及初期准入/后期封存底牌，写入 brief 节点。\n2. 【阶段二 · 数值经济系统先行建模】：运行 economy（game.economy）节点，生成完整的 Machinations 资源循环图与 15 模块数值工作台（境界阶梯、战力膨胀上限曲线、反派施压曲线、奇遇掉落表、底牌解锁门禁），通过 out-text ➔ novel(in) 实时指导小说生成。\n3. 【阶段三 · 一章一章递进生成】：运行 novel（asset.novel）节点生成第 1 章；每章完成后自动写入章节目录树、截取章末 550 字咬合锚点、更新 L1~L4 四层记忆金字塔（世界观宪法/状态账本/人物生死名录/伏笔回收表）并自动将游标推进至下一章（Ch.1 ➔ Ch.2 ➔ Ch.3…），循环触发生成下一章。\n4. 【阶段四 · 全屏工作台与下游衍生】：双击 novel 进入长篇小说工作台（查看合规体检分、多章勾选合并输出、局部选中爽点扩写）；双击 economy 进入数值工作台；下游可按需运行 screenplay 改编剧本或运行 gameSystem 生成同名 IP 游戏系统策划案。"
+          "text": "📚 数值驱动长篇小说连载五步法（novel-serial v2.0）：\n1. 【阶段一 · 立项选参】：选定题材流派（novelGenre）、全书规划总章数（novelTotalChapters）、单章目标字数（novelTargetWords）及初期准入/后期封存底牌，写入 brief 节点。\n2. 【阶段二 · 经济与数值双核先行建模】：运行 economy（game.economy 经济系统：Machinations 资源产出/消耗/保底仿真）与 numerical（game.numerical 数值系统：境界阶梯、战力上限曲线、乘区公式、底牌解锁门禁），二者分别通过专属端口指导全书大纲与每一章。\n3. 【阶段三 · 小说大纲统筹全局】：运行 outline（novel.outline 小说大纲），汇总世界观宪法、分卷架构、人物名录与分章大纲，通过 out ➔ in-outline 广播给所有章节节点。\n4. 【阶段四 · 逐章节点串联连载】：chapter1 ➔ chapter2 ➔ chapter3 通过「下一章（out）➔ 上一章（in）」串联传递章节历史与章末 550 字尾锚；每章同时接入 in-outline（小说大纲）、in-economy（经济系统）、in-numerical（数值系统）专属端口，彻底杜绝战力崩坏与吃书。\n5. 【阶段五 · 全部端口汇总衍生】：最后一章的「全部（out-all）」端口自动汇总第 1 章至当前章的完整正文，一键接入 screenplay（剧本改编）或配合 in-economy / in-numerical 接入 gameSystem（IP游戏系统策划案）。"
         }
       }
     ],
@@ -106,33 +162,123 @@
       },
       {
         "from": "brief",
-        "to": "novel",
+        "to": "numerical",
         "fromPort": "out",
         "toPort": "in"
       },
       {
         "from": "economy",
-        "to": "novel",
+        "to": "numerical",
         "fromPort": "out-text",
+        "toPort": "in-economy"
+      },
+      {
+        "from": "brief",
+        "to": "outline",
+        "fromPort": "out",
         "toPort": "in"
       },
       {
-        "from": "novel",
+        "from": "economy",
+        "to": "outline",
+        "fromPort": "out-text",
+        "toPort": "in-economy"
+      },
+      {
+        "from": "numerical",
+        "to": "outline",
+        "fromPort": "out-text",
+        "toPort": "in-numerical"
+      },
+      {
+        "from": "outline",
+        "to": "chapter1",
+        "fromPort": "out",
+        "toPort": "in-outline"
+      },
+      {
+        "from": "economy",
+        "to": "chapter1",
+        "fromPort": "out-text",
+        "toPort": "in-economy"
+      },
+      {
+        "from": "numerical",
+        "to": "chapter1",
+        "fromPort": "out-text",
+        "toPort": "in-numerical"
+      },
+      {
+        "from": "chapter1",
+        "to": "chapter2",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "outline",
+        "to": "chapter2",
+        "fromPort": "out",
+        "toPort": "in-outline"
+      },
+      {
+        "from": "economy",
+        "to": "chapter2",
+        "fromPort": "out-text",
+        "toPort": "in-economy"
+      },
+      {
+        "from": "numerical",
+        "to": "chapter2",
+        "fromPort": "out-text",
+        "toPort": "in-numerical"
+      },
+      {
+        "from": "chapter2",
+        "to": "chapter3",
+        "fromPort": "out",
+        "toPort": "in"
+      },
+      {
+        "from": "outline",
+        "to": "chapter3",
+        "fromPort": "out",
+        "toPort": "in-outline"
+      },
+      {
+        "from": "economy",
+        "to": "chapter3",
+        "fromPort": "out-text",
+        "toPort": "in-economy"
+      },
+      {
+        "from": "numerical",
+        "to": "chapter3",
+        "fromPort": "out-text",
+        "toPort": "in-numerical"
+      },
+      {
+        "from": "chapter3",
         "to": "screenplay",
-        "fromPort": "out",
+        "fromPort": "out-all",
+        "toPort": "in"
+      },
+      {
+        "from": "chapter3",
+        "to": "gameSystem",
+        "fromPort": "out-all",
         "toPort": "in"
       },
       {
         "from": "economy",
         "to": "gameSystem",
         "fromPort": "out-text",
-        "toPort": "in"
+        "toPort": "in-economy"
       },
       {
-        "from": "novel",
+        "from": "numerical",
         "to": "gameSystem",
-        "fromPort": "out",
-        "toPort": "in"
+        "fromPort": "out-text",
+        "toPort": "in-numerical"
       }
     ]
   }

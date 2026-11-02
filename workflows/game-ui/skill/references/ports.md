@@ -6,8 +6,11 @@
 
 | 端口 | 方向 | 类型 | 说明 |
 |---|---|---|---|
-| `in` | in | `text`（multiple） | 上游正文（`processingIn: 'text'`） |
+| `in` | in | `text`（multiple） | 上游正文（`processingIn: 'text'`，如小说章节 `out-all` 全量正文或世界观文档） |
+| `in-economy` | in | `text` | 上游 `game.economy`（经济系统）的 `out-text` 经济仿真契约 |
+| `in-numerical` | in | `text` | 上游 `game.numerical`（数值系统）的 `out-text` 数值定标契约 |
 | `out` | out | `text` | 策划案正文 |
+| `out-all` | out | `text` | 全部（上游输入 + 经济/数值契约 + 策划案正文的完整合集） |
 
 参数（`defaultParams()` 声明）：
 

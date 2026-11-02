@@ -1,42 +1,52 @@
 ---
 name: wf-novel-serial
-description: 用「数值驱动长篇小说连载」工作流引导用户完成开书参数配置（流派/总章数/单章字数/主角与反派双轴/底牌阶梯），先行创建完整的数值经济系统（game.economy）锁定全书境界曲线与底牌门禁，再驱动创建小说节点（asset.novel）一章一章递进生成长篇小说，维护四层记忆金字塔与人物/伏笔账本，并支持同步衍生分集剧本（asset.screenplay）或同名IP游戏系统策划案（asset.gameSystem）。
+description: 用「数值驱动长篇小说连载」工作流引导用户完成开书参数配置，先行创建经济系统（game.economy）与数值系统（game.numerical）锁定资源循环、全书境界阶梯与底牌门禁，再通过小说大纲（novel.outline）与逐章串联的创建小说节点（asset.novel：第1章➔第2章➔第3章…）递进生成长篇小说，并通过最后一章的「全部（out-all）」端口一键汇总衍生分集剧本（asset.screenplay）或同名IP游戏系统策划案（asset.gameSystem）。
 workflow: novel-serial
-workflow-version: 1.0.0
+workflow-version: 2.0.0
 argument-hint: "[题材流派/小说书名/规划总章数/单章字数/主角成长轴与核心金手指/开篇冲突]"
-when-to-use: 当用户想要创作小说、长篇连载网文、互动故事，或者希望用严谨的数值/境界/经济系统全程指导小说每一章的剧情推进、防止战力崩坏与吃书，以及需要将小说同步改编为剧本或游戏策划案时加载本技能。
+when-to-use: 当用户想要创作小说、长篇连载网文、互动故事，或者希望用独立的经济系统与数值系统全程指导小说大纲和每一章的剧情推进、防止战力崩坏与吃书，以及需要将小说同步改编为剧本或游戏策划案时加载本技能。
 allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, asset_list, asset_import, task_run, task_status, game_data_table_generate
 ---
 
-# 数值驱动长篇小说连载 · 逐章生成 SOP（novel-serial v1.0.0）
+# 数值驱动长篇小说连载 · 逐章生成 SOP（novel-serial v2.0.0）
 
-> **核心设计哲学**：拒绝「单次糊弄式摘要生成」与「中后期战力崩坏/吃书」。本技能通过 **`game.economy`（小说数值与经济系统） ➔ `asset.novel`（长篇小说逐章连载工作台）** 的双核闭环，先建立全书的**数值与境界宪法**，再根据当前章号游标 `(novelCurrentChapter / novelTotalChapters)` 实时切出每一章的**战力天花板、反派施压值、准入底牌与封存底牌门禁**，结合 **L1~L4 四层记忆金字塔** 一章一章递进创作。
+> **核心设计哲学**：拒绝「单次糊弄式摘要生成」与「中后期战力崩坏/吃书」。本技能采用 **`game.economy`（经济系统） + `game.numerical`（数值系统） ➔ `novel.outline`（小说大纲） ➔ 串联式 `asset.novel`（小说·第1章 ➔ 第2章 ➔ 第3章…）** 的工业级管线：
+> 1. **经济与数值双核分治**：`game.economy` 专注 Machinations 资源水龙头/黑洞动态平衡、通胀预警与奇遇保底模拟；`game.numerical` 专注境界阶梯、战力上限曲线、反派施压曲线、乘区审计与底牌门禁定标；
+> 2. **四输入端口精准路由**：每个 `asset.novel` 章节节点拥有 4 个语义化输入端口——`in`（上一章）、`in-outline`（小说大纲）、`in-economy`（经济系统）、`in-numerical`（数值系统）；
+> 3. **双输出端口汇总流转**：每个 `asset.novel` 章节节点的 `out`（下一章）向后传递本章正文与章末 550 字尾锚；`out-all`（全部）自动汇总从第 1 章到当前章的完整正文，直接送入下游剧本改编或游戏策划案生成。
 
 ---
 
-## 一、种子拓扑总览（6 节点 / 6 连线）
+## 一、种子拓扑总览（10 节点 / 21 连线）
 
 ```
 开书立项与世界观总纲 (text.plain: brief)
-  ├─ out ──► in ──► 小说数值与经济系统 (game.economy: economy)
-  │                   │  ├─ Machinations 资源/筹码动态平衡拓扑 + 蒙特卡洛 P10/P50/P90 模拟
-  │                   │  └─ 15 模块数值工作台（境界阶梯 / 乘区公式 / 战力上限曲线 / 奇遇掉落表 / 底牌门禁）
-  │                   │ out-text (实时输出全书数值配额包 machinations_economy_bundle)
-  │                   ├─────────────────────────────────────────┐
-  │                   ▼ in                                      ▼ in
-  └─ out ──► in ──► 长篇小说逐章连载工作台 (asset.novel: novel)  IP游戏系统策划案 (asset.gameSystem: gameSystem)
-                      │  ├─ 实时解包第 N/Total 章数值配额切片      ▲ in (提取小说IP人物/境界/法宝)
-                      │  ├─ L1 世界观宪法 + L2 状态账本/人物生死/伏笔表
-                      │  ├─ L3 滚动前情摘要 + L4 上一章末尾 550 字原文锚点
-                      │  └─ 生成后自动存入章节目录树并推进游标 Ch.N ➔ Ch.N+1
-                      ├─ out ───────────────────────────────────┘
-                      ▼ out ──► in
-                    分集短剧剧本改编 (asset.screenplay: screenplay)
+  ├─ out ──► in ──────────► 经济系统 (game.economy: economy)
+  │                           │ out-text (Machinations 资源/货币/保底契约)
+  │                           ├────────────────────┬────────────────────┬────────────────────┐
+  │                           ▼ in-economy         │                    │                    │
+  ├─ out ──► in ──────────► 数值系统 (game.numerical: numerical)        │                    │
+  │                           │ out-text (境界阶梯/战力曲线/乘区/底牌门禁)│                    │
+  │                           ├────────────────────┼────────────────────┼────────────────────┤
+  │                           ▼ in-numerical       ▼ in-economy         │                    │
+  └─ out ──► in ──────────► 小说大纲 (novel.outline: outline) ◄─────────┘                    │
+                              │ out (全书世界观宪法 + 分卷规划 + 分章大纲)                    │
+                              ├────────────────────┬────────────────────┐                    │
+                              ▼ in-outline         ▼ in-outline         ▼ in-outline         │
+                            小说·第1章 ──out──► in 小说·第2章 ──out──► in 小说·第3章          │
+                            (chapter1)           (chapter2)           (chapter3)             │
+                            ▲ in-economy         ▲ in-economy         ▲ in-economy ◄─────────┤
+                            ▲ in-numerical       ▲ in-numerical       ▲ in-numerical         │
+                                                                        │                    │
+                                                                        ├─ out-all (全部) ──►├─► in 分集短剧剧本改编 (asset.screenplay: screenplay)
+                                                                        └─ out-all (全部) ──►└─► in IP游戏系统策划案 (asset.gameSystem: gameSystem)
+                                                                                                   ▲ in-economy (连自 economy.out-text)
+                                                                                                   ▲ in-numerical (连自 numerical.out-text)
 ```
 
 ---
 
-## 二、四阶段标准执行规程（MCP 路径）
+## 二、五阶段标准执行规程（MCP 路径）
 
 ### 阶段一：开书立项参数选择（Interactive Parameter Selection）
 
@@ -52,79 +62,75 @@ allowed-tools: workflow_list_installed, workflow_use_installed, graph_node_types
    - `historical_dynasty`（历史争霸 · 粮草兵力与天下格局）
    - `custom_literary`（自由文学自定义阶梯 · 自定义阶段名与成长/阻力双轴）
 2. **连载规模（`novelTotalChapters` & `novelTargetWords`）**：
-   - 全书规划总章数：`80`（中篇精品）/ `200`（标准长篇）/ `600`（大长篇连载）/ `1200+`（超长篇巨制），连载中途可随时动态调整；
+   - 全书规划总章数：`80`（中篇精品）/ `200`（标准长篇）/ `600`（大长篇连载）/ `1200+`（超长篇巨制）；
    - 单章目标字数：默认 `3200` 字/章（支持 `1500` ~ `10000` 字）。
 3. **主角成长轴 vs 反派施压轴**：
-   - 如 `novelCustomAxisProtagonist: "修为灵力上限"` vs `novelCustomAxisAntagonist: "宗门强敌与天劫威胁"`（若使用预设流派则自动内置，也可自定义覆盖）。
+   - 如 `novelCustomAxisProtagonist: "修为灵力上限"` vs `novelCustomAxisAntagonist: "宗门强敌与天劫威胁"`。
 4. **底牌与筹码解锁阶梯（防战力崩坏核心）**：
    - **前期准入底牌**（第 1 卷允许动用的低阶功法/信物/线索）；
    - **终局封存底牌**（严禁在前中期章节提前泄露的大招/终极真相，由合规体检器实时监控）。
-5. **核心角色名录与第 1 章开篇冲突**：
-   - 主角、核心盟友、首卷反派的姓名与动机，以及第 1 章开篇的第一幕强冲突钩子。
-6. **连载推进节奏**：
-   - **逐章精写确认模式（推荐默认）**：每生成完 1 章，向用户汇报本章字数、数值合规得分、人物/伏笔状态更新与章末悬念钩子，用户确认或微调后再生成下一章；
-   - **连续批次连载模式**：用户指定「一次连写 $K$ 章（如连写 3 章）」，AI 按 `Ch.1 ➔ Ch.2 ➔ Ch.3` 顺序逐章闭环调用运行。
+5. **核心角色名录与前 3 章开篇冲突**：
+   - 主角、核心盟友、首卷反派的姓名与动机，以及前 3 章的起承转合冲突弧光。
+6. **连载章节数**：
+   - 种子默认铺设 3 个串联章节节点（`chapter1` ➔ `chapter2` ➔ `chapter3`），可按用户需求用 `graph_edit` 动态增删章节节点。
 
 ---
 
-### 阶段二：创建并运行小说内部数值经济系统（`game.economy`）
+### 阶段二：先行建模「经济系统」与「数值系统」（`game.economy` + `game.numerical`）
 
 1. **铺设工作流种子骨架**：
    - 调用 `workflow_use_installed({ id: "novel-serial", mode: "seed" })` 在当前画布加载种子拓扑。
-   - *按需裁剪（Prune Optional Downstream）*：若用户当前只需专心写小说、暂不需要剧本或游戏策划案，保留或调用 `graph_edit` 删去 `screenplay` / `gameSystem` 均可；默认保留时只需先运行 `economy` 和 `novel`。
-2. **写入开书总纲并配置数值经济系统**：
-   - 调用 `graph_edit` 将用户选定的立项参数、世界观、阶段阶梯、初期准入底牌与终局封存底牌写入 `brief`（`text.plain`）的 `params.text`；
-   - 同时配置 `economy`（`game.economy`）的 `params`：
-     - `gameEconomyPreset`：网文/爽文逆袭首选 `"short_drama_reversal_loop"`；修仙炼器/刷宝可选 `"rpg_forge"` 或 `"roguelike_run"`；抽卡/秘境气运可选 `"gacha_pity"`；势力争霸可选 `"slg_city"`；
-     - `generateInstruction`：写明本小说的成长轴名称、全书总章数、每卷境界上限与货币/资源产出消耗规则。
-3. **先行运行 `economy` 节点（必做！）**：
-   - 调用 `task_run({ assetId, nodeIds: ["economy"] })` 并用 `task_status` 等待完成（本地确定性蒙特卡洛与数值工作台合成，仅需 1~2 秒）。
-   - `economy` 运行后会产出完整的 **15 模块数值工作台**（含全书分卷规划、每章战力上限公式 `powerCeiling` vs 反派压力 `villainPressure`、准入底牌表 `allowedTrumpCards`、封存底牌表 `lockedEndgameTrumps`、奇遇掉落表），并通过 `out-text ➔ in` 持续指导 `novel` 节点！
+   - *按需裁剪（Prune Optional Downstream）*：若用户当前只需写小说、暂不需要剧本或游戏策划案，可调用 `graph_edit` 删去 `screenplay` / `gameSystem`；若保留，先运行上游节点即可。
+2. **写入开书总纲并配置经济与数值双系统**：
+   - 调用 `graph_edit` 将用户选定的立项参数写入 `brief`（`text.plain`）的 `params.text`；
+   - 配置 `economy`（`game.economy`）：设置 `gameEconomyPreset`（网文逆袭首选 `"short_drama_reversal_loop"`，炼器养成可选 `"rpg_forge"`，秘境轮回可选 `"roguelike_run"`，抽卡机缘可选 `"gacha_pity"`，势力争霸可选 `"slg_city"`）；
+   - 配置 `numerical`（`game.numerical`）：通过 `in-economy` 接收 `economy` 的 `out-text` 载荷，定标全书境界阶梯、战力上限曲线、反派施压曲线、乘区公式与底牌门禁。
+3. **依序运行 `economy` 与 `numerical`（必做！）**：
+   - 先调用 `task_run({ assetId, nodeIds: ["economy"] })` 并等待完成；
+   - 再调用 `task_run({ assetId, nodeIds: ["numerical"] })` 并等待完成。
 
 ---
 
-### 阶段三：在数值系统持续指导下「一章一章递进生成」（`asset.novel`）
+### 阶段三：生成全书「小说大纲」（`novel.outline`）
 
-**⚠️ 严禁试图在一个章节里写完全书梗概！必须严格按 `novelCurrentChapter = 1, 2, 3...` 一章一章生成：**
-
-1. **初始化第 1 章参数与四层记忆种子**：
-   - 调用 `graph_edit` 更新 `novel`（`asset.novel`）的 `params`：
-     - `novelGenre`：用户选定的流派 ID；
-     - `novelTotalChapters`：规划总章数（如 `600`）；
-     - `novelCurrentChapter`: `1`（从第 1 章开始）；
-     - `novelTargetWords`: 单章目标字数（如 `3200`）；
-     - `novelAutoAdvanceChapter`: `true`（每章生成完自动将游标 `+1` 推进到下一章）；
-     - `novelWorldBible`（L1 恒定世界观宪法）：写入流派铁律、境界阶梯、力量代价与核心设定；
-     - `novelStateLedger`（L2 动态状态账本）：写入第 1 章初始状态（主角当前境界、持有准入底牌、封存底牌清单）；
-     - `text`: `""`（清空底稿以触发全新章节生成）；
-     - `generateInstruction`：针对第 1 章的四拍戏剧节拍指令（**第一拍：困境/铺垫蓄势 → 第二拍：奇遇/线索破局 → 第三拍：反派施压拉满 → 第四拍：准入底牌反击立威 + 章末高能断章钩子**）。
-2. **执行第 $k$ 章生成**：
-   - 调用 `task_run({ assetId, nodeIds: ["novel"] })`，用 `task_status` 等待本章生成完毕。
-   - **底层自动完成的闭环机制**：
-     - `novel` 节点执行时自动读取上游 `economy` 的 `out-text` 载荷，按 `(novelCurrentChapter, novelTotalChapters)` 精确解算**本章数值配额切片**（锁死本章境界、战力上限、准入底牌与封存底牌禁令）；
-     - 生成完成后，自动将第 $k$ 章完整正文追加进 `params.generatedTexts` 多章目录树，自动截取章末最后 550 字存入 `novelChapterHistoryJson`（L4 原文尾锚，供第 $k+1$ 章第一段无缝咬合），自动更新 `novelStateLedger`（L2 状态账本）与 `novelRollingSummary`（L3 滚动前情提要），并将 `novelCurrentChapter` 自动推进为 $k + 1$。
-3. **章节交付汇报与推进下一章（第 $k+1$ 章）**：
-   - 调用 `graph_read({ assetId, includeParams: true })` 读取 `novel` 节点的最新状态，向用户汇报：
-     - ✅ **已生成章节标题与字数**（如 `第 1 / 600 章《青铜剑匣》· 3,420 字`）；
-     - ⚖️ **本章数值配额与状态结算**（当前境界、本章动用的准入底牌、有无越界泄露封存底牌）；
-     - 🪝 **章末断章悬念钩子**（展示最后一段悬念，并给出第 $k+1$ 章的剧情预告）。
-   - **当继续生成第 $k+1$ 章时**：
-     - 若需微调人物生死状态（如某反派在第 $k$ 章已伏诛退场，将其在 `novelCharacterRosterJson` 中标为 `"eliminated"` 防止后续章节复活）或回收某条到期伏笔（`novelForeshadowingJson`），用 `graph_edit` 更新 `novel` 的 `generateInstruction`（写入第 $k+1$ 章具体冲突指令，并确保 `params.text` 设为空串 `""` 以便生成新章节而非润色旧章），再次调用 `task_run({ assetId, nodeIds: ["novel"] })` 即可！
-     - **动态调改数值系统**：若剧情发展到新卷需要调整经济通胀率、新增神兵底牌或修改境界跨度，随时用 `graph_edit` 更新 `economy` 节点并重跑 `economy`，新的数值体系会立即作用于后续所有章节。
+1. **配置并运行 `outline`（`novel.outline`）**：
+   - `outline` 节点同时连接 `brief (out ➔ in)`、`economy (out-text ➔ in-economy)` 与 `numerical (out-text ➔ in-numerical)`；
+   - 调用 `task_run({ assetId, nodeIds: ["outline"] })` 生成全书世界观宪法、分卷架构、核心人物名录与分章大纲；
+   - `outline` 的 `out` 端口通过连线接入每一个章节节点的 `in-outline`（小说大纲）端口，确保所有章节共享统一的全书大纲。
 
 ---
 
-### 阶段四：全屏工作台精修与下游剧本/游戏策划案衍生
+### 阶段四：逐章串联生成小说正文（`chapter1 ➔ chapter2 ➔ chapter3`）
 
-- **双击进入全屏工作台**：
-  - 双击画布上的 `novel` 节点进入**长篇小说全屏工作台**：左侧管理多章节目录树、动态调整总章数（80~5000 章）、勾选多章合并输出；中间沉浸式正文编辑与局部框选爽点扩写/底牌合规替换；右侧三页签查看**「⚖️ 本章数值配额与合规体检医生」「🗺️ 分卷多章大纲推演与自动连载」「🧠 四层记忆金字塔与人物生死/伏笔追踪表」**。
-  - 双击 `economy` 节点进入 **Machinations 经济拓扑与 15 模块数值工作台**，可视化调优战力曲线与掉落概率。
-- **一键衍生分集剧本（`screenplay`）或游戏策划案（`gameSystem`）**：
-  - 需要将当前章节（或勾选合并的多章）改编为短剧剧本时，运行 `task_run({ assetId, nodeIds: ["screenplay"] })`，随后可进一步接入 `film.workbench` 拍摄短剧成片；
-  - 需要将小说 IP 与 `economy` 数值体系转化为同名游戏系统策划案（GDD）时，运行 `task_run({ assetId, nodeIds: ["gameSystem"] })`，自动提取小说人物卡池、境界阶梯、法宝道具与经济乘区公式，产出可直接接入 `ui.split` 的工业级策划案。
+1. **四端口各司其职**：
+   - **第 1 章（`chapter1`）**：连接 `outline (out ➔ in-outline)`、`economy (out-text ➔ in-economy)`、`numerical (out-text ➔ in-numerical)`，`novelCurrentChapter: 1`；
+   - **第 $k$ 章（`chapter2`, `chapter3`…）**：
+     - `in`（上一章）：连接第 $k-1$ 章的 `out`（下一章），自动继承前序章节正文历史、L2 状态账本、L3 滚动摘要与 L4 上一章末尾 550 字原文尾锚；
+     - `in-outline`（小说大纲）：连接 `outline` 的 `out`；
+     - `in-economy`（经济系统）：连接 `economy` 的 `out-text`；
+     - `in-numerical`（数值系统）：连接 `numerical` 的 `out-text`。
+2. **按章序依次执行**：
+   - 依次调用 `task_run` 运行 `chapter1` ➔ `chapter2` ➔ `chapter3`（或在生成完每一章后向用户汇报字数、境界合规体检得分与章末悬念钩子）。
+   - 如需继续扩写第 4 章、第 5 章，只需调用 `graph_edit` 新增 `asset.novel` 节点（或在画布上点击章节节点的「➕ 续写下一章」按钮），将其 `in` 连自上一章 `out`，并连入 `in-outline`、`in-economy`、`in-numerical` 即可。
+
+---
+
+### 阶段五：通过「全部（`out-all`）」端口汇总衍生剧本与游戏策划案
+
+- **全量章节汇总输出**：
+  - 串联链条上任意一章的 `out-all`（全部）端口都会自动输出**第 1 章至该章的完整累计章节正文**（按章号升序合并）。
+  - 将最后一章（如 `chapter3`）的 `out-all` 连接到下游节点，即可一次性将全书已写章节全部送入下游！
+- **衍生分集剧本（`screenplay`）**：
+  - `chapter3 (out-all) ➔ screenplay (in)`：运行 `screenplay` 即可将第 1~3 章完整小说改编为标准多场次短剧/漫剧剧本。
+- **衍生同名 IP 游戏系统策划案（`gameSystem`）**：
+  - `gameSystem` 节点具备 3 个输入端口：
+    - `in`（文本）：连接最后一章的 `out-all`（接收小说世界观、人物卡池与法宝剧情）；
+    - `in-economy`（经济系统）：连接 `economy` 的 `out-text`（接收资源循环、通胀防线与保底报告）；
+    - `in-numerical`（数值系统）：连接 `numerical` 的 `out-text`（接收境界曲线、乘区公式、TTK 定标与配表）；
+  - 运行 `gameSystem` 即可产出融合小说 IP 与双系统数值契约的六维工业级游戏策划案（GDD），并可继续接入 `ui.split ➔ ui.gen` 生成全套游戏 UI。
 
 ---
 
 ## 三、节点端口与参数速查
 
-完整的 6 节点拓扑、端口定义、`asset.novel` 八大流派枚举、四层记忆金字塔字段与 `game.economy` 联动参数速查见 `references/stages.md`。
+完整的 10 节点拓扑、端口定义、`novel.outline` / `asset.novel` / `game.economy` / `game.numerical` / `asset.gameSystem` 联动参数速查见 `references/stages.md`。

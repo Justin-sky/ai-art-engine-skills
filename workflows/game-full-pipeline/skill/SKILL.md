@@ -1,28 +1,34 @@
 ---
 name: wf-game-full-pipeline
-description: 用「全栈游戏设计与可玩实现」工作流引导用户完成游戏参数选择（品类/2D或3D视角/美术与UI画风/核心循环/数值规模），先创建完整经济系统与全套数值配表（game.economy + game_data_table_generate + game_systems_graph_generate），再驱动生成全套游戏系统策划案（asset.gameSystem）、拆解并生成多屏UI界面与PSD图层（ui.split → ui.gen → image.layerSplit），最后直接把策划案、全套数值配表与UI界面架构编译为可一键试玩的单文件HTML游戏（gameplay_prepare_project → 编写 src/** → gameplay_build + game_playable_preview_compile）。
+description: 用「全栈游戏设计与可玩实现」工作流引导用户完成游戏参数选择（品类/2D或3D视角/美术与UI画风/核心循环/数值规模），先创建完整经济系统（game.economy）与独立数值系统（game.numerical + game_data_table_generate + game_systems_graph_generate），再通过三端口（in/in-economy/in-numerical）驱动生成全套游戏系统策划案（asset.gameSystem）、拆解并生成多屏UI界面与PSD图层（ui.split → ui.gen → image.layerSplit），最后直接把策划案、全套数值配表与UI界面架构编译为可一键试玩的单文件HTML游戏。
 workflow: game-full-pipeline
-workflow-version: 1.0.0
+workflow-version: 2.0.0
 allowed-tools: ask_user, workflow_list_installed, workflow_use_installed, graph_node_types, graph_read, graph_edit, asset_list, asset_import, task_run, task_status, game_data_table_generate, game_systems_graph_generate, game_level_map_generate, game_playable_preview_compile, gameplay_prepare_project, gameplay_build, gameplay_job_status
 ---
 
-# 全栈游戏设计与可玩实现（game-full-pipeline）
+# 全栈游戏设计与可玩实现（game-full-pipeline v2.0.0）
 
 ## 什么时候加载本技能
 
 当用户提出以下任一需求时，**必须优先加载本技能**：
-- 「帮我设计一款完整的游戏，包含所有策划案、UI界面、经济系统、全套数值，并直接生成可玩的 HTML 游戏」
+- 「帮我设计一款完整的游戏，包含所有策划案、UI界面、经济系统、数值系统，并直接生成可玩的 HTML 游戏」
 - 「我想做个肉鸽/卡牌/RPG/塔防/AVG游戏，先让我选参数，再出全套 GDD 策划案、数值表、UI 界面和 HTML 试玩版」
-- 「从零立项一款游戏，把经济数值系统、多屏 UI 和可运行 HTML 原型一次做全」
+- 「从零立项一款游戏，把经济系统、数值系统、多屏 UI 和可运行 HTML 原型一次做全」
 
 ---
 
-## 核心设计哲学：参数驱动 → 数值先行 → 策划与 UI 联动 → 代码级内联生成可玩 HTML
+## 核心设计哲学：参数驱动 → 经济与数值双核先行 → 策划与 UI 联动 → 代码级内联生成可玩 HTML
 
 传统 AI 生成小游戏往往与策划案、数值表、UI 设计“两张皮”脱节（策划案写一套数值，HTML 游戏里硬编码另一套随机数字）。本技能强制执行**全栈同源闭环**：
 1. **交互式选参立项（Parameter Wizard）**：开工前通过 `ask_user` 一次性确认核心品类、2D/3D 维度视角、美术与 UI 风格预设、经济数值复杂度与可玩 HTML 交付模式。
-2. **经济系统与全套数值先行（`game.economy` + 结构化配表落盘）**：先运行 `game.economy` 完成 Machinations 资源动力学与蒙特卡洛（Monte Carlo）平衡模拟，并调用 `game_data_table_generate` 与 `game_systems_graph_generate` 产出全套 CSV/JSON 数值配表（角色、技能、卡牌、道具、波次、对白、技能树 DAG、Boss AI 状态机）。
-3. **全套系统策划案生成（`asset.gameSystem`）**：`game.economy` 的 `out-text` 直接连入 `asset.gameSystem` 的 `in` 端口，自动解包上游数值与经济护栏，产出严丝合缝的全套系统策划案（GDD）。
+2. **经济系统与数值系统双核先行（`game.economy` + `game.numerical` + 结构化配表落盘）**：
+   - 先运行 `game.economy`（经济系统）完成 Machinations 资源水龙头/黑洞动力学、蒙特卡洛（Monte Carlo）平衡模拟与保底/通胀审计；
+   - 再运行 `game.numerical`（数值系统，通过 `in-economy` 接收经济仿真结果）完成成长曲线、伤害乘区边际审计、战斗 TTK 矩阵与角色/技能/道具配表，并调用 `game_data_table_generate` 与 `game_systems_graph_generate` 产出全套 CSV/JSON 数值配表。
+3. **三端口全套系统策划案生成（`asset.gameSystem`）**：
+   - `brief` (`out`) 连入 `gameSystem` 的 `in`（文本）；
+   - `economy` (`out-text`) 连入 `gameSystem` 的 `in-economy`（经济系统）；
+   - `numerical` (`out-text`) 连入 `gameSystem` 的 `in-numerical`（数值系统）；
+   - 自动解包上游经济契约与数值契约，产出严丝合缝的全套系统策划案（GDD）。
 4. **多屏 UI 界面拆分与生成（`ui.split` → `ui.gen` → `image.layerSplit`）**：从策划案自动拆出 6~12 屏 UI 界面规范（带字精修轨 + 空字底图轨），统一锁定 UI 材质风格并支持拆分为分层 PSD 与九宫格切图。
 5. **直接生成同源 HTML 可玩游戏实现（Playable HTML Build）**：将第 2 步产出的**真实数值配表**、第 3 步的**核心玩法规则**与第 4 步的**多屏 UI 界面结构（主界面/战斗HUD/升级三选一/背包商店/结算页）**直接写进 `gameplay_prepare_project` 脚手架的 `src/**` 代码中，经 `gameplay_build` 打包并通过隐藏窗口 `smoke` 试玩门禁校验，直接向用户交付可一键点开畅玩的单文件 HTML 游戏！
 
@@ -59,24 +65,27 @@ allowed-tools: ask_user, workflow_list_installed, workflow_use_installed, graph_
 
 ---
 
-### 阶段 ②：铺设全栈工作流画布并先行构建经济与全套数值体系
+### 阶段 ②：铺设全栈工作流画布并先行构建经济系统与数值系统
 
 1. **物化种子工作流**：
-   调用 `workflow_use_installed({ id: "game-full-pipeline", mode: "seed" })` 在当前画布铺设 12 节点全栈拓扑：
-   - `brief` (`text.plain`) ➔ `economy` (`game.economy`) + `gameSystem` (`asset.gameSystem`) + `heroSprite` (`asset.image`) + `enemySprite` (`asset.image`) + `levelMap` (`game.levelMap`)
-   - `economy` (`out-text`) ➔ `gameSystem` (`in`)
+   调用 `workflow_use_installed({ id: "game-full-pipeline", mode: "seed" })` 在当前画布铺设 13 节点全栈拓扑：
+   - `brief` (`text.plain`) ➔ `economy` (`game.economy`) + `numerical` (`game.numerical`) + `gameSystem` (`asset.gameSystem`) + `heroSprite` (`asset.image`) + `enemySprite` (`asset.image`) + `levelMap` (`game.levelMap`)
+   - `economy` (`out-text`) ➔ `numerical` (`in-economy`)
+   - `economy` (`out-text`) ➔ `gameSystem` (`in-economy`)
+   - `numerical` (`out-text`) ➔ `gameSystem` (`in-numerical`)
    - `gameSystem` (`out`) ➔ `uiSplit` (`in`) ➔ `uiGen` (`in`) ➔ `uiLayerSplit` (`in`)
    - 配套音频节点：`bgmDsp` (`game.audioDsp`) 与 `sfxDsp` (`game.audioDsp`)
 
-2. **写入立项总纲与经济模型参数（`graph_edit`）**：
+2. **写入立项总纲与经济/数值模型参数（`graph_edit`）**：
    - 将用户选定的全部参数写入 `brief` (`text.plain`) 的 `params.text`。
-   - 根据品类设置 `economy` (`game.economy`) 的 `gameEconomyPreset`（如 `survivor_xp_loop`、`roguelike_mana_deck`、`balatro_ante_jokers`、`arpg_equipment_economy`、`gacha_pity_banner`、`tower_defense_waves` 等）、`gameEconomySteps` 与 `gameEconomyMonteCarloRuns`。
+   - 根据品类设置 `economy` (`game.economy`) 与 `numerical` (`game.numerical`) 的 `gameEconomyPreset`（如 `survivor_xp_loop`、`roguelike_mana_deck`、`balatro_ante_jokers`、`arpg_equipment_economy`、`gacha_pity_banner`、`tower_defense_waves` 等）、`gameEconomySteps` 与 `gameEconomyMonteCarloRuns`。
    - 设置 `gameSystem` (`asset.gameSystem`) 的 `gameSystemArchetype` 与 `gameSystemTargetAspect`（`"16:9"` 或 `"9:16"`）。
    - 设置 `uiGen` (`ui.gen`) 的 `uiGenStylePreset` 与 `generateAspectRatio`。
 
-3. **执行经济系统节点并生成全套工程级数值配表**：
-   - 调用 `task_run({ assetId, nodeIds: ["economy", "levelMap", "bgmDsp", "sfxDsp"] })` 并用 `task_status` 等待完成。
-   - 调用 `graph_read({ assetId, includeParams: true })` 读取 `economy` 产出的 `gameEconomyReport` 与数值诊断结论。
+3. **执行经济系统与数值系统节点并生成全套工程级数值配表**：
+   - 先调用 `task_run({ assetId, nodeIds: ["economy", "levelMap", "bgmDsp", "sfxDsp"] })` 并等待完成；
+   - 再调用 `task_run({ assetId, nodeIds: ["numerical"] })` 并等待完成；
+   - 调用 `graph_read({ assetId, includeParams: true })` 读取 `economy` 与 `numerical` 产出的诊断结论与配表契约。
    - **调用 `game_data_table_generate`** 将全套结构化数值配表（`characters` 角色与怪物属性、`skills` 技能倍率与冷却、`items` 装备与遗物价格/掉落、`cards` 卡牌费用与攻防、`waves` 刷怪波次曲线、`dialogues` 剧情对白树）落盘为标准 CSV + JSON + 多语言 `localization.csv`（位于 `Assets/GameData/<tableName>/`）。
    - **调用 `game_systems_graph_generate`** 生成无环校验通过的天赋技能树（`skillTree`）、合成配方（`craftingRecipes`）、任务链（`quests`）与 Boss AI 有限状态机（`aiBehaviors` + Mermaid 状态图）。
 
@@ -86,7 +95,7 @@ allowed-tools: ask_user, workflow_list_installed, workflow_use_installed, graph_
 
 1. **运行全套策划案与 UI 拆分**：
    - 调用 `task_run({ assetId, nodeIds: ["gameSystem", "uiSplit"] })`（若用户同时需要生成画布上的主角/怪物精灵参考图，可把 `"heroSprite"`, `"enemySprite"` 一并加入 `nodeIds`）。
-   - `gameSystem` (`asset.gameSystem`) 会自动读取上游 `brief` 与 `economy` (`out-text`) 的完整数值体系，生成包含**核心循环、3C 手感参数、伤害/经济公式、全系统模块设计、全量配表映射及 6~12 屏 UI 界面交互详单**的系统策划案。
+   - `gameSystem` (`asset.gameSystem`) 会自动通过三端口读取 `brief` (`in`)、`economy` (`in-economy`) 与 `numerical` (`in-numerical`) 的完整契约，生成包含**核心循环、3C 手感参数、伤害/经济公式、全系统模块设计、全量配表映射及 6~12 屏 UI 界面交互详单**的系统策划案。
    - `uiSplit` (`ui.split`) 自动将策划案拆解为结构化多屏 UI 清单（`uiScreens`：每屏包含 `id`、`title`、带字 `prompt` 与无字底图 `cleanPrompt`）。
 
 2. **多屏 UI 界面生成与图层分离说明**：
@@ -97,7 +106,7 @@ allowed-tools: ask_user, workflow_list_installed, workflow_use_installed, graph_
 
 ### 阶段 ④：直接生成可玩 HTML 游戏实现（全套数值 + 多屏 UI 完整落地）
 
-在完成策划案、经济数值体系与 UI 拆分后，**不要停留在文档层面，必须立即为用户直接生成可玩的 HTML 游戏实现**：
+在完成策划案、经济/数值双系统与 UI 拆分后，**不要停留在文档层面，必须立即为用户直接生成可玩的 HTML 游戏实现**：
 
 #### 1. 准备 Node + esbuild 可玩游戏工程脚手架
 调用 `gameplay_prepare_project({ mode: "2d" | "3d", title: "<游戏名称>" })`（2D 品类传 `"2d"`，3D 品类传 `"3d"`），获取 `projectRelativeDir`。
@@ -105,27 +114,27 @@ allowed-tools: ask_user, workflow_list_installed, workflow_use_installed, graph_
 #### 2. 编写与策划案、数值表、UI 架构 100% 同源的 `src/**` 代码
 使用文件写入工具编写工程代码，严格遵循以下**全栈同源规范**：
 - **`src/core/rng.js` 与 `src/core/palette.js`**：
-  - 严禁使用 `Math.random()`，全部使用 `core/rng.js` 的确定性种子随机函数。
-  - 在 `core/palette.js` 中精确还原用户所选 `uiGenStylePreset` 的主题色板（如 `celestial_star_gold` 的深空靛蓝 `#0f172a`、星轨鎏金 `#f59e0b`、奥术青 `#38bdf8`）。
+   - 严禁使用 `Math.random()`，全部使用 `core/rng.js` 的确定性种子随机函数。
+   - 在 `core/palette.js` 中精确还原用户所选 `uiGenStylePreset` 的主题色板（如 `celestial_star_gold` 的深空靛蓝 `#0f172a`、星轨鎏金 `#f59e0b`、奥术青 `#38bdf8`）。
 - **`src/game/dataTables.js`（内联全套真实数值与经济系统）**：
-  - 将阶段 ② `economy` (`game.economy`) 与 `game_data_table_generate` 产出的**完整数值表原样内联为常量配置**：
-    - 主角基础属性（HP、MP、ATK、DEF、SPD、暴击率、暴击伤害）与等级经验公式；
-    - 全部技能 / 卡牌 / 武器的冷却、蓝耗/费用、伤害倍率、穿透/范围词条；
-    - 全部普通怪、精英怪、阶段 Boss 的血量成长系数、移速、攻击间隔与掉落金币/经验权重；
-    - 商店物品/遗物价格递增公式、刷新费用（Sink）、抽卡/三选一稀有度权重与保底计数器（Pity Gate）。
+   - 将阶段 ② `economy` (`game.economy`)、`numerical` (`game.numerical`) 与 `game_data_table_generate` 产出的**完整数值表原样内联为常量配置**：
+     - 主角基础属性（HP、MP、ATK、DEF、SPD、暴击率、暴击伤害）与等级经验公式；
+     - 全部技能 / 卡牌 / 武器的冷却、蓝耗/费用、伤害倍率、穿透/范围词条；
+     - 全部普通怪、精英怪、阶段 Boss 的血量成长系数、移速、攻击间隔与掉落金币/经验权重；
+     - 商店物品/遗物价格递增公式、刷新费用（Sink）、抽卡/三选一稀有度权重与保底计数器（Pity Gate）。
 - **`src/assets/**`（程序化几何/贴图与 WebAudio 音效合成）**：
-  - 每个美术与音效资产都通过 `defineAsset({ id, kind, build })` 注册，玩法侧通过 `buildAsset(id, ctx)` 获取。
-  - 2D 角色/怪物/弹幕/地形贴图用 Canvas 2D 精心绘制（多层渐变、装甲高光、动态呼吸/行走帧、受击闪白与血条）；3D 模式用 Three.js `BufferGeometry` + Canvas 纹理 `MeshStandardMaterial` 组合建模。
-  - 音效与 BGM 用 WebAudio（`OscillatorNode` + `BiquadFilterNode` + 增益包络或噪声合成）实现攻击、受击、暴击、拾取经验、升级、商店购买、按钮点击与背景音乐律动，禁止静音。
+   - 每个美术与音效资产都通过 `defineAsset({ id, kind, build })` 注册，玩法侧通过 `buildAsset(id, ctx)` 获取。
+   - 2D 角色/怪物/弹幕/地形贴图用 Canvas 2D 精心绘制（多层渐变、装甲高光、动态呼吸/行走帧、受击闪白与血条）；3D 模式用 Three.js `BufferGeometry` + Canvas 纹理 `MeshStandardMaterial` 组合建模。
+   - 音效与 BGM 用 WebAudio（`OscillatorNode` + `BiquadFilterNode` + 增益包络或噪声合成）实现攻击、受击、暴击、拾取经验、升级、商店购买、按钮点击与背景音乐律动，禁止静音。
 - **`src/game/uiScreens.js`（还原 `uiSplit` 拆出的全套游戏 UI 界面）**：
-  - 严格按照阶段 ③ `gameSystem` 与 `uiSplit` 规划的多屏 UI 架构，在 HTML/Canvas 中实现完整可交互的多屏 UI 状态机：
-    1. **主标题与开局选角/选难度屏（Title / Lobby Screen）**
-    2. **局内战斗 HUD（Battle HUD）**：实时显示生命/护盾/经验进度条、波次/关卡倒计时、金币与核心资源池、底部技能/卡牌快捷栏（带 CD 遮罩）、右上小地图或 DPS 统计
-    3. **升级三选一 / 技能树 / 卡牌构筑弹窗（Upgrade / Deck Modal）**：展示词条品质边框、数值加成详情与重随（Reroll）按钮
-    4. **波间商店 / 遗物背包 / 装备合成面板（Shop & Inventory Screen）**：真实执行金币扣除、属性实时叠加与物品栏展示
-    5. **战斗结算与数值复盘屏（Victory / GameOver Summary）**：展示生存时长、击杀数、总造成伤害、经济收支统计与「再来一局（R 键）」按钮
+   - 严格按照阶段 ③ `gameSystem` 与 `uiSplit` 规划的多屏 UI 架构，在 HTML/Canvas 中实现完整可交互的多屏 UI 状态机：
+     1. **主标题与开局选角/选难度屏（Title / Lobby Screen）**
+     2. **局内战斗 HUD（Battle HUD）**：实时显示生命/护盾/经验进度条、波次/关卡倒计时、金币与核心资源池、底部技能/卡牌快捷栏（带 CD 遮罩）、右上小地图或 DPS 统计
+     3. **升级三选一 / 技能树 / 卡牌构筑弹窗（Upgrade / Deck Modal）**：展示词条品质边框、数值加成详情与重随（Reroll）按钮
+     4. **波间商店 / 遗物背包 / 装备合成面板（Shop & Inventory Screen）**：真实执行金币扣除、属性实时叠加与物品栏展示
+     5. **战斗结算与数值复盘屏（Victory / GameOver Summary）**：展示生存时长、击杀数、总造成伤害、经济收支统计与「再来一局（R 键）」按钮
 - **`index.template.html`**：
-  - 保持内联经典脚本（保留 `/*APP_JS*/` 占位符，绝不加 `type="module"` 或外链 URL），确保打包后的 `dist/single.html` 在任何浏览器双击即可独立运行。
+   - 保持内联经典脚本（保留 `/*APP_JS*/` 占位符，绝不加 `type="module"` 或外链 URL），确保打包后的 `dist/single.html` 在任何浏览器双击即可独立运行。
 
 #### 3. 打包构建与 Smoke 试玩门禁自检（强制闭环）
 1. 调用 `gameplay_build({ projectRelativeDir })` 触发宿主后台执行 `npm install` + `node build.mjs` 生成单文件 `dist/single.html`。
@@ -142,7 +151,7 @@ allowed-tools: ask_user, workflow_list_installed, workflow_use_installed, graph_
 
 全部阶段执行完毕后，向用户输出一份清晰的全栈游戏交付总览：
 1. **游戏立项与核心循环概览**（题材、品类、视角、UI 风格预设）。
-2. **经济系统与全套数值配表清单**（`economy` 蒙特卡洛平衡结论 + 已落盘至 `Assets/GameData/` 的 CSV/JSON 配表路径与核心公式）。
+2. **经济系统与数值系统配表清单**（`economy` 蒙特卡洛平衡结论 + `numerical` 乘区与 TTK 定标 + 已落盘至 `Assets/GameData/` 的 CSV/JSON 配表路径）。
 3. **全套系统策划案（GDD）与多屏 UI 界面清单**（列出 `gameSystem` 节点与 `uiSplit` 拆出的 6~12 屏 UI 名称，提示用户可双击 `uiGen` 进入内图生成全套 UI 视觉稿并由 `uiLayerSplit` 导出分层 PSD）。
 4. **HTML 可玩游戏试玩指引**（说明已将策划案、全套数值配表与多屏 UI 完整实现为单文件 HTML 游戏并通过 `smoke` 试玩门禁，提示用户直接点击对话卡片上的**「试玩」**按钮在浏览器中畅玩，并列出操控键位如 `WASD` 移动、`鼠标/空格` 释放技能、`B/Tab` 打开商店背包、`R` 重开）。
 

@@ -1,14 +1,15 @@
-# 节点、端口、参数与可玩 HTML 构建速查（game-full-pipeline）
+# 节点、端口、参数与可玩 HTML 构建速查（game-full-pipeline v2.0.0）
 
 ## 1. 种子画布节点与连线拓扑
 
-调用 `workflow_use_installed({ id: "game-full-pipeline", mode: "seed" })` 后，画布上会生成以下 12 个节点与 9 条连线：
+调用 `workflow_use_installed({ id: "game-full-pipeline", mode: "seed" })` 后，画布上会生成以下 13 个节点与 12 条连线：
 
 | 节点 `key` (`id`) | `typeId` | 标题 | 核心职责 |
 |---|---|---|---|
 | `brief` | `text.plain` | 游戏立项与参数总纲 | 存放用户确认的品类、2D/3D视角、美术与UI画风预设、核心循环、数值目标与多屏 UI 规划 |
-| `economy` | `game.economy` | 经济系统与全套数值体系 | 运行 Machinations 资源动力学与蒙特卡洛模拟，产出置信带曲线图（`out`）与完整经济数值包（`out-text`） |
-| `gameSystem` | `asset.gameSystem` | 全套游戏系统策划案 (GDD) | 接收 `brief` 与 `economy` (`out-text`)，产出涵盖核心循环、战斗/经济公式、配表结构与逐屏 UI 规范的完整策划案 |
+| `economy` | `game.economy` | 经济系统 | 运行 Machinations 资源动力学与蒙特卡洛模拟，产出置信带曲线图（`out`）与经济仿真契约（`out-text`） |
+| `numerical` | `game.numerical` | 数值系统 | 接收 `brief` (`in`) 与 `economy` (`in-economy`)，完成成长曲线、乘区边际审计、战斗 TTK 定标与数据配表（`out-text`） |
+| `gameSystem` | `asset.gameSystem` | 全套游戏系统策划案 (GDD) | 通过三端口接收 `brief` (`in`)、`economy` (`in-economy`) 与 `numerical` (`in-numerical`)，产出涵盖核心循环、战斗/经济公式、配表结构与逐屏 UI 规范的完整策划案 |
 | `uiSplit` | `ui.split` | 全游戏 UI 界面拆分 | 将 `gameSystem` 策划案拆解为最多 12 屏双轨 UI 提示词（带字 `prompt` + 无字底图 `cleanPrompt`） |
 | `uiGen` | `ui.gen` | 全套 UI 界面生成 | 双击进入内图逐屏产出带字精修图与空字底图，回外层 Cook 后输出整套 UI 界面图（`out` / `out-selected`） |
 | `uiLayerSplit` | `image.layerSplit` | UI 图层分离与九宫格导出 | 将选中的 UI 界面拆解为底板、面板容器、装饰与多态按钮，支持 9-Slice 九宫格拉伸与分层 PSD 导出 |
@@ -23,9 +24,12 @@
 
 | `from` | `fromPort` | `to` | `toPort` | 数据流说明 |
 |---|---|---|---|---|
-| `brief` | `out` | `economy` | `in` | 立项参数注入经济与数值模型 |
-| `brief` | `out` | `gameSystem` | `in` | 立项参数注入系统策划案 |
-| `economy` | `out-text` | `gameSystem` | `in` | 完整经济数值体系与配表护栏实时注入系统策划案 |
+| `brief` | `out` | `economy` | `in` | 立项参数注入经济系统 |
+| `brief` | `out` | `numerical` | `in` | 立项参数注入数值系统 |
+| `economy` | `out-text` | `numerical` | `in-economy` | 经济系统资源产出/消耗速率注入数值系统 |
+| `brief` | `out` | `gameSystem` | `in` | 立项参数注入系统策划案「文本」端口 |
+| `economy` | `out-text` | `gameSystem` | `in-economy` | 经济系统契约注入系统策划案「经济系统」端口 |
+| `numerical` | `out-text` | `gameSystem` | `in-numerical` | 数值系统契约注入系统策划案「数值系统」端口 |
 | `gameSystem` | `out` | `uiSplit` | `in` | 系统策划案正文送入 UI 界面拆分器 |
 | `uiSplit` | `out` | `uiGen` | `in` | 逐屏双轨 UI 提示词数组送入 UI 界面生成器 |
 | `uiGen` | `out-selected` | `uiLayerSplit` | `in` | 选中的 UI 界面图送入 UI 图层分离器导出 PSD 与九宫格 |
@@ -37,15 +41,24 @@
 
 ## 2. 核心节点端口与参数契约
 
-### 2.1 `game.economy`（经济系统与全套数值体系）
+### 2.1 `game.economy`（经济系统）与 `game.numerical`（数值系统）
 
+#### `game.economy`（经济系统）
+| 端口 | 方向 | 类型 | 说明 |
+|---|---|---|---|
+| `in` | in | `text`（multiple） | 上游游戏设定与资源循环目标描述 |
+| `out` | out | `image` | Machinations 拓扑图与 P10/P50/P90 置信带曲线图 |
+| `out-text` | out | `text` | 经济系统契约 JSON（货币水龙头/黑洞吞吐、抽卡保底概率、通胀防线） |
+
+#### `game.numerical`（数值系统）
 | 端口 | 方向 | 类型 | 说明 |
 |---|---|---|---|
 | `in` | in | `text`（multiple） | 上游游戏设定与数值目标描述 |
-| `out` | out | `image` | Machinations 拓扑图与 P10/P50/P90 置信带曲线图 |
-| `out-text` | out | `text` | 完整经济系统 JSON 载荷（含 `workbenchReport`、`qaReportMarkdown`、`dataTableBundle`） |
+| `in-economy` | in | `text` | 接收上游 `game.economy` (`out-text`) 的经济仿真结果 |
+| `out` | out | `image` | 成长曲线与战力包络可视化预览图 |
+| `out-text` | out | `text` | 数值系统契约 JSON（成长曲线、乘区边际审计、战斗 TTK、配表数据） |
 
-核心参数：
+核心参数（两节点通用）：
 - `gameEconomyPreset`（预设模板枚举）：
   - `survivor_xp_loop`（肉鸽割草经验与波次循环）
   - `roguelike_mana_deck`（杀戮尖塔式法力与牌库构筑）
@@ -67,8 +80,11 @@
 
 | 端口 | 方向 | 类型 | 说明 |
 |---|---|---|---|
-| `in` | in | `text`（multiple） | 接收 `brief` 与 `economy` (`out-text`)，自动解包上游数值与经济体系 |
+| `in` | in | `text`（multiple） | 接收 `brief` 立项设定或小说/世界观正文 |
+| `in-economy` | in | `text` | 接收 `economy` (`out-text`) 经济系统契约 |
+| `in-numerical` | in | `text` | 接收 `numerical` (`out-text`) 数值系统契约 |
 | `out` | out | `text` | 结构化全套游戏系统策划案（GDD）正文 |
+| `out-all` | out | `text` | 全部（上游输入 + 经济/数值契约 + 策划案正文的完整合集） |
 
 核心参数：
 - `gameSystemArchetype`（8 大系统策划品类模板）：
